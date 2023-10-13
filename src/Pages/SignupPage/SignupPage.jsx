@@ -18,6 +18,7 @@ const SignupPage = () => {
         createUser(data.email, data.password)
         .then((userCredential) => {
             const user = userCredential.user;
+            updateUserProfile(data.name,"") //default Propic
             console.log(user)
             if (user) {
             fetch('http://localhost:4000/users', {

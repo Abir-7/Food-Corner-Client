@@ -7,10 +7,15 @@ import img1 from '../../assets/food.png'
 import { FaShoppingCart, FaStar } from "react-icons/fa";
 import Tilt from 'react-parallax-tilt';
 import { Link } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { addCart } from "../../Redux/feature/cartProductSlice/cartProductSlice";
 
 const FoodItemPage = () => {
-    const { user, loader } = useContext(Authcontext);
 
+    const { itemNumber, option, isShowReviews , cartItem} = useSelector((state) => state.cartProductSlice)
+console.log(cartItem)
+    const { user, loader } = useContext(Authcontext);
+    const dispatch=useDispatch()
     if (loader) {
         return <progress className="progress "></progress>
     }
@@ -18,6 +23,10 @@ const FoodItemPage = () => {
     //const [isAdmin]=useAdmin(user?.email)
 
     //const {data,isError,error,isLoading}=useGetUserQuery()
+
+    const addItemCart =(data)=> {
+        dispatch(addCart(data))
+    }
 
     return (
         <>
@@ -46,12 +55,12 @@ const FoodItemPage = () => {
                                     <img className=" w-[200px] ps-3 py-5" src={img1} alt="" />
                                 </div>
                                 <div className="m-5" >
-                                    <h1 className="text-xl font-bold"><Link className="hover:text-orange-400 duration-300" to='/itemInfo'>Vegge Lover</Link></h1>
+                                    <h1 className="text-xl font-bold"><Link className="hover:text-orange-400 duration-300" to='/itemInfo'>Pizza Lover</Link></h1>
                                     <h1 className="flex gap-1 mt-2 items-center">4.2 <span className="text-yellow-400 flex gap-1"><FaStar /> <FaStar /> <FaStar /> <FaStar /><FaStar /></span></h1>
                                     <p>Extra-virgin olive oil, garlic, mozzarella cheese, onions, mushrooms, green olives, black olives</p>
                                     <div className="flex justify-between items-center">
                                         <p className="flex gap-1"><span className="font-bold text-orange-400">300</span> <span className="text-green-400 font-semibold">Tk.</span></p>
-                                        <p className='text-lg w-full text-orange-400 flex justify-end pe-5  '><span className='hover:drop-shadow-md hover:scale-75  hover:bg-green-400 duration-500 p-2 pe-3 rounded-full hover:text-white'><FaShoppingCart /></span></p>
+                                        <button onClick={()=>addItemCart({name:'pizza',price:300})} className='text-lg w-full text-orange-400 flex justify-end pe-5  '><span className='hover:drop-shadow-md hover:scale-75  hover:bg-green-400 duration-500 p-2 pe-3 rounded-full hover:text-white'><FaShoppingCart /></span></button>
                                     </div>
                                 </div>
                             </div>
@@ -75,12 +84,12 @@ const FoodItemPage = () => {
                                     <img className=" w-[200px] ps-3 py-5" src={img1} alt="" />
                                 </div>
                                 <div className="m-5" >
-                                    <h1 className="text-xl font-bold"><Link className="hover:text-orange-400 duration-300">Vegge Lover</Link></h1>
+                                    <h1 className="text-xl font-bold"><Link className="hover:text-orange-400 duration-300">Rice Lover</Link></h1>
                                     <h1 className="flex gap-1 mt-2 items-center">4.2 <span className="text-yellow-400 flex gap-1"><FaStar /> <FaStar /> <FaStar /> <FaStar /><FaStar /></span></h1>
                                     <p>Extra-virgin olive oil, garlic, mozzarella cheese, onions, mushrooms, green olives, black olives</p>
                                     <div className="flex justify-between items-center">
                                         <p className="flex gap-1"><span className="font-bold text-orange-400">300</span> <span className="text-green-400 font-semibold">Tk.</span></p>
-                                        <p className='text-lg w-full text-orange-400 flex justify-end pe-5  '><span className='hover:drop-shadow-md hover:scale-75  hover:bg-green-400 duration-500 p-2 pe-3 rounded-full hover:text-white'><FaShoppingCart /></span></p>
+                                        <button  onClick={()=>addItemCart({name:'rice',price:200})} className='text-lg w-full text-orange-400 flex justify-end pe-5  '><span className='hover:drop-shadow-md hover:scale-75  hover:bg-green-400 duration-500 p-2 pe-3 rounded-full hover:text-white'><FaShoppingCart /></span></button>
                                     </div>
                                 </div>
                             </div>
