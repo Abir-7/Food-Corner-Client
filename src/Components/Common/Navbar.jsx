@@ -4,17 +4,17 @@ import { Authcontext } from '../../AuthProvider/AuthProvider';
 import './Navbar.css'
 import { FaShoppingCart } from 'react-icons/fa';
 import defaultPic from '../../assets/defaultProfile.jpg'
+import { useGetOneUserQuery } from '../../Redux/api/baseApi';
+import { useSelector } from 'react-redux';
 const Navbar = () => {
 
   const { user, loader, logoutUser } = useContext(Authcontext);
+  const {userImage } = useSelector((state) => state.userProfileSlice)
+console.log(userImage,user?.photoURL
+  ,'------------------')
 
-  const location = useLocation(
-  )
+  const location = useLocation()
   console.log(location?.pathname,user)
-
-
-
-
   const allNavlink = (
     <div className='flex gap-2 flex-col lg:flex-row lg:gap-10 font-semibold'>
       <Link to="/" className={`underline-on-hover ${location?.pathname === '/' && 'selected'}`} >
@@ -30,7 +30,7 @@ const Navbar = () => {
   );
 
   return (
-    <div className="navbar ">
+    <div className="navbar shadow-lg">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -57,10 +57,10 @@ const Navbar = () => {
           user?.email ?
             <div className="dropdown dropdown-end me-2">
              <div className='btn btn-circle'>
-             <img tabIndex={0} className='w-[50px] object-cover rounded-full h-[50px]' src={user?.photoURL||defaultPic} alt="" />
+             <img tabIndex={0} className='w-[50px] object-cover rounded-full h-[50px]' src={userImage||user?.photoURL} alt="" />
              </div>
               <ul tabIndex={0} className="dropdown-content shadow-lg z-[1] menu p-2 bg-base-100 mt-2 rounded-box w-36">
-                <li className='font-semibold'><a>View Profile</a></li>
+                <li className='font-semibold'><Link to='/viewProfile'>View Profile</Link></li>
                 <button onClick={() => logoutUser()} className='btn btn-sm btn-primary '>Logout</button>
               </ul>
             </div>

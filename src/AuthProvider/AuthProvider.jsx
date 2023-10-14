@@ -7,6 +7,7 @@ import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStat
 import app from '../FirebaseConfig/firebaseConfig';
 
 
+
 const auth = getAuth(app)
 export const Authcontext = createContext(null)
 const AuthProvider = ({ children }) => {
@@ -16,13 +17,12 @@ const AuthProvider = ({ children }) => {
 
     //////////Create User////////
     const createUser = (email, password) => {
-        console.log(email,password)
+        console.log(email, password)
         setLoader(true)
         return createUserWithEmailAndPassword(auth, email, password);
     }
     ///////////Update Name////////
     const updateUserProfile = (name, photourl) => {
-        setLoader(true)
         return updateProfile(auth.currentUser, {
             displayName: `${name}`, photoURL: `${photourl}`
         })
@@ -49,21 +49,22 @@ const AuthProvider = ({ children }) => {
     ///////////////Observer//////////////
     useEffect(() => {
         const unsubcribe = onAuthStateChanged(auth, (loguser) => {
-                 setUser(loguser);
+            setUser(loguser);
 
-            if(loguser){
-                axios.post('http://localhost:4000/jwt', {email: loguser.email})
-                .then(data =>{
-                    // console.log(data.data.token)
-                    localStorage.setItem('access-token', data.data.token)
-                })
+            if (loguser) {
+
+                axios.post('http://localhost:4000/jwt', { email: loguser.email })
+                    .then(data => {
+                        localStorage.setItem('access-token', data.data.token)
+                    })
             }
-            else{
- 
+            else {
                 localStorage.removeItem('access-token')
             }
             setLoader(false);
         });
+        setLoader(false)
+
         return () => { unsubcribe() };
     }, [])
 
@@ -81,11 +82,11 @@ const AuthProvider = ({ children }) => {
     };
 
     return (
-    <Authcontext.Provider value={authinfo}>
-        <>
-        {children}
-        </>
-     </Authcontext.Provider>
+        <Authcontext.Provider value={authinfo}>
+            <>
+                {children}
+            </>
+        </Authcontext.Provider>
     );
 };
 

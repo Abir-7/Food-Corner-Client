@@ -10,6 +10,8 @@ import SignupPage from "../Pages/SignupPage/SignupPage";
 import PrivetRouts from "./PrivetRouts";
 import FoodItemDetails from "../Pages/FoodItemPage/FoodItemDetails";
 import CartPage from "../Pages/Cart Page/CartPage";
+import UserProfilePage from "../Pages/UserProfilePage/UserProfilePage";
+import UpdateProfile from "../Components/ProfilePage/UpdateProfile";
 
 
 
@@ -41,6 +43,14 @@ import CartPage from "../Pages/Cart Page/CartPage";
         ,{
           path:'/userCart',
           element:<CartPage/>
+        }
+        ,{
+          path:'/viewProfile',
+          element:<UserProfilePage/>
+        }
+        ,{
+          path:'/updateProfile',
+          element:<UpdateProfile/>
         }
       ]
     },

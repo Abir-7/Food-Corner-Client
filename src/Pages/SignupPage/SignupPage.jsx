@@ -26,7 +26,7 @@ const SignupPage = () => {
                 headers: {
                     "content-type": "application/json"
                 },
-                body: JSON.stringify({...data,role:'user'})
+                body: JSON.stringify({email:data?.email.toLowerCase(),name:data?.name,mobile:data?.mobile,role:'user'})
             })
                 .then(res => res.json())
                 .then(data => {

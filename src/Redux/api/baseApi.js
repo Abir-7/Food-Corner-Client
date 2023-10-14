@@ -1,4 +1,5 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
+import { data } from 'autoprefixer';
 
 const authHeaders = {
   Authorization: `Bearer ${localStorage.getItem('access-token') || ''}`
@@ -9,6 +10,7 @@ const authHeaders = {
     reducerPath:"api",
     baseQuery: fetchBaseQuery({
       baseUrl:'http://localhost:4000',
+      tagTypes:['User']
   }),
     endpoints:(builder)=>({
 
@@ -16,16 +18,34 @@ const authHeaders = {
         query:()=>({
           headers: authHeaders,
           url:'/users'}),
-          keepUnusedDataFor: 2,
+          invalidatesTags:['User'],
        }),
+       getOneUser: builder.query({
+        query:(email)=>({
+          headers: authHeaders,
+          url:`/users/${email}`,
+        }),
+        invalidatesTags:['User'],
+       }),
+       updateUserProfiles: builder.mutation({
+        query: ({ email, data3 }) => ({
+          url: `/userUpdate/${email}`,
+          method: 'PATCH',
+          headers: authHeaders,
+          body: data3,
+        }),
+        invalidatesTags:['User'],
+      }),
+      
        getAdmin: builder.query({
         query:(email)=>({
           headers: authHeaders,
           url:`/users/admin/${email}`}),
-          keepUnusedDataFor: 2,
+          invalidatesTags:['User'],
        }),
+  
     })
 })
 
-export const {useGetUserQuery,useGetAdminQuery} = baseApi;
+export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery} = baseApi;
 export default baseApi;
