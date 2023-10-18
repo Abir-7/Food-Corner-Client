@@ -4,12 +4,13 @@ import { Link, Outlet } from 'react-router-dom';
 import Footer from '../Components/Common/Footer';
 import { FaHeart, FaShoppingCart } from 'react-icons/fa';
 import { useDispatch, useSelector } from 'react-redux';
-import { showCartSlide } from '../Redux/feature/cartProductSlice/cartProductSlice';
+import { showCartSlide, showFavouriteSlide } from '../Redux/feature/cartProductSlice/cartProductSlice';
 import ProductCart from '../Components/ProductCart/ProductCart';
+import FavaouriteMenuList from '../Components/FavaouriteMenuList/FavaouriteMenuList';
 
 const Mainpage = () => {
 
-    const { itemNumber, option, isShowReviews, isCartSlideOpen, cartItem, totalPrice, discountOffer } = useSelector((state) => state.cartProductSlice)
+    const { itemNumber, option, isShowReviews, isCartSlideOpen, cartItem, totalPrice, discountOffer, isFavouriteSlideOpen } = useSelector((state) => state.cartProductSlice)
     const dispatch = useDispatch()
 
     return (
@@ -25,22 +26,25 @@ const Mainpage = () => {
             <div className='top-20 fixed flex flex-col gap-2 bg-orange-400 rounded-xl '>
                 <div className="indicator text-white  ">
                     <span className="indicator-item badge badge-warning text-xs font-medium text-white">{cartItem?.length}</span>
-                    <button onClick={() => dispatch(showCartSlide(true))} className="p-3 text-lg hover:scale-90 hover:text-orange-100 duration-500"><FaShoppingCart></FaShoppingCart></button>
+                    <button onClick={() => {
+                        dispatch(showCartSlide(true))
+                        dispatch(showFavouriteSlide(false))
+                    }} className="p-3 text-lg hover:scale-90 hover:text-orange-100 duration-500"><FaShoppingCart></FaShoppingCart></button>
                 </div>
                 <div className="indicator text-white ">
                     <span className="indicator-item badge badge-success bg-green-600  text-xs font-medium text-white">99+</span>
-                    <button className="p-3 text-lg hover:scale-90 hover:text-orange-100 duration-500"><FaHeart /></button>
+                    <button onClick={() => {
+                        dispatch(showCartSlide(false))
+                        dispatch(showFavouriteSlide(true))
+                    }} className="p-3 text-lg hover:scale-90 hover:text-orange-100 duration-500"><FaHeart /></button>
                 </div>
             </div>
 
-
-
-
-
             {isCartSlideOpen &&
-             
-             <ProductCart ></ProductCart>
-
+                <ProductCart/>
+            }
+            {isFavouriteSlideOpen &&
+               <FavaouriteMenuList/>
             }
         </div>
     );

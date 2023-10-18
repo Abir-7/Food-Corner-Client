@@ -22,10 +22,10 @@ console.log(cartItem,'------------------------------cart')
         <div className='bg-orange-400 sticky top-0 flex items-center justify-center p-2 rounded-xl'>
             <div className='flex items-center flex-col'>
                 <h1 className='text-center font-bold text-white text-2xl'>Your Cart</h1>
-                <div className='flex items-center hover:underline underline-offset-2'>
+                {/* <div className='flex items-center hover:underline underline-offset-2'>
                     <Link to='/userCart' className='text-white  font-semibold  duration-500' onClick={() => dispatch(showCartSlide(false))}>Details</Link>
                     <p className='text-sm text-white mt-0.5'><FaArrowRight></FaArrowRight></p>
-                </div>
+                </div> */}
             </div>
             <button onClick={() => dispatch(showCartSlide(false))} className='absolute right-5 font-medium text-white hover:font-bold hover:text-red-600 duration-500'>X</button>
         </div>

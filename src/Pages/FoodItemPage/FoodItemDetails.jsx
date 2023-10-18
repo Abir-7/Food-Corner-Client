@@ -8,13 +8,15 @@ import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaCartPlus, FaHeart, FaMin
 
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart, setAmount, showReviews, singleItemDecrement, singleItemIncrement, singleItemSize } from '../../Redux/feature/cartProductSlice/cartProductSlice';
-import { useGetSingleMenuItemQuery } from '../../Redux/api/baseApi';
+import { useAddFavouriteMenuItemMutation, useGetSingleMenuItemQuery } from '../../Redux/api/baseApi';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
 import { decrement, getMenu, increment } from '../../Redux/feature/menuDetailsSlice/menuDetailsSlice';
+import toast, { Toaster } from 'react-hot-toast';
+
 
 const FoodItemDetails = () => {
-   const dispatch = useDispatch()
+    const dispatch = useDispatch()
 
     const { id } = useParams()
     console.log(id)
@@ -25,29 +27,42 @@ const FoodItemDetails = () => {
         }
     }, [id])
 
+    const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
     const { itemNumber, option, isShowReviews, cartItem } = useSelector((state) => state.cartProductSlice)
+    const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError } = useSelector((state) => state.menuDetailsSlice)
 
-    const { index, menuID,itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError } = useSelector((state) => state.menuDetailsSlice)
+    const [addFavouriteMenuItem, { data,error ,isError, isLoading: favMenuLoading, isSuccess }] = useAddFavouriteMenuItemMutation()
+
+    console.log(data,error,isError)
 
 
+    // if (isLoading) {
+    //     dispatch(singleItemSize(0))
+    //     dispatch(setAmount())
+    //     return <h1>Loading...........</h1>
+    // }
 
-    if(isLoading){
-        dispatch(singleItemSize(0))
-        dispatch(setAmount())
-        return <h1>Loading...........</h1>
-    } 
+    useEffect(() => {
+        if(isSuccess){
+            toast.success('Add to Favourite')
+        }
 
+        if(isError & error?.status==409){
+            toast('Already Added to favourite')
+        }
+
+    }, [isSuccess,isError])
+
+
+    ////////////////////---cart operation---///////////////////////////
     const image = urls
     const size = allPriceSize
-    const { price, size: psize } =  size[option]
-
+    //const { price, size: psize } = size[option]
 
     const addItemCart = (data) => {
         dispatch(addCart(data))
-        
+
     }
-
-
     const handleNext = (data) => {
         if (data.action == 'next') {
             dispatch(increment({ index: data.index, length: data.length }))
@@ -68,8 +83,10 @@ const FoodItemDetails = () => {
             dispatch(showReviews(data.isShow))
         }
     }
+    ////////////////////////////////////////////////////////////////
 
-console.log(cartItem,allPriceSize,option)
+
+    //console.log(cartItem,allPriceSize,option)
 
     return (
         <>
@@ -77,6 +94,7 @@ console.log(cartItem,allPriceSize,option)
                 isLoading ? <>Loading</> :
 
                     <div>
+                         <Toaster />
                         <LinkBanner text='Food Details'></LinkBanner>
                         <div className='container mx-auto my-10 grid gap-5 grid-cols-1 md:grid-cols-2'>
                             <div className='flex flex-col  mx-auto  border-2 p-8'>
@@ -98,7 +116,7 @@ console.log(cartItem,allPriceSize,option)
                                     </div>
                                     <p className='font-medium mt-2'>{ingredients}</p>
                                     <div className='flex gap-5 items-center'>
-                                        <p className='font-bold my-2 text-2xl text-orange-400'><span className='text-green-400'>{price}</span>tk</p>
+                                        <p className='font-bold my-2 text-2xl text-orange-400'><span className='text-green-400'>{size[option].price}</span>tk</p>
                                         <div className='flex  gap-5 '>
                                             {
                                                 size.length > 1 ? <>
@@ -118,10 +136,10 @@ console.log(cartItem,allPriceSize,option)
                                             <button className='btn btn-sm rounded-full text-orange-400' onClick={() => { handleNext({ action: 'incressOne' }) }}><FaPlus></FaPlus></button>
                                         </div>
                                         <div className='flex-grow'>
-                                            <button onClick={() => addItemCart({ name:itemName, size:allPriceSize.length>1?psize:'reguler', price:price, menuID:menuID,amount:itemNumber,category:category })} className='btn w-full py-3 bg-orange-400 hover:bg-orange-500 font-bold text-white h-auto '>Add to Cart < FaCartPlus /></button>
+                                            <button onClick={() => addItemCart({ name: itemName, size: allPriceSize.length > 1 ? size[option]?.size : 'reguler', price: size[option].price, menuID: menuID, amount: itemNumber, category: category })} className='btn w-full py-3 bg-orange-400 hover:bg-orange-500 font-bold text-white h-auto '>Add to Cart < FaCartPlus /></button>
                                         </div>
                                         <div>
-                                            <button className='btn'><FaHeart /></button>
+                                            <button onClick={() => addFavouriteMenuItem({menuID})} className='btn'><FaHeart /></button>
                                         </div>
                                     </div>
                                     <hr />

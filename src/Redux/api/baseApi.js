@@ -74,12 +74,16 @@ const authHeaders= {
           url:`/getMenu/${id}`,
           //headers: authHeaders,
         }),
-        providesTags: (result, error, id) => [{ type: 'getMenu', id }],
         invalidatesTags:['Menu'],
        }),
-
-
-
+       addFavouriteMenuItem: builder.mutation({   //add favourite menu
+        query:(menuData)=>({
+          url:'/addFavMenu',
+          //headers: authHeaders,
+          method: 'POST',
+          body:menuData ,
+        }),
+       }),
 
     })
 
@@ -90,5 +94,5 @@ const authHeaders= {
 
 
 
-export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery,useAddMenuItemMutation,useGetMenuItemQuery,useGetSingleMenuItemQuery} = baseApi;
+export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery,useAddMenuItemMutation,useGetMenuItemQuery,useGetSingleMenuItemQuery,useAddFavouriteMenuItemMutation} = baseApi;
 export default baseApi;

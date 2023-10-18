@@ -5,6 +5,7 @@ const initialState = {
   option: 0,
   isShowReviews: false,
   isCartSlideOpen: false,
+  isFavouriteSlideOpen:false,
   cartItem: [],
   totalPrice: 0,
   discountOffer: 0,
@@ -38,6 +39,9 @@ export const cartProductSlice = createSlice({
     ,
     showCartSlide: (state, { payload }) => {
       state.isCartSlideOpen = payload
+    },
+    showFavouriteSlide:(state,{payload})=>{
+      state.isFavouriteSlideOpen=payload
     },
     addCart: (state, { payload }) => {
       const existingItem = state.cartItem.find(item => item.name === payload.name && item.size === payload.size);
@@ -122,6 +126,6 @@ export const cartProductSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { singleItemIncrement, singleItemDecrement, singleItemSize, showReviews, showCartSlide, addCart, cartTotalPrice, modifyCart, removeCartItem, setAmount } = cartProductSlice.actions
+export const { singleItemIncrement, singleItemDecrement, singleItemSize, showReviews, showCartSlide, addCart, cartTotalPrice, modifyCart, removeCartItem, setAmount,showFavouriteSlide } = cartProductSlice.actions
 
 export default cartProductSlice.reducer
