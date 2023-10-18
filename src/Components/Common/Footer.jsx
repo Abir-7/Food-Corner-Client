@@ -1,8 +1,9 @@
 import React from 'react';
-
+import bg2 from '../../assets/bg2.jpg'
 const Footer = () => {
     return (
-<footer className="footer p-10 bg-base-200 text-base-content">
+<footer style={{ backgroundImage: `url(${bg2})`, backgroundPosition:'10% 30%' }} >
+  <div  className="footer p-10  text-base-content backdrop-blur-lg">
   <nav>
     <header className="footer-title">Services</header> 
     <a className="link link-hover">Branding</a> 
@@ -32,6 +33,7 @@ const Footer = () => {
 
     </fieldset>
   </form>
+  </div>
 </footer>
     );
 };

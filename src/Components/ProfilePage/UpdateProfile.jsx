@@ -1,24 +1,31 @@
 import React, { useContext, useEffect, useState } from 'react';
-import { Authcontext } from '../../AuthProvider/AuthProvider';
+// import { Authcontext } from '../../AuthProvider/AuthProvider';
 import { useForm } from 'react-hook-form';
 import defaultPic from '../../assets/defaultProfile2.jpg'
 import axios from 'axios';
 import { useGetOneUserQuery, useUpdateUserProfilesMutation } from '../../Redux/api/baseApi';
-import { useDispatch } from 'react-redux';
-import { setUsers } from '../../Redux/feature/updateProfileSlice/userProfileSlice';
+import { useDispatch, useSelector } from 'react-redux';
+import { setImage, setUsers, updateUsers,  } from '../../Redux/feature/updateProfileSlice/userProfileSlice';
 import toast, { Toaster } from "react-hot-toast";
+
+import auth from '../../FirebaseConfig/firebaseConfig';
+import { Navigate, useNavigate } from 'react-router-dom';
+import { updateProfile } from 'firebase/auth';
 
 
 const UpdateProfile = () => {
 
     const token = import.meta.env.VITE_imgbbToken
-    const imageHoistingURL = `https://api.imgbb.com/1/upload?expiration=600&key=${token}`
+    const imageHoistingURL = `https://api.imgbb.com/1/upload?key=${token}`
 
-    const { user, loader, updateUserProfile } = useContext(Authcontext);
 
-    const { data: userInfo, isError, error: userError, isLoading, refetch } = useGetOneUserQuery(user?.email)
 
-    const [updateUserProfiles, { data: formdata, error, isSuccess }] = useUpdateUserProfilesMutation()
+    const {userEmail,userLoading:loader , userImage, userName,iscreateUserError,createUserError}=useSelector((state)=>state. userProfileSlice)
+
+
+    const { data: userInfo, isError, error: userError, isLoading, refetch } = useGetOneUserQuery()
+
+    const [updateUserProfiles, { data: formdata, error, isSuccess ,}] = useUpdateUserProfilesMutation()
 
     const dispatch = useDispatch()
 
@@ -46,18 +53,22 @@ const UpdateProfile = () => {
                 if (res.data.status) {
 
                   
-                    const data3 = { name: userInfo?.name || '', mobile: userInfo?.mobile || '', address: userInfo?.address || '', image: res.data.data.display_url || '' }
+                    const data3 = { name: userName || '', mobile: userInfo?.mobile || '', address: userInfo?.address || '', image: res.data.data.display_url || '' }
 
-                    updateUserProfiles({ email: user?.email, data3 })
+                    updateUserProfiles({ email: userEmail, data3 })
+                    dispatch(setImage(res.data.data.display_url))
 
-                    dispatch(setUsers(res.data.data.display_url))
-                    updateUserProfile(userInfo?.name, res.data.data.display_url)
+                    updateProfile(auth.currentUser, {
+                        displayName: userInfo?.name, photoURL: res.data.data.display_url
+                    })
+
                     toast.success('Image Update Successfully')
                 }
             
             })
             .catch((error)=>{
               if(error.message){
+                console.log(error.message)
                 toast('Select An Image')
               }
             })
@@ -78,24 +89,36 @@ const UpdateProfile = () => {
 
             toast('Empty Data Field')
 
-
+   
         }
         else {
-            const data3 = { name: data.name || userInfo?.name, mobile: data.mobile || userInfo?.mobile, address: data?.address || userInfo?.address, image: userInfo?.image }
-            updateUserProfiles({ email: user?.email, data3 })
+            updateProfile(auth.currentUser,{displayName:data.name || userName, photoURL:userInfo.image})
+
+            const data3 = { name: data.name || userName, mobile: data.mobile || userInfo?.mobile, address: data?.address || userInfo?.address, image: userInfo?.image }
+            console.log(data3)
+            updateUserProfiles({ email: userEmail, data3 })
 
             reset()
 
-
-
-            updateUserProfile(data.name || userInfo?.name, userInfo.image)
             if (data) {
+                dispatch(updateUsers({name:data.name||userName,mobile:data.mobile || userInfo?.mobile,address:data?.address || userInfo?.address}))
                 toast.success('Profile Update Successfully')
+                refetch()
             }
         }
 
     }
-    console.log(isLoading, loader, user)
+
+useEffect(()=>{
+
+    if(isSuccess){
+        console.log(isSuccess,'116')
+        refetch()
+       console.log(formdata,'117')
+    }
+
+},[isSuccess])
+    console.log(isLoading, loader)
     return (
         <>
             {

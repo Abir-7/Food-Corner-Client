@@ -9,7 +9,7 @@ const PopulerDishes = () => {
             <div className='flex justify-center  '>
                 <div className=' my-10 grid gap-5 md:gap-20 grid-cols-1 sm:grid-cols-2   lg:grid-cols-4'>
 
-                    <div className="card w-72 h-[450px] border  custom2  bg-base-100 shadow-xl">
+                    <div className="card w-72 h-[450px]  custom2  bg-base-100 shadow-xl">
                         <figure className="relative h-96">
                             <div className='custom3 absolute bottom-0   w-full'></div>
                             <div className='px-10 z-10  py-10'>

@@ -1,12 +1,15 @@
 import { useForm } from "react-hook-form";
-import { Authcontext } from "../../AuthProvider/AuthProvider";
+// import { Authcontext } from "../../AuthProvider/AuthProvider";
 import { useContext, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
+import { useDispatch } from "react-redux";
+import { createUser } from "../../Redux/feature/updateProfileSlice/userProfileSlice";
 
 
 const SignupPage = () => {
+    const dispatch=useDispatch()
     const [loading,setLoading]=useState(false)
-    const { googleSignin, createUser, updateUserProfile } = useContext(Authcontext)
+    // const { googleSignin, createUser:createUsers, updateUserProfile } = useContext(Authcontext)
 
     const {
         register,
@@ -15,38 +18,39 @@ const SignupPage = () => {
     } = useForm()
     const onSubmit = (data) => {
         setLoading(true)
-        createUser(data.email, data.password)
-        .then((userCredential) => {
-            const user = userCredential.user;
-            updateUserProfile(data.name,"") //default Propic
-            console.log(user)
-            if (user) {
-            fetch('http://localhost:4000/users', {
-                method: "POST",
-                headers: {
-                    "content-type": "application/json"
-                },
-                body: JSON.stringify({email:data?.email.toLowerCase(),name:data?.name,mobile:data?.mobile,role:'user'})
-            })
-                .then(res => res.json())
-                .then(data => {
-                    console.log(data)
-                    if (data.insertedId) {
-                        toast.success('User Created Successfully')
-                        setLoading(false)
-                    }
+        //createUser(data.email, data.password)
+        dispatch(createUser(data.email,data.password,data.name,data.mobile))
+        // .then((userCredential) => {
+        //     const user = userCredential.user;
+        //     updateUserProfile(data.name,"") //default Propic
+        //     console.log(user)
+        //     if (user) {
+        //     fetch('http://localhost:4000/users', {
+        //         method: "POST",
+        //         headers: {
+        //             "content-type": "application/json"
+        //         },
+        //         body: JSON.stringify({email:data?.email.toLowerCase(),name:data?.name,mobile:data?.mobile,role:'user'})
+        //     })
+        //         .then(res => res.json())
+        //         .then(data => {
+        //             console.log(data)
+        //             if (data.insertedId) {
+        //                 toast.success('User Created Successfully')
+        //                 setLoading(false)
+        //             }
                 
-                })
+        //         })
                 
-            }
-        })
-        .catch((error) => {
-            const errorCode = error.code;
-            const errorMessage = error.message
-            console.log(errorMessage)
-            toast.error(errorMessage)
-        })
-        setLoading(false)
+        //     }
+        // })
+        // .catch((error) => {
+        //     const errorCode = error.code;
+        //     const errorMessage = error.message
+        //     console.log(errorMessage)
+        //     toast.error(errorMessage)
+        // })
+        // setLoading(false)
     }
 
     //toast.error('hi')

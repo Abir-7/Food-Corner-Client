@@ -2,68 +2,84 @@ import React, { createContext, useEffect, useState } from 'react';
 
 import axios from 'axios';
 
-import { GoogleAuthProvider, createUserWithEmailAndPassword, getAuth, onAuthStateChanged, signInWithEmailAndPassword, signInWithPopup, signOut, updateProfile } from 'firebase/auth';
-
-import app from '../FirebaseConfig/firebaseConfig';
 
 
 
-const auth = getAuth(app)
+import { useDispatch, useSelector } from 'react-redux';
+import { removeUser, setLoading, setUsers } from '../Redux/feature/updateProfileSlice/userProfileSlice';
+import auth from '../FirebaseConfig/firebaseConfig';
+import { onAuthStateChanged } from 'firebase/auth';
+
+
+
+
 export const Authcontext = createContext(null)
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
     const [loader, setLoader] = useState(true);
 
 
-    //////////Create User////////
-    const createUser = (email, password) => {
-        console.log(email, password)
-        setLoader(true)
-        return createUserWithEmailAndPassword(auth, email, password);
-    }
-    ///////////Update Name////////
-    const updateUserProfile = (name, photourl) => {
-        return updateProfile(auth.currentUser, {
-            displayName: `${name}`, photoURL: `${photourl}`
-        })
-    }
-    ///////////loginUser/////////
-    const loginUser = (email, password) => {
-        setLoader(true)
-        return signInWithEmailAndPassword(auth, email, password);
-    }
 
-    /////////google login//////
-    const g_provider = new GoogleAuthProvider();
-    const googleSignin = () => {
-        setLoader(true)
-        return signInWithPopup(auth, g_provider)
-    }
+    const dispatch = useDispatch()
 
-    ////////////logOut////////////
-    const logoutUser = () => {
+    // //////////Create User////////
+    // const createUser = (email, password) => {
+    //     console.log(email, password)
+    //     setLoader(true)
+    //     return createUserWithEmailAndPassword(auth, email, password);
+    // }
+    // ///////////Update Name////////
+    // const updateUserProfile = (name, photourl) => {
+    //     return updateProfile(auth.currentUser, {
+    //         displayName: `${name}`, photoURL: `${photourl}`
+    //     })
+    // }
+    // ///////////loginUser/////////
+    // const loginUser = (email, password) => {
+    //     setLoader(true)
+    //     return signInWithEmailAndPassword(auth, email, password);
+    // }
 
-        signOut(auth)
-    }
+    // /////////google login//////
+    // const g_provider = new GoogleAuthProvider();
+    // const googleSignin = () => {
+    //     setLoader(true)
+    //     return signInWithPopup(auth, g_provider)
+    // }
+
+    // ////////////logOut////////////
+    // const logoutUser = () => {
+
+    //     signOut(auth)
+    // }
 
     ///////////////Observer//////////////
     useEffect(() => {
         const unsubcribe = onAuthStateChanged(auth, (loguser) => {
+            dispatch(setLoading(true))
             setUser(loguser);
-
+            console.log(loguser,'auth changed obseve')
             if (loguser) {
-
+                setLoader(false)
                 axios.post('http://localhost:4000/jwt', { email: loguser.email })
                     .then(data => {
                         localStorage.setItem('access-token', data.data.token)
+
+                        dispatch(setUsers({ email: loguser.email, name: loguser.displayName, image: loguser.photoURL }))
+                        dispatch(setLoading(false))
                     })
+
+
             }
             else {
                 localStorage.removeItem('access-token')
+                setLoader(false)
+                dispatch(removeUser())
+                dispatch(setLoading(false))
             }
-            setLoader(false);
+
         });
-        setLoader(false)
+
 
         return () => { unsubcribe() };
     }, [])
@@ -73,12 +89,6 @@ const AuthProvider = ({ children }) => {
     const authinfo = {
         user,
         loader,
-        createUser,
-        loginUser,
-        logoutUser,
-        updateUserProfile,
-        googleSignin,
-
     };
 
     return (

@@ -28,6 +28,9 @@ export const cartProductSlice = createSlice({
     singleItemSize: (state, { payload }) => {
       state.option = payload
     },
+    setAmount: (state) => {
+      state.itemNumber = 0
+    },
     showReviews: (state, { payload }) => {
       console.log(payload)
       state.isShowReviews = payload
@@ -37,28 +40,47 @@ export const cartProductSlice = createSlice({
       state.isCartSlideOpen = payload
     },
     addCart: (state, { payload }) => {
-      const existingItem = state.cartItem.find(item => item.name === payload.name);
+      const existingItem = state.cartItem.find(item => item.name === payload.name && item.size === payload.size);
 
-      if (existingItem) {
-        // If the item exists, update its amount by one
-        const updatedCart = state.cartItem.map(item =>
-          item.name === payload.name ? { ...item, amount: item.amount + 1 } : item
-        );
-        return { ...state, cartItem: updatedCart };
+      if (payload.amount > 0) {
+        if (existingItem) {
+          // If the item exists, update its amount by one
+          const updatedCart = state.cartItem.map(item =>
+            item.name === payload.name ? { ...item, amount: item.amount + payload.amount } : item
+          );
+          return { ...state, cartItem: updatedCart };
+        }
+        else {
+          // If the item doesn't exist, add it with an amount of 1
+          const newItem = { ...payload, amount: payload.amount };
+          const updatedCart = [...state.cartItem, newItem];
+          return { ...state, cartItem: updatedCart };
+        }
       }
       else {
-        // If the item doesn't exist, add it with an amount of 1
-        const newItem = { ...payload, amount: 1 };
-        const updatedCart = [...state.cartItem, newItem];
-        return { ...state, cartItem: updatedCart };
+        if (existingItem) {
+          // If the item exists, update its amount by one
+          const updatedCart = state.cartItem.map(item =>
+            item.name === payload.name ? { ...item, amount: item.amount + 1 } : item
+          );
+          return { ...state, cartItem: updatedCart };
+        }
+        else {
+          // If the item doesn't exist, add it with an amount of 1
+          const newItem = { ...payload, amount: 1 };
+          const updatedCart = [...state.cartItem, newItem];
+          return { ...state, cartItem: updatedCart };
+        }
+
       }
+
     },
     cartTotalPrice: (state, { payload }) => {
 
       const price = state.cartItem.reduce((total, item) => {
         return total + (parseInt(item.price) * parseInt(item.amount));
       }, 0)
-      console.log(state.totalPrice,'----------cart slice')
+      console.log(state.totalPrice, '----------cart slice')
       if (state.totalPrice >= payload.price) {
         const discountAmount = (state.totalPrice * payload.discount) / 100
         state.discountOffer = discountAmount
@@ -89,14 +111,17 @@ export const cartProductSlice = createSlice({
       }
     }
     ,
-    removeCartItem:(state,{payload})=>{
-      const updatedCart=state.cartItem.filter(item=>item.name!==payload)
-      return {...state,cartItem:updatedCart}
+    removeCartItem: (state, { payload }) => {
+      const updatedCart = state.cartItem.filter(item => !(item.name === payload.name && item.size===payload.size) )
+
+
+
+      return { ...state, cartItem: updatedCart }
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { singleItemIncrement, singleItemDecrement, singleItemSize, showReviews, showCartSlide, addCart, cartTotalPrice, modifyCart,removeCartItem } = cartProductSlice.actions
+export const { singleItemIncrement, singleItemDecrement, singleItemSize, showReviews, showCartSlide, addCart, cartTotalPrice, modifyCart, removeCartItem, setAmount } = cartProductSlice.actions
 
 export default cartProductSlice.reducer

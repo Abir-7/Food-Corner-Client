@@ -1,7 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
-import { data } from 'autoprefixer';
 
-const authHeaders = {
+const authHeaders= {
   Authorization: `Bearer ${localStorage.getItem('access-token') || ''}`
 };
 
@@ -10,42 +9,86 @@ const authHeaders = {
     reducerPath:"api",
     baseQuery: fetchBaseQuery({
       baseUrl:'http://localhost:4000',
-      tagTypes:['User']
+      tagTypes:['User','Menu'],
+      prepareHeaders: (headers, { getState }) => {
+        const token = `Bearer ${localStorage.getItem('access-token') }`
+        if (token) {
+          headers.set('Authorization', token);
+        }
+        return headers;
+      },
   }),
     endpoints:(builder)=>({
 
-       getUser: builder.query({
+       getUser: builder.query({  //get all user
         query:()=>({
-          headers: authHeaders,
+          //headers: authHeaders,
           url:'/users'}),
-          invalidatesTags:['User'],
+          providesTags:['User'],
        }),
-       getOneUser: builder.query({
-        query:(email)=>({
-          headers: authHeaders,
-          url:`/users/${email}`,
+
+       getOneUser: builder.query({  // get user by email
+        query:()=>({
+         // headers: authHeaders,
+          url:'/singleUsers',
         }),
         invalidatesTags:['User'],
        }),
-       updateUserProfiles: builder.mutation({
+
+       updateUserProfiles: builder.mutation({  // update user profile
         query: ({ email, data3 }) => ({
-          url: `/userUpdate/${email}`,
+          url: '/userUpdate',
           method: 'PATCH',
-          headers: authHeaders,
+          //headers: authHeaders,
           body: data3,
         }),
         invalidatesTags:['User'],
       }),
       
-       getAdmin: builder.query({
-        query:(email)=>({
-          headers: authHeaders,
-          url:`/users/admin/${email}`}),
+       getAdmin: builder.query({   //verify admin
+        query:()=>({
+         // headers: authHeaders,
+          url:`/user/admin`
+        }),
           invalidatesTags:['User'],
        }),
-  
+
+       addMenuItem: builder.mutation({   //add menu
+        query:(data3)=>({
+          url:'/addMenu',
+          //headers: authHeaders,
+          method: 'POST',
+          body: data3,
+        }),
+        invalidatesTags:['Menu'],
+       }),
+       getMenuItem: builder.query({   //get menu
+        query:()=>({
+          url:'/getMenu',
+          //headers: authHeaders,
+        }),
+        providesTags:['Menu'],
+       }),
+       getSingleMenuItem: builder.query({   // get single menu
+        query:(id)=>({
+          url:`/getMenu/${id}`,
+          //headers: authHeaders,
+        }),
+        providesTags: (result, error, id) => [{ type: 'getMenu', id }],
+        invalidatesTags:['Menu'],
+       }),
+
+
+
+
     })
+
 })
 
-export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery} = baseApi;
+
+
+
+
+
+export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery,useAddMenuItemMutation,useGetMenuItemQuery,useGetSingleMenuItemQuery} = baseApi;
 export default baseApi;

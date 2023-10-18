@@ -1,20 +1,24 @@
-import React, { useContext, useState } from 'react';
+// import React, { useContext, useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
-import { Authcontext } from '../../AuthProvider/AuthProvider';
+// import { Authcontext } from '../../AuthProvider/AuthProvider';
 import './Navbar.css'
 import { FaShoppingCart } from 'react-icons/fa';
 import defaultPic from '../../assets/defaultProfile.jpg'
-import { useGetOneUserQuery } from '../../Redux/api/baseApi';
+import { useGetAdminQuery, useGetOneUserQuery } from '../../Redux/api/baseApi';
 import { useSelector } from 'react-redux';
+
+import bg2 from '../../assets/bg2.jpg'
+import { signOut } from 'firebase/auth';
+import auth from '../../FirebaseConfig/firebaseConfig';
 const Navbar = () => {
-
-  const { user, loader, logoutUser } = useContext(Authcontext);
-  const {userImage } = useSelector((state) => state.userProfileSlice)
-console.log(userImage,user?.photoURL
-  ,'------------------')
-
   const location = useLocation()
-  console.log(location?.pathname,user)
+  const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
+  const { data: isAdmin, isLoading: isAdminLoading } = useGetAdminQuery()
+
+  console.log(isAdmin, isAdminLoading, userEmail)
+  // const {  user, loader, logoutUser } = useContext(Authcontext);
+
+
   const allNavlink = (
     <div className='flex gap-2 flex-col lg:flex-row lg:gap-10 font-semibold'>
       <Link to="/" className={`underline-on-hover ${location?.pathname === '/' && 'selected'}`} >
@@ -30,42 +34,51 @@ console.log(userImage,user?.photoURL
   );
 
   return (
-    <div className="navbar shadow-lg">
-      <div className="navbar-start">
-        <div className="dropdown">
-          <label tabIndex={0} className="btn btn-ghost lg:hidden">
-            <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-          </label>
-          <ul tabIndex={0} className="menu menu-sm dropdown-content mt-3  z-50 p-2 shadow bg-base-100 rounded-box w-40">
-            <div className=''>
-              {allNavlink}
-            </div>
+    <div className="z-20" style={{ backgroundImage: `url(${bg2})`, backgroundPosition: '20% 60%', backgroundRepeat: "no-repeat", backgroundSize: "cover" }}>
+      <div className="navbar shadow-lg " >
+        <div className="navbar-start">
+          <div className="dropdown">
+            <label tabIndex={0} className="btn btn-ghost lg:hidden">
+              <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+            </label>
+            <ul tabIndex={0} className="menu z-50 menu-sm dropdown-content mt-3   p-2 shadow bg-base-100 rounded-box w-40">
+              <div className=''>
+                {allNavlink}
+              </div>
+            </ul>
+          </div>
+          <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+        </div>
+        <div className="navbar-center hidden lg:flex">
+          <ul className="menu menu-horizontal px-1 ">
+            {allNavlink}
           </ul>
         </div>
-        <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
-      </div>
-      <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1 ">
-          {allNavlink}
-        </ul>
-      </div>
-      <div className="navbar-end">
+        <div className="navbar-end z-10 ">
 
-        {/* user profile + logout */}
+          {/* user profile + logout */}
 
-        {
-          user?.email ?
-            <div className="dropdown dropdown-end me-2">
-             <div className='btn btn-circle'>
-             <img tabIndex={0} className='w-[50px] object-cover rounded-full h-[50px]' src={userImage||user?.photoURL} alt="" />
-             </div>
-              <ul tabIndex={0} className="dropdown-content shadow-lg z-[1] menu p-2 bg-base-100 mt-2 rounded-box w-36">
-                <li className='font-semibold'><Link to='/viewProfile'>View Profile</Link></li>
-                <button onClick={() => logoutUser()} className='btn btn-sm btn-primary '>Logout</button>
-              </ul>
+          {
+            userLoading ? <></> : <div>
+              {
+                userEmail ?
+                  <div className="dropdown dropdown-end me-2 ">
+                    <div className='btn btn-circle'>
+                      <img tabIndex={0} className='w-[40px] object-cover rounded-full h-[40px]' src={userImage || userImage || defaultPic} alt="" />
+                    </div>
+                    <ul tabIndex={0} className="dropdown-content  shadow-lg  menu p-2 bg-base-100 mt-2 rounded-box w-36">
+                      {
+                        isAdmin == true && !isAdminLoading ? <li className='font-semibold'><Link to='/dashboard/adminDashboard'>Dashboard</Link></li> : <li className='font-semibold'><Link to='dashboard/userDashboard'>Dashboard</Link></li>
+                      }
+                      <li className='font-semibold'><Link to='/viewProfile'>View Profile</Link></li>
+                      <button onClick={() => signOut(auth)} className='btn btn-sm btn-primary '>Logout</button>
+                    </ul>
+                  </div>
+                  : <Link className='btn' to='/login'>Login</Link>
+              }
             </div>
-            : <Link className='btn' to='/login'>Login</Link>
-        }
+          }
+        </div>
       </div>
     </div>
   );

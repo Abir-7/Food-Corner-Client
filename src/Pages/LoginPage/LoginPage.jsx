@@ -1,31 +1,40 @@
-import { useContext } from "react";
+
 import { useForm } from "react-hook-form";
-import { Authcontext } from "../../AuthProvider/AuthProvider";
+// import { Authcontext } from "../../AuthProvider/AuthProvider";
+import { useLocation, useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { setLoading } from "../../Redux/feature/updateProfileSlice/userProfileSlice";
+import { signInWithEmailAndPassword } from "firebase/auth";
+import auth from "../../FirebaseConfig/firebaseConfig";
 
 
 const LoginPage = () => {
-    const {  loginUser} = useContext(Authcontext)
+    const dispatch=useDispatch()
 
+    const navigate = useNavigate();
+    let location = useLocation();
+    let from = location.state?.from?.pathname || "/";
     const {
         register,
         formState: { errors },
         handleSubmit,
     } = useForm()
     const onSubmit = (data) => {
-        loginUser(data.email, data.password)
+        dispatch(setLoading(true))
+        signInWithEmailAndPassword(auth,data.email, data.password)
         .then((userCredential) => {
             // Signed in 
             const user = userCredential.user;
-
-            // navigate(from, { replace: true })
+          
+            navigate(from, { replace: true })
             // ...
         })
         .catch((error) => {
 
             const errorMessage = error.message;
-            console.log(errorMessage)
+           // console.log(errorMessage)
         });
-        console.log(data)
+       // console.log(data)
     }
 
     return (

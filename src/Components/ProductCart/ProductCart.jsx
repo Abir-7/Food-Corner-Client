@@ -16,7 +16,7 @@ const ProductCart = () => {
     }, [cartItem,discountPriceAmmount,discountPercent,totalPrice])
 
     const finalPrice = totalPrice - discountOffer
-
+console.log(cartItem,'------------------------------cart')
     return (
         <div className='min-h-[400px] max-h-screen w-96 fixed top-0 right-0 z-10 shadow-2xl backdrop-blur-2xl backdrop-brightness-50 overflow-auto rounded-xl'>
         <div className='bg-orange-400 sticky top-0 flex items-center justify-center p-2 rounded-xl'>
@@ -39,9 +39,12 @@ const ProductCart = () => {
                             <div className='w-full'>
                               <div className='flex justify-between w-100'>
                               <p><span className='text-orange-400'>Name:</span> {item.name}</p>
-                              <button onClick={()=>dispatch(removeCartItem(item.name))} className='btn btn-xs bg-orange-400 border-none'><FaTrashAlt/></button>
+                              <button onClick={()=>dispatch(removeCartItem({name:item?.name,size:item?.size}))} className='btn btn-xs bg-orange-400 border-none mb-1'><FaTrashAlt/></button>
                               </div>
-                                <p><span className='text-orange-400'>Categoty:</span> Pizza</p>
+                               <div className='flex justify-between'>
+                               <p><span className='text-orange-400'>Categoty:</span>{item?.category}</p>
+                                <p><span className='text-orange-400'>Size:</span> {item?.size=='reguler'?"Reguler":`${item?.size}"` }</p>
+                               </div>
                             </div>
                         </div>
                         <div className='flex items-center justify-between'>
