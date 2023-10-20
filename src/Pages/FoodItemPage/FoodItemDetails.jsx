@@ -11,7 +11,7 @@ import { addCart, setAmount, showReviews, singleItemDecrement, singleItemIncreme
 import { useAddFavouriteMenuItemMutation, useGetSingleMenuItemQuery } from '../../Redux/api/baseApi';
 import { useParams } from 'react-router-dom';
 import { useQuery } from '@tanstack/react-query';
-import { decrement, getMenu, increment } from '../../Redux/feature/menuDetailsSlice/menuDetailsSlice';
+import { decrement, getFavMenu, getFavMenuData, getMenu, increment } from '../../Redux/feature/menuDetailsSlice/menuDetailsSlice';
 import toast, { Toaster } from 'react-hot-toast';
 
 
@@ -24,16 +24,17 @@ const FoodItemDetails = () => {
     useEffect(() => {
         if (typeof (id) == 'string') {
             dispatch(getMenu(id))
+            dispatch(getFavMenu(id))
         }
     }, [id])
 
     const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
     const { itemNumber, option, isShowReviews, cartItem } = useSelector((state) => state.cartProductSlice)
-    const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError } = useSelector((state) => state.menuDetailsSlice)
+    const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError, isFavourite, isFavouriteLoading,favouriteMenuData,isFavouritemenuDataLoading, isFavouriteMenuDataError, favouriteMenuDataError } = useSelector((state) => state.menuDetailsSlice)
 
-    const [addFavouriteMenuItem, { data,error ,isError, isLoading: favMenuLoading, isSuccess }] = useAddFavouriteMenuItemMutation()
+    const [addFavouriteMenuItem, { data, error, isError, isLoading: favMenuLoading, isSuccess }] = useAddFavouriteMenuItemMutation()
 
-    console.log(data,error,isError)
+    console.log(isError, isFavourite,urls ,index,'---[[[]]]-------')
 
 
     // if (isLoading) {
@@ -43,19 +44,25 @@ const FoodItemDetails = () => {
     // }
 
     useEffect(() => {
-        if(isSuccess){
+        //dispatch(getFavMenuData(userEmail))
+
+        if (isSuccess) {
             toast.success('Add to Favourite')
+            dispatch(getFavMenu(id))
+
         }
 
-        if(isError & error?.status==409){
-            toast('Already Added to favourite')
+        if (isError & error?.status == 409) {
+            toast('Remove from favourite')
+            dispatch(getFavMenu(id))
+          
         }
 
-    }, [isSuccess,isError])
+    }, [isSuccess, isError,userLoading])
 
 
     ////////////////////---cart operation---///////////////////////////
-    const image = urls
+    //const image = urls
     const size = allPriceSize
     //const { price, size: psize } = size[option]
 
@@ -86,23 +93,23 @@ const FoodItemDetails = () => {
     ////////////////////////////////////////////////////////////////
 
 
-    //console.log(cartItem,allPriceSize,option)
+    console.log(favouriteMenuData,'{}[[]]')
 
     return (
         <>
             {
-                isLoading ? <>Loading</> :
+                isLoading || userLoading ? <>Loading</> :
 
                     <div>
-                         <Toaster />
+                        <Toaster />
                         <LinkBanner text='Food Details'></LinkBanner>
                         <div className='container mx-auto my-10 grid gap-5 grid-cols-1 md:grid-cols-2'>
                             <div className='flex flex-col  mx-auto  border-2 p-8'>
-                                <img src={image[index]} alt="" className='xl:w-[500px] xl:h-[500px] lg:w-[400px] lg:h-[400px] md:w-[300px] md:h-[300px] h-[250px] w-[250px]  sm:h-[390px] sm:w-[390px]  object-cover' />
+                                <img src={urls[index]} alt="" className='xl:w-[500px] xl:h-[500px] lg:w-[400px] lg:h-[400px] md:w-[300px] md:h-[300px] h-[250px] w-[250px]  sm:h-[390px] sm:w-[390px]  object-cover' />
 
                                 <div className='flex justify-around mt-5' >
-                                    <button onClick={() => handleNext({ action: 'prev', index: index, length: image.length })} className='btn btn-link '><FaArrowAltCircleLeft className='text-4xl text-orange-400' /></button>
-                                    <button className='btn btn-link ' onClick={() => handleNext({ action: 'next', index: index, length: image.length })}><FaArrowAltCircleRight className='text-4xl text-orange-400' /></button>
+                                    <button onClick={() => handleNext({ action: 'prev', index: index, length: urls.length })} className='btn btn-link '><FaArrowAltCircleLeft className='text-4xl text-orange-400' /></button>
+                                    <button className='btn btn-link ' onClick={() => handleNext({ action: 'next', index: index, length: urls.length })}><FaArrowAltCircleRight className='text-4xl text-orange-400' /></button>
                                 </div>
                             </div>
                             <div>
@@ -116,7 +123,7 @@ const FoodItemDetails = () => {
                                     </div>
                                     <p className='font-medium mt-2'>{ingredients}</p>
                                     <div className='flex gap-5 items-center'>
-                                        <p className='font-bold my-2 text-2xl text-orange-400'><span className='text-green-400'>{size[option].price}</span>tk</p>
+                                        <p className='font-bold my-2 text-2xl text-orange-400'><span className='text-green-400'>{size[option]?.price}</span>tk</p>
                                         <div className='flex  gap-5 '>
                                             {
                                                 size.length > 1 ? <>
@@ -136,10 +143,12 @@ const FoodItemDetails = () => {
                                             <button className='btn btn-sm rounded-full text-orange-400' onClick={() => { handleNext({ action: 'incressOne' }) }}><FaPlus></FaPlus></button>
                                         </div>
                                         <div className='flex-grow'>
-                                            <button onClick={() => addItemCart({ name: itemName, size: allPriceSize.length > 1 ? size[option]?.size : 'reguler', price: size[option].price, menuID: menuID, amount: itemNumber, category: category })} className='btn w-full py-3 bg-orange-400 hover:bg-orange-500 font-bold text-white h-auto '>Add to Cart < FaCartPlus /></button>
+                                            <button onClick={() => addItemCart({ name: itemName, size: allPriceSize.length > 1 ? size[option]?.size : 'reguler', price: size[option].price, menuID: menuID, amount: itemNumber, category: category ,image:urls[0]})} className='btn w-full py-3 bg-orange-400 hover:bg-orange-500 font-bold text-white h-auto '>Add to Cart < FaCartPlus /></button>
                                         </div>
                                         <div>
-                                            <button onClick={() => addFavouriteMenuItem({menuID})} className='btn'><FaHeart /></button>
+                                            <button onClick={() => {
+                                                addFavouriteMenuItem({ menuID,userEmail })
+                                            }} className='btn'><span className={isFavourite?'text-red-500':''}><FaHeart /></span></button>
                                         </div>
                                     </div>
                                     <hr />

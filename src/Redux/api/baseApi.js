@@ -83,6 +83,7 @@ const authHeaders= {
           method: 'POST',
           body:menuData ,
         }),
+        invalidatesTags:['Menu'],
        }),
 
     })

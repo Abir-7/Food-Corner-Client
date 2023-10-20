@@ -35,7 +35,7 @@ console.log(cartItem,'------------------------------cart')
                 cartItem?.map((item, index) => <div key={index} className='p-2 border border-orange-400 mt-2 rounded-xl'>
                     <div>
                         <div className='flex gap-3'>
-                            <img className='w-[50px] rounded-lg h-[50x]' src="https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg?t=st=1697136554~exp=1697137154~hmac=6421f4019b9647151de29ece5422f5989904fa13b99e926212e39a51387516f3" alt="" />
+                            <img className='w-[50px] rounded-lg h-[50x]' src={item?.image} alt="" />
                             <div className='w-full'>
                               <div className='flex justify-between w-100'>
                               <p><span className='text-orange-400'>Name:</span> {item.name}</p>

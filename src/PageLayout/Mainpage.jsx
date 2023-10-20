@@ -7,11 +7,22 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showCartSlide, showFavouriteSlide } from '../Redux/feature/cartProductSlice/cartProductSlice';
 import ProductCart from '../Components/ProductCart/ProductCart';
 import FavaouriteMenuList from '../Components/FavaouriteMenuList/FavaouriteMenuList';
+import { getFavMenuData } from '../Redux/feature/menuDetailsSlice/menuDetailsSlice';
 
 const Mainpage = () => {
 
     const { itemNumber, option, isShowReviews, isCartSlideOpen, cartItem, totalPrice, discountOffer, isFavouriteSlideOpen } = useSelector((state) => state.cartProductSlice)
     const dispatch = useDispatch()
+
+    
+    const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
+
+    const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError, isFavourite, isFavouriteLoading,favouriteMenuData,isFavouritemenuDataLoading, isFavouriteMenuDataError, favouriteMenuDataError } = useSelector((state) => state.menuDetailsSlice)
+
+    useEffect(()=>{
+dispatch(getFavMenuData(userEmail))
+
+    },[userLoading,isLoading,isFavouriteLoading])
 
     return (
         <div className='max-w-[1900px] mx-auto  '>
@@ -32,7 +43,7 @@ const Mainpage = () => {
                     }} className="p-3 text-lg hover:scale-90 hover:text-orange-100 duration-500"><FaShoppingCart></FaShoppingCart></button>
                 </div>
                 <div className="indicator text-white ">
-                    <span className="indicator-item badge badge-success bg-green-600  text-xs font-medium text-white">99+</span>
+                    <span className="indicator-item badge badge-success bg-green-600  text-xs font-medium text-white">{favouriteMenuData?.length}</span>
                     <button onClick={() => {
                         dispatch(showCartSlide(false))
                         dispatch(showFavouriteSlide(true))

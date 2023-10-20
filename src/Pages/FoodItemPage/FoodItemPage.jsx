@@ -49,9 +49,9 @@ const FoodItemPage = () => {
 
                                         gyroscope={true}
                                     >
-                                        <div className="p-3 shadow-md rounded-lg max-w-[590px]">
+                                        <div className="p-3 shadow-md rounded-lg max-w-[590px] ">
 
-                                            <div className="grid grid-cols-1 sm:grid-cols-1 xl:grid-cols-2 items-center bg-[#ffefd2] rounded-lg">
+                                            <div className="grid grid-cols-1  h-[260px] sm:grid-cols-1 xl:grid-cols-2 items-center bg-[#ffefd2] rounded-lg">
                                                 <div className="flex justify-center ">
                                                     <img className=" w-[200px] ps-3 py-5" src={menu.urls[0]} alt="" />
                                                 </div>
@@ -59,7 +59,7 @@ const FoodItemPage = () => {
                                                     <h1 className="text-xl font-bold"><Link className="hover:text-orange-400 duration-300" to={`/itemInfo/${menu._id}`}>{menu?.itemName
                                                     }</Link></h1>
                                                     <h1 className="flex gap-1 mt-2 items-center">4.2 <span className="text-yellow-400 flex gap-1"><FaStar /> <FaStar /> <FaStar /> <FaStar /><FaStar /></span></h1>
-                                                    <p>Extra-virgin olive oil, garlic, mozzarella cheese, onions, mushrooms, green olives, black olives</p>
+                                                    <p>{menu?.ingredients.length>80?`${menu?.ingredients.slice(0,80)} ...`:menu?.ingredients}</p>
                                                     <div className="flex justify-between items-center">
                                                         <div className="flex gap-4">
                                                             <p className="flex gap-1" ><span className="font-bold text-orange-400">{menu?.price[0].price} </span> <span className="text-green-400 font-semibold">Tk.</span></p>
