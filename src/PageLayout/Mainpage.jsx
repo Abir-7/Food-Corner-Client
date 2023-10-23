@@ -20,7 +20,10 @@ const Mainpage = () => {
     const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError, isFavourite, isFavouriteLoading,favouriteMenuData,isFavouritemenuDataLoading, isFavouriteMenuDataError, favouriteMenuDataError } = useSelector((state) => state.menuDetailsSlice)
 
     useEffect(()=>{
-dispatch(getFavMenuData(userEmail))
+      
+        if(!userLoading && userEmail){
+            dispatch(getFavMenuData(userEmail))
+        }
 
     },[userLoading,isLoading,isFavouriteLoading])
 

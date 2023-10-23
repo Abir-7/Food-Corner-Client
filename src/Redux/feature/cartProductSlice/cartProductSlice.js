@@ -5,7 +5,7 @@ const initialState = {
   option: 0,
   isShowReviews: false,
   isCartSlideOpen: false,
-  isFavouriteSlideOpen:false,
+  isFavouriteSlideOpen: false,
   cartItem: [],
   totalPrice: 0,
   discountOffer: 0,
@@ -40,8 +40,8 @@ export const cartProductSlice = createSlice({
     showCartSlide: (state, { payload }) => {
       state.isCartSlideOpen = payload
     },
-    showFavouriteSlide:(state,{payload})=>{
-      state.isFavouriteSlideOpen=payload
+    showFavouriteSlide: (state, { payload }) => {
+      state.isFavouriteSlideOpen = payload
     },
     addCart: (state, { payload }) => {
       const existingItem = state.cartItem.find(item => item.name === payload.name && item.size === payload.size);
@@ -63,7 +63,7 @@ export const cartProductSlice = createSlice({
       }
       else {
         if (existingItem) {
-          // If the item exists, update its amount by one
+        
           const updatedCart = state.cartItem.map(item =>
             item.name === payload.name ? { ...item, amount: item.amount + 1 } : item
           );
@@ -82,18 +82,17 @@ export const cartProductSlice = createSlice({
     cartTotalPrice: (state, { payload }) => {
 
       const price = state.cartItem.reduce((total, item) => {
-        return total + (parseInt(item.price) * parseInt(item.amount));
+        return total + (parseFloat(item.price).toFixed(2) * parseFloat(item.amount).toFixed(2));
       }, 0)
       console.log(state.totalPrice, '----------cart slice')
       if (state.totalPrice >= payload.price) {
-        const discountAmount = (state.totalPrice * payload.discount) / 100
+        const discountAmount = parseFloat((state.totalPrice * payload.discount) / 100).toFixed(2)
         state.discountOffer = discountAmount
       }
       else {
         state.discountOffer = 0
       }
-      state.totalPrice = price;
-
+      state.totalPrice = parseFloat(price).toFixed(2);
     },
     modifyCart: (state, { payload }) => {
       const existingItem = state.cartItem.find(item => item.name === payload.name);
@@ -116,16 +115,13 @@ export const cartProductSlice = createSlice({
     }
     ,
     removeCartItem: (state, { payload }) => {
-      const updatedCart = state.cartItem.filter(item => !(item.name === payload.name && item.size===payload.size) )
-
-
-
+      const updatedCart = state.cartItem.filter(item => !(item.name === payload.name && item.size === payload.size))
       return { ...state, cartItem: updatedCart }
     }
   },
 })
 
 // Action creators are generated for each case reducer function
-export const { singleItemIncrement, singleItemDecrement, singleItemSize, showReviews, showCartSlide, addCart, cartTotalPrice, modifyCart, removeCartItem, setAmount,showFavouriteSlide } = cartProductSlice.actions
+export const { singleItemIncrement, singleItemDecrement, singleItemSize, showReviews, showCartSlide, addCart, cartTotalPrice, modifyCart, removeCartItem, setAmount, showFavouriteSlide } = cartProductSlice.actions
 
 export default cartProductSlice.reducer

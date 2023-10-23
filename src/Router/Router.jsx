@@ -9,7 +9,6 @@ import LoginPage from "../Pages/LoginPage/LoginPage";
 import SignupPage from "../Pages/SignupPage/SignupPage";
 import PrivetRouts from "./PrivetRouts";
 import FoodItemDetails from "../Pages/FoodItemPage/FoodItemDetails";
-import CartPage from "../Pages/Cart Page/CartPage";
 import UserProfilePage from "../Pages/UserProfilePage/UserProfilePage";
 import UpdateProfile from "../Components/ProfilePage/UpdateProfile";
 import Dashboard from "../PageLayout/Dashboard";
@@ -17,6 +16,7 @@ import UserDashboard from "../Pages/DashboardPages/UserPage/UserDashboard";
 import AdminDashboardPage from "../Pages/DashboardPages/AdminPage/AdminDashboardPage";
 import AddMenuPage from "../Pages/DashboardPages/AdminPage/AddMenuPage";
 import ManageUser from "../Pages/DashboardPages/AdminPage/ManageUser";
+import CheckOutPage from "../Pages/CheckOutPage/CheckOutPage";
 
 
 
@@ -47,8 +47,8 @@ const router = createBrowserRouter([
         element: <SignupPage />
       }
       , {
-        path: '/userCart',
-        element: <CartPage />
+        path: '/checkout',
+        element: <CheckOutPage />
       }
       , {
         path: '/viewProfile',

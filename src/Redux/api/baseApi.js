@@ -85,7 +85,17 @@ const authHeaders= {
         }),
         invalidatesTags:['Menu'],
        }),
-
+       savePaymentInfo: builder.mutation({   //save payment info
+        query:(info)=>({
+          url:'/savePayment',
+       // headers: authHeaders,
+          method: 'POST',
+          body:info,
+        }),
+        //invalidatesTags:['Menu'],
+       }),
+      
+       
     })
 
 })
@@ -95,5 +105,5 @@ const authHeaders= {
 
 
 
-export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery,useAddMenuItemMutation,useGetMenuItemQuery,useGetSingleMenuItemQuery,useAddFavouriteMenuItemMutation} = baseApi;
+export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery,useAddMenuItemMutation,useGetMenuItemQuery,useGetSingleMenuItemQuery,useAddFavouriteMenuItemMutation,useSavePaymentInfoMutation} = baseApi;
 export default baseApi;

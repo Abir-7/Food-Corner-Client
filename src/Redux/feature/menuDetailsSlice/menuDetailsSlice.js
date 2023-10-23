@@ -35,6 +35,12 @@ const initialState = {
     isFavouriteMenuDataLoading:true,
     isFavouriteMenuDataError:false,
     favouriteMenuDataError:'',
+
+    isDeleteFavSuccess:null,
+    isDeleteFavLoading:true,
+    isDeleteFavError:false,
+    deleteFavError:'',
+
 } 
 
 
@@ -46,18 +52,30 @@ export const getMenu = createAsyncThunk('menuItemSlice/menuItem', async (id) => 
     return { id:data._id ,itemName: data.itemName, price: data.price, time: data.time, urls: data.urls, cuisine: data.cuisine, category: data.category, ingredients: data.ingredients }
 })
 
-export const getFavMenu = createAsyncThunk('menuItemSlice/FavMenuItem', async (id) => {
+export const isFavMenu = createAsyncThunk('menuItemSlice/FavMenuItem', async (id) => {
     const res = await axios.get(`http://localhost:4000/favMenu/${id}`, config)
     const data = res.data
-    console.log(data, res, '[[---]]')
+
     return  data.result
 })
 
 export const getFavMenuData = createAsyncThunk('menuItemSlice/FavMenuItemData', async (email) => {
     const res = await axios.get(`http://localhost:4000/favMenuData/${email}`, config)
     const data = res.data
-    console.log(data, res, '[[---]]')
     return  data
+})
+
+export const deleteFavMenuData = createAsyncThunk('menuItemSlice/deleteFavMenuItem', async (menuData) => {
+    const res = await axios.delete(`http://localhost:4000/deleteFavMenu?email=${menuData.userEmail}&menuId=${menuData.menuID}`, config)
+    const data = res.data
+    console.log(data, '[[---]]')
+
+    if(data.deletedCount==1){
+        return {result:true}
+    }
+    else{
+        return {result:false}
+    }
 })
 
 
@@ -81,6 +99,9 @@ const menuDetailsSlice = createSlice({
                 state.index = state.index - 1
             }
         },
+        setFavDeleteSuccess:(state,{payload})=>{
+            state.isDeleteFavSuccess=payload
+        }
     },
 
     extraReducers: (builder) => {
@@ -128,19 +149,19 @@ const menuDetailsSlice = createSlice({
                 state.isMenuError = true,
                 state.menuError = action.error.message;
             })
-            .addCase(getFavMenu.pending, (state) => {
+            .addCase(isFavMenu.pending, (state) => {
                 state.isFavourite=false
                 state.isFavouriteLoading=true
                 state.isFavouriteError=false
                 state.favouriteError=''
             })
-            .addCase(getFavMenu.fulfilled, (state, { payload }) => {
+            .addCase(isFavMenu.fulfilled, (state, { payload }) => {
                 state.isFavourite=payload
                 state.isFavouriteLoading=false
                 state.isFavouriteError=false
                 state.favouriteError=''
             })
-            .addCase(getFavMenu.rejected, (state, action) => {
+            .addCase(isFavMenu.rejected, (state, action) => {
                 state.isFavourite=false
                 state.isFavouriteLoading=false
                 state.isFavouriteError=true
@@ -164,11 +185,29 @@ const menuDetailsSlice = createSlice({
                 state.isFavouriteMenuDataError=true
                 state.favouriteMenuDataError=action.error.message
             })
+            .addCase(deleteFavMenuData.pending, (state) => {
+                state.isDeleteFavError=false
+                state.deleteFavError=''
+                state.isDeleteFavLoading=true
+                state.isDeleteFavSuccess=null
+            })
+            .addCase(deleteFavMenuData.fulfilled, (state, { payload }) => {
+                state.isDeleteFavError=false
+                state.deleteFavError=''
+                state.isDeleteFavLoading=false
+                state.isDeleteFavSuccess=payload.result
+            })
+            .addCase(deleteFavMenuData.rejected, (state, action) => {
+                state.isDeleteFavError=true
+                state.deleteFavError=action.error.message
+                state.isDeleteFavLoading=false
+                state.isDeleteFavSuccess=null
+            })
 
     },
 
 })
 
-export const { increment,decrement } = menuDetailsSlice.actions
+export const { increment,decrement, setFavDeleteSuccess } = menuDetailsSlice.actions
 
 export default menuDetailsSlice.reducer

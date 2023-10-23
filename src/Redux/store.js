@@ -5,6 +5,7 @@ import cartActionSliceReducer from './feature/cartProductSlice/cartProductSlice'
 import userProfileSliceReducer from './feature/updateProfileSlice/userProfileSlice'
 import addMenuItemSliceReducer from './feature/addMenuItemSlice/addMenuItemSlice'
 import menuDetailsSliceReducer from './feature/menuDetailsSlice/menuDetailsSlice'
+import paymentSliceReducer from './feature/PaymentSlice/PaymentSlice' 
 export const store = configureStore({
 
   reducer: {
@@ -15,6 +16,7 @@ export const store = configureStore({
     userProfileSlice: userProfileSliceReducer,
     addMenuItemSlice:addMenuItemSliceReducer,
     menuDetailsSlice:menuDetailsSliceReducer,
+    paymentSlice:paymentSliceReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),
