@@ -13,6 +13,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 
 
 
+
 export const Authcontext = createContext(null)
 const AuthProvider = ({ children }) => {
     const [user, setUser] = useState(null);
@@ -58,7 +59,7 @@ const AuthProvider = ({ children }) => {
         const unsubcribe = onAuthStateChanged(auth, (loguser) => {
             dispatch(setLoading(true))
             setUser(loguser);
-            console.log(loguser,'auth changed obseve')
+            console.log(loguser, 'auth changed obseve')
             if (loguser) {
                 setLoader(false)
                 axios.post('http://localhost:4000/jwt', { email: loguser.email })

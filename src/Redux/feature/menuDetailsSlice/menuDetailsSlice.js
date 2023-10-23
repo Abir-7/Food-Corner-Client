@@ -3,11 +3,7 @@ import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios"
 
 
-const config = {
-    headers: {
-        Authorization: `Bearer ${localStorage.getItem('access-token')}`,
-    },
-}
+
 
 
 const initialState = {
@@ -46,6 +42,11 @@ const initialState = {
 
 
 export const getMenu = createAsyncThunk('menuItemSlice/menuItem', async (id) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+        },
+    }
     const res = await axios.get(`http://localhost:4000/getMenu/${id}`, config)
     const data = res.data
    // console.log(data.res, res, '[[]]')
@@ -53,6 +54,11 @@ export const getMenu = createAsyncThunk('menuItemSlice/menuItem', async (id) => 
 })
 
 export const isFavMenu = createAsyncThunk('menuItemSlice/FavMenuItem', async (id) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+        },
+    }
     const res = await axios.get(`http://localhost:4000/favMenu/${id}`, config)
     const data = res.data
 
@@ -60,6 +66,11 @@ export const isFavMenu = createAsyncThunk('menuItemSlice/FavMenuItem', async (id
 })
 
 export const getFavMenuData = createAsyncThunk('menuItemSlice/FavMenuItemData', async (email) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+        },
+    }
     const res = await axios.get(`http://localhost:4000/favMenuData/${email}`, config)
     const data = res.data
     return  data

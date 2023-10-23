@@ -1,7 +1,7 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
 import axios from "axios";
 
-const jwtToken = localStorage.getItem('access-token')
+
 
 
 const initialState = {
@@ -20,6 +20,7 @@ const initialState = {
 
 
 export const paymentIntent = createAsyncThunk('paymentSlice/payment', async ({ price }) => {
+    const jwtToken = localStorage.getItem('access-token')
     try {
         const res = await axios.post('http://localhost:4000/create-payment-intent',
             { price },

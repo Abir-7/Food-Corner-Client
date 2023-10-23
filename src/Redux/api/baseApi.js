@@ -1,8 +1,6 @@
 import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
 
-const authHeaders= {
-  Authorization: `Bearer ${localStorage.getItem('access-token') || ''}`
-};
+
 
   const baseApi= createApi({
     
@@ -44,10 +42,10 @@ const authHeaders= {
         }),
         invalidatesTags:['User'],
       }),
-      
+
        getAdmin: builder.query({   //verify admin
         query:()=>({
-         // headers: authHeaders,
+         //headers: authHeaders,
           url:`/user/admin`
         }),
           invalidatesTags:['User'],
@@ -62,6 +60,7 @@ const authHeaders= {
         }),
         invalidatesTags:['Menu'],
        }),
+
        getMenuItem: builder.query({   //get menu
         query:()=>({
           url:'/getMenu',
@@ -76,6 +75,7 @@ const authHeaders= {
         }),
         invalidatesTags:['Menu'],
        }),
+
        addFavouriteMenuItem: builder.mutation({   //add favourite menu
         query:(menuData)=>({
           url:'/addFavMenu',
@@ -85,6 +85,7 @@ const authHeaders= {
         }),
         invalidatesTags:['Menu'],
        }),
+
        savePaymentInfo: builder.mutation({   //save payment info
         query:(info)=>({
           url:'/savePayment',
@@ -94,16 +95,8 @@ const authHeaders= {
         }),
         //invalidatesTags:['Menu'],
        }),
-      
-       
     })
-
 })
-
-
-
-
-
 
 export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery,useAddMenuItemMutation,useGetMenuItemQuery,useGetSingleMenuItemQuery,useAddFavouriteMenuItemMutation,useSavePaymentInfoMutation} = baseApi;
 export default baseApi;

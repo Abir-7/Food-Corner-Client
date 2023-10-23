@@ -23,9 +23,11 @@ const CheckoutForm = ({ totalPrice, cartItem }) => {
   console.log(cardError, clientSecret, isClientSecretLoading, isClientSecretError, clientSecretError, totalPrice, '[[[]]]]')
   useEffect(() => {
 
+   if(!userLoading){
     dispatch(paymentIntent({ price: totalPrice }))
+   }
 
-  }, [totalPrice, isPaymentProcessing])
+  }, [totalPrice, isPaymentProcessing,userLoading])
 
   useEffect(()=>{
     dispatch(setTransectionID(''))

@@ -17,60 +17,62 @@ import toast, { Toaster } from 'react-hot-toast';
 
 const FoodItemDetails = () => {
     const dispatch = useDispatch()
-
+    const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
     const { id } = useParams()
     console.log(id)
 
     useEffect(() => {
-        if (typeof (id) == 'string') {
-            dispatch(getMenu(id))
-            dispatch(isFavMenu(id))
+        if (!userLoading) {
+            if (typeof (id) == 'string') {
+                dispatch(getMenu(id))
+                dispatch(isFavMenu(id))
+            }
         }
-    }, [id])
+    }, [id, userLoading])
 
-    const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
+
 
     const { itemNumber, option, isShowReviews, cartItem } = useSelector((state) => state.cartProductSlice)
 
-    const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError, isFavourite, isFavouriteLoading, favouriteMenuData, isFavouritemenuDataLoading, isFavouriteMenuDataError, favouriteMenuDataError, isFavDeleteSuccess,isDeleteFavSuccess,isDeleteFavLoading,isDeleteFavError } = useSelector((state) => state.menuDetailsSlice)
+    const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError, isFavourite, isFavouriteLoading, favouriteMenuData, isFavouritemenuDataLoading, isFavouriteMenuDataError, favouriteMenuDataError, isFavDeleteSuccess, isDeleteFavSuccess, isDeleteFavLoading, isDeleteFavError } = useSelector((state) => state.menuDetailsSlice)
 
 
 
-    const [addFavouriteMenuItem, { data:addFavData, error, isError, isLoading: favMenuLoading, isSuccess }] = useAddFavouriteMenuItemMutation()
-
-
-
-
-
-    console.log(isError, isFavourite, urls, index, '---[[[]]]-------',isFavDeleteSuccess)
+    const [addFavouriteMenuItem, { data: addFavData, error, isError, isLoading: favMenuLoading, isSuccess }] = useAddFavouriteMenuItemMutation()
 
 
 
 
-    
+
+    console.log(isError, isFavourite, urls, index, '---[[[]]]-------', isFavDeleteSuccess)
+
+
+
+
+
     useEffect(() => {
         dispatch(isFavMenu(id))
-        
+
         if (isSuccess) {
-            toast.success('Add to Favourite') 
+            toast.success('Add to Favourite')
         }
 
         if (isError & error?.status == 409) {
-            toast('Duplicate favourite')   
+            toast('Duplicate favourite')
         }
 
-    }, [isSuccess])
+    }, [isSuccess,userLoading])
 
     useEffect(() => {
-  
-        if(isDeleteFavSuccess){
-            toast('Remove from favourite') 
+
+        if (isDeleteFavSuccess) {
+            toast('Remove from favourite')
             dispatch(isFavMenu(id))
             dispatch(setFavDeleteSuccess(null))
         }
-    }, [isDeleteFavSuccess])
+    }, [isDeleteFavSuccess,userLoading])
 
-    console.log(addFavData,']]]]]]]')
+    console.log(addFavData, ']]]]]]]')
     ////////////////////---cart operation---///////////////////////////
     //const image = urls
     const size = allPriceSize
@@ -105,14 +107,14 @@ const FoodItemDetails = () => {
 
     console.log(favouriteMenuData, '{}[[]]')
 
-   const addOrDeleteFav = (menuID, userEmail, isFavourite) => {
+    const addOrDeleteFav = (menuID, userEmail, isFavourite) => {
 
-    console.log(menuID,userEmail,isFavourite)
+        console.log(menuID, userEmail, isFavourite)
 
         if (!isFavourite) {
             addFavouriteMenuItem({ menuID, userEmail })
         } else {
-            dispatch(deleteFavMenuData({menuID, userEmail}))
+            dispatch(deleteFavMenuData({ menuID, userEmail }))
         }
     }
 
@@ -122,7 +124,7 @@ const FoodItemDetails = () => {
                 isLoading || userLoading ? <>Loading</> :
 
                     <div>
-    
+
                         <LinkBanner text='Food Details'></LinkBanner>
                         <div className='container mx-auto my-10 grid gap-5 grid-cols-1 md:grid-cols-2'>
                             <div className='flex flex-col  mx-auto  border-2 border-orange-400 rounded-lg p-8'>

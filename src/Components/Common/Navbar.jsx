@@ -5,19 +5,28 @@ import './Navbar.css'
 import { FaShoppingCart } from 'react-icons/fa';
 import defaultPic from '../../assets/defaultProfile.jpg'
 import { useGetAdminQuery, useGetOneUserQuery } from '../../Redux/api/baseApi';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 
 import bg2 from '../../assets/bg2.jpg'
 import { signOut } from 'firebase/auth';
 import auth from '../../FirebaseConfig/firebaseConfig';
+import { useEffect } from 'react';
+import { checkAdmin } from '../../Redux/feature/adminSlice/adminSlice';
 const Navbar = () => {
+  const dispatch=useDispatch()
   const location = useLocation()
   const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
-  const { data: isAdmin, isLoading: isAdminLoading } = useGetAdminQuery()
+  //const { data: isAdmin, isLoading: isAdminLoading } = useGetAdminQuery()
 
-  console.log(isAdmin, isAdminLoading, userEmail)
+  const { isAdmin, isAdminLoading } = useSelector((state) => state.adminSlice)
+
+  console.log(isAdmin,'check admin')
   // const {  user, loader, logoutUser } = useContext(Authcontext);
-
+  useEffect(()=>{
+if(!userLoading){
+  dispatch(checkAdmin())
+}
+  },[userEmail,userLoading])
 
   const allNavlink = (
     <div className='flex gap-2 flex-col lg:flex-row lg:gap-10 font-semibold'>

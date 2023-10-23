@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteFavMenuData, getFavMenuData, isFavMenu } from '../../Redux/feature/menuDetailsSlice/menuDetailsSlice';
+import { deleteFavMenuData } from '../../Redux/feature/menuDetailsSlice/menuDetailsSlice';
 import { showFavouriteSlide } from '../../Redux/feature/cartProductSlice/cartProductSlice';
 import { FaTrashAlt } from 'react-icons/fa';
 import { useAddFavouriteMenuItemMutation, } from '../../Redux/api/baseApi';
@@ -15,12 +15,6 @@ const FavaouriteMenuList = () => {
     const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError, isFavourite, isFavouriteLoading, favouriteMenuData, isFavouritemenuDataLoading, isFavouriteMenuDataError, favouriteMenuDataError, isDeleteFavSuccess, isDeleteFavLoading, isDeleteFavError } = useSelector((state) => state.menuDetailsSlice)
 
 
-    // useEffect(() => {
-    //     dispatch(getFavMenuData(userEmail))
-    //     if (isDeleteFavSuccess) {
-    //         toast('Remove from favourite')
-    //     }
-    // }, [isDeleteFavSuccess])
 
 
     return (

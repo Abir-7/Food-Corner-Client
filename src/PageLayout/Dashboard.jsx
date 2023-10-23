@@ -1,17 +1,29 @@
 
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { FaArrowRight } from 'react-icons/fa';
-import { useGetAdminQuery } from '../Redux/api/baseApi';
+
+import { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
+import { checkAdmin } from '../Redux/feature/adminSlice/adminSlice';
 
 
 
 
 const Dashboard = () => {
+    const dispatch=useDispatch()
+
+    const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
+
+    const { isAdmin, isAdminLoading } = useSelector((state) => state.adminSlice)
 
 
-    const { data: isAdmin, isLoading: isAdminLoading,error,status , isError} = useGetAdminQuery()
+    useEffect(()=>{
+        if(!userLoading){
+          dispatch(checkAdmin())
+        }
+          },[userEmail,userLoading])
     
-    console.log(status,isError,isAdmin ,isAdminLoading,error?.status)
+
     return (
         <div className='min-h-screen'>
 
@@ -39,7 +51,7 @@ const Dashboard = () => {
 
                             <div>
                                 {
-                                    isAdmin ? <>
+                                    isAdmin == true ? <>
                                         <li className='font-semibold text-white'><Link to='/dashboard/adminDashboard'>Admin DashBord</Link></li>
                                         <li className='font-semibold text-white'><Link to='/dashboard/addMenu'>Add Menu Item</Link></li>
                                         <li className='font-semibold text-white'><Link to='/dashboard/allUser'>Manage Users</Link></li>

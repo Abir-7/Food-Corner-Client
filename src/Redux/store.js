@@ -6,6 +6,8 @@ import userProfileSliceReducer from './feature/updateProfileSlice/userProfileSli
 import addMenuItemSliceReducer from './feature/addMenuItemSlice/addMenuItemSlice'
 import menuDetailsSliceReducer from './feature/menuDetailsSlice/menuDetailsSlice'
 import paymentSliceReducer from './feature/PaymentSlice/PaymentSlice' 
+import adminSliceReducer from './feature/adminSlice/adminSlice'
+
 export const store = configureStore({
 
   reducer: {
@@ -17,6 +19,7 @@ export const store = configureStore({
     addMenuItemSlice:addMenuItemSliceReducer,
     menuDetailsSlice:menuDetailsSliceReducer,
     paymentSlice:paymentSliceReducer,
+    adminSlice:adminSliceReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),
