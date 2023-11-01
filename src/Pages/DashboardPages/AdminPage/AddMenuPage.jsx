@@ -19,7 +19,7 @@ const AddMenuPage = () => {
 
     const [addMenuItem, { data: formdata, error, isSuccess, isLoading: menudataPostLoading }] = useAddMenuItemMutation()
     const dispatch = useDispatch()
-    console.log(error)
+    //console.log(error)
 
 
     const [images, setImages] = useState([]);
@@ -40,15 +40,15 @@ const AddMenuPage = () => {
 
     const handleMenuItem = (e) => {
         const { name, value, checked } = e.target
-        console.log(name, value)
+        //console.log(name, value)
 
         dispatch(setMenuData({ name, value, checked }))
     }
 
 
-    console.log(menuData)
+    //console.log(menuData)
 
-    // console.log(images, liveImage, uploadedUrls)
+    //console.log(images, liveImage, uploadedUrls)
 
     const handleUpload = async () => {
         dispatch(setDataPostLoading(true))
@@ -69,7 +69,7 @@ const AddMenuPage = () => {
                 urls.push(response.data.data.url);
             }
 
-            setUploadedUrls(urls)
+           // console.log(urls)
 
             const data3 = { ...menuData, urls }
             //const data3='sadasd'
@@ -93,7 +93,7 @@ const AddMenuPage = () => {
 
     },[isSuccess,error])
 
-    console.log(price1, price2, price3, size1, size2, size3)
+    //console.log(price1, price2, price3, size1, size2, size3)
     //  style={{backgroundImage:`url(${bg})`,backgroundPosition:"100% 100%"}}
     return (
         <div className=' md:mt-10 '  >

@@ -42,7 +42,7 @@ const PrivetRouts = ({ children }) => {
   }
   else {
 
-    console.log(userLoading,userEmail)
+    //console.log(userLoading,userEmail)
 
     if (userEmail) {
       return children

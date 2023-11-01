@@ -23,7 +23,7 @@ const SignupPage = () => {
         // .then((userCredential) => {
         //     const user = userCredential.user;
         //     updateUserProfile(data.name,"") //default Propic
-        //     console.log(user)
+        //     //console.log(user)
         //     if (user) {
         //     fetch('http://localhost:4000/users', {
         //         method: "POST",
@@ -34,7 +34,7 @@ const SignupPage = () => {
         //     })
         //         .then(res => res.json())
         //         .then(data => {
-        //             console.log(data)
+        //             //console.log(data)
         //             if (data.insertedId) {
         //                 toast.success('User Created Successfully')
         //                 setLoading(false)
@@ -47,7 +47,7 @@ const SignupPage = () => {
         // .catch((error) => {
         //     const errorCode = error.code;
         //     const errorMessage = error.message
-        //     console.log(errorMessage)
+        //     //console.log(errorMessage)
         //     toast.error(errorMessage)
         // })
         // setLoading(false)

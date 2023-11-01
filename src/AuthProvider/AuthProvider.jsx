@@ -6,7 +6,7 @@ import axios from 'axios';
 
 
 import { useDispatch, useSelector } from 'react-redux';
-import { removeUser, setLoading, setUsers } from '../Redux/feature/updateProfileSlice/userProfileSlice';
+import { checkAdmin, removeUser, setLoading, setUsers, userInfo } from '../Redux/feature/updateProfileSlice/userProfileSlice';
 import auth from '../FirebaseConfig/firebaseConfig';
 import { onAuthStateChanged } from 'firebase/auth';
 
@@ -25,7 +25,7 @@ const AuthProvider = ({ children }) => {
 
     // //////////Create User////////
     // const createUser = (email, password) => {
-    //     console.log(email, password)
+    //     //console.log(email, password)
     //     setLoader(true)
     //     return createUserWithEmailAndPassword(auth, email, password);
     // }
@@ -59,17 +59,17 @@ const AuthProvider = ({ children }) => {
         const unsubcribe = onAuthStateChanged(auth, (loguser) => {
             dispatch(setLoading(true))
             setUser(loguser);
-            console.log(loguser, 'auth changed obseve')
+            //console.log(loguser, 'auth changed obseve')
             if (loguser) {
                 setLoader(false)
                 axios.post('http://localhost:4000/jwt', { email: loguser.email })
                     .then(data => {
                         localStorage.setItem('access-token', data.data.token)
-
                         dispatch(setUsers({ email: loguser.email, name: loguser.displayName, image: loguser.photoURL }))
+                        dispatch(userInfo(loguser.email))
+                        dispatch(checkAdmin(loguser.email))
                         dispatch(setLoading(false))
                     })
-
 
             }
             else {

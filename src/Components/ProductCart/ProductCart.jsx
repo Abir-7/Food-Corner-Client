@@ -16,7 +16,7 @@ const ProductCart = () => {
     }, [cartItem])
 
     const finalPrice = parseFloat(totalPrice - discountOffer).toFixed(2)
-    console.log(cartItem, '------------------------------cart')
+    //console.log(cartItem, '------------------------------cart')
     return (
         <div className='min-h-[400px] max-h-screen w-96 fixed top-0 right-0 z-10 shadow-2xl backdrop-blur-2xl backdrop-brightness-50 overflow-auto rounded-xl'>
             <div className='bg-orange-400 sticky top-0 flex items-center justify-center p-2 rounded-xl'>

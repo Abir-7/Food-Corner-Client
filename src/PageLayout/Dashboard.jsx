@@ -4,33 +4,23 @@ import { FaArrowRight } from 'react-icons/fa';
 
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { checkAdmin } from '../Redux/feature/adminSlice/adminSlice';
+
 
 
 
 
 const Dashboard = () => {
-    const dispatch=useDispatch()
+    const dispatch = useDispatch()
 
-    const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
-
-    const { isAdmin, isAdminLoading } = useSelector((state) => state.adminSlice)
+    const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError,isAdmin,isAdminLoading } = useSelector((state) => state.userProfileSlice)
 
 
-    useEffect(()=>{
-        if(!userLoading){
-          dispatch(checkAdmin())
-        }
-          },[userEmail,userLoading])
-    
 
     return (
         <div className='min-h-screen'>
-
             {isAdminLoading
                 ?
                 <>
-
                     <div>
                         <h1>Loading.....</h1>
                     </div>
@@ -42,7 +32,6 @@ const Dashboard = () => {
                     <div className="drawer-content flex flex-col ">
                         <Outlet />
                         <label htmlFor="my-drawer-2" className="btn absolute top-0 left-0 btn-xs btn-primary drawer-button lg:hidden"><FaArrowRight /></label>
-
                     </div>
                     <div className="drawer-side ">
                         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay "></label>
@@ -51,15 +40,20 @@ const Dashboard = () => {
 
                             <div>
                                 {
-                                    isAdmin == true ? <>
-                                        <li className='font-semibold text-white'><Link to='/dashboard/adminDashboard'>Admin DashBord</Link></li>
-                                        <li className='font-semibold text-white'><Link to='/dashboard/addMenu'>Add Menu Item</Link></li>
-                                        <li className='font-semibold text-white'><Link to='/dashboard/allUser'>Manage Users</Link></li>
-                                        <li className='font-semibold text-white'><Link to='/'>Home</Link></li>
-                                    </> :
+                                    isAdmin == true ?
                                         <>
-                                            <li><Link>User DashBord</Link></li>
-                                            <li><a></a></li>
+                                            <li className='font-semibold text-white'><Link to='/dashboard/adminDashboard'>Admin DashBord</Link></li>
+                                            <li className='font-semibold text-white'><Link to='/dashboard/addMenu'>Add Menu Item</Link></li>
+                                            <li className='font-semibold text-white'><Link to='/dashboard/allUser'>Manage Users</Link></li>
+                                            <li className='font-semibold text-white'><Link to='/dashboard/pendingOrders'>Pending Orders</Link></li>
+                                            <li className='font-semibold text-white'><Link to='/dashboard/completedOrders'>Completed Orders</Link></li>
+                                            <li className='font-semibold text-white'><Link to='/'>Home</Link></li>
+                                        </>
+                                        :
+                                        <>
+                                            <li><Link to='/dashboard/userDashboard'>User DashBord</Link></li>
+                                            <li><Link to='/dashboard/prevOrders'>Previous Order</Link></li>
+                                            <li><Link to='/dashboard/completedOrders'>Pending Order</Link></li>
                                             <li><Link to='/'>Home</Link></li>
                                         </>
                                 }

@@ -20,7 +20,7 @@ const CheckoutForm = ({ totalPrice, cartItem }) => {
   const elements = useElements()
 
 
-  console.log(cardError, clientSecret, isClientSecretLoading, isClientSecretError, clientSecretError, totalPrice, '[[[]]]]')
+  //console.log(cardError, clientSecret, isClientSecretLoading, isClientSecretError, clientSecretError, totalPrice, '[[[]]]]')
   useEffect(() => {
 
    if(!userLoading){
@@ -33,8 +33,19 @@ const CheckoutForm = ({ totalPrice, cartItem }) => {
     dispatch(setTransectionID(''))
   },[])
 
+  const generateUniqueCode = () => {
+    const timestamp = new Date().getTime();
+    const randomPart = Math.random().toString(36).substr(2, 8); // Generates a random alphanumeric string of length 8
+    const uniqueCode = `${randomPart}-${timestamp}`;
+    return uniqueCode;
+  }
+
+
   const handleSubmit = async (event) => {
     event.preventDefault()
+
+    const orderCode=generateUniqueCode()
+
     dispatch(setCardError(''))
     if (!stripe || !elements) {
       return
@@ -52,10 +63,10 @@ const CheckoutForm = ({ totalPrice, cartItem }) => {
     });
 
     if (error) {
-      console.log('[error]', error);
+      //console.log('[error]', error);
       dispatch(setCardError(error.message))
     } else {
-      console.log('[PaymentMethod]', paymentMethod);
+      //console.log('[PaymentMethod]', paymentMethod);
     }
 
     dispatch(setIsPaymentProcessing(true))
@@ -75,15 +86,15 @@ const CheckoutForm = ({ totalPrice, cartItem }) => {
 
     if (confirmError) {
       dispatch(setCardError(confirmError.message))
-      console.log(confirmError, 'confirm error')
+      //console.log(confirmError, 'confirm error')
     }
     else {
       dispatch(setIsPaymentProcessing(false))
-      console.log(paymentIntent, 'intent')
+      //console.log(paymentIntent, 'intent')
       if (paymentIntent.status === 'succeeded') {
         const paymentID = paymentIntent.id
         dispatch(setTransectionID(paymentID))
-        savePaymentInfo({ userEmail: userEmail, paymentID: paymentID, cartItem, totalPrice })
+        savePaymentInfo({ userEmail: userEmail, paymentID: paymentID, cartItem, totalPrice,orderNumber:orderCode,date:new Date().toLocaleDateString(),time:new Date().toLocaleTimeString(),status:'Pending' })
 
       }
 

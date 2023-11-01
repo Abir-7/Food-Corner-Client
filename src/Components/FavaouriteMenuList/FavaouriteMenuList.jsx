@@ -1,18 +1,14 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { deleteFavMenuData } from '../../Redux/feature/menuDetailsSlice/menuDetailsSlice';
+import { deleteFavMenuData, getFavMenuData, setFavDeleteSuccess } from '../../Redux/feature/menuDetailsSlice/menuDetailsSlice';
 import { showFavouriteSlide } from '../../Redux/feature/cartProductSlice/cartProductSlice';
 import { FaTrashAlt } from 'react-icons/fa';
 import { useAddFavouriteMenuItemMutation, } from '../../Redux/api/baseApi';
-import toast, { Toaster } from 'react-hot-toast';
-const FavaouriteMenuList = () => {
+const FavaouriteMenuList = ({favouriteMenuData,isDeleteFavSuccess}) => {
+
     const dispatch = useDispatch()
 
     const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
-
-
-
-    const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError, isFavourite, isFavouriteLoading, favouriteMenuData, isFavouritemenuDataLoading, isFavouriteMenuDataError, favouriteMenuDataError, isDeleteFavSuccess, isDeleteFavLoading, isDeleteFavError } = useSelector((state) => state.menuDetailsSlice)
 
 
 
@@ -51,7 +47,6 @@ const FavaouriteMenuList = () => {
                     </div>)
                 }
             </div>
-
 
         </div>
     );

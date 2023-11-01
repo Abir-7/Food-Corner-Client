@@ -19,36 +19,25 @@ const FoodItemDetails = () => {
     const dispatch = useDispatch()
     const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
     const { id } = useParams()
-    console.log(id)
+    //console.log(id)
 
-    useEffect(() => {
-        if (!userLoading) {
-            if (typeof (id) == 'string') {
-                dispatch(getMenu(id))
-                dispatch(isFavMenu(id))
-            }
-        }
-    }, [id, userLoading])
-
-
-
+    
     const { itemNumber, option, isShowReviews, cartItem } = useSelector((state) => state.cartProductSlice)
 
     const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError, isFavourite, isFavouriteLoading, favouriteMenuData, isFavouritemenuDataLoading, isFavouriteMenuDataError, favouriteMenuDataError, isFavDeleteSuccess, isDeleteFavSuccess, isDeleteFavLoading, isDeleteFavError } = useSelector((state) => state.menuDetailsSlice)
 
-
-
-    const [addFavouriteMenuItem, { data: addFavData, error, isError, isLoading: favMenuLoading, isSuccess }] = useAddFavouriteMenuItemMutation()
-
+    const [addFavouriteMenuItem, { data: addFavData, error, isError, isLoading: favMenuLoading, isSuccess }] = useAddFavouriteMenuItemMutation() 
 
 
 
-
-    console.log(isError, isFavourite, urls, index, '---[[[]]]-------', isFavDeleteSuccess)
-
-
-
-
+    useEffect(() => {
+        if (!userLoading && userEmail) {
+            if (typeof (id) == 'string') {
+                dispatch(getMenu({id,userEmail}))
+                dispatch(isFavMenu(id))
+            }
+        }
+    }, [id, userLoading,userEmail])
 
     useEffect(() => {
         dispatch(isFavMenu(id))
@@ -72,15 +61,11 @@ const FoodItemDetails = () => {
         }
     }, [isDeleteFavSuccess,userLoading])
 
-    console.log(addFavData, ']]]]]]]')
-    ////////////////////---cart operation---///////////////////////////
-    //const image = urls
+
     const size = allPriceSize
-    //const { price, size: psize } = size[option]
 
     const addItemCart = (data) => {
         dispatch(addCart(data))
-
     }
     const handleNext = (data) => {
         if (data.action == 'next') {
@@ -105,11 +90,11 @@ const FoodItemDetails = () => {
     ////////////////////////////////////////////////////////////////
 
 
-    console.log(favouriteMenuData, '{}[[]]')
+    //console.log(favouriteMenuData, '{}[[]]')
 
     const addOrDeleteFav = (menuID, userEmail, isFavourite) => {
 
-        console.log(menuID, userEmail, isFavourite)
+        //console.log(menuID, userEmail, isFavourite)
 
         if (!isFavourite) {
             addFavouriteMenuItem({ menuID, userEmail })
@@ -169,7 +154,7 @@ const FoodItemDetails = () => {
                                             <button onClick={() => addItemCart({ name: itemName, size: allPriceSize.length > 1 ? size[option]?.size : 'reguler', price: allPriceSize.length > 1 ? size[option]?.price : size[0]?.price, menuID: menuID, amount: itemNumber, category: category, image: urls[0] })} className='btn w-full py-3 bg-orange-400 hover:bg-orange-500 font-bold text-white h-auto '>Add to Cart < FaCartPlus /></button>
                                         </div>
                                         <div>
-                                            <button onClick={() => {
+                                            <button onDoubleClick={() => {
                                                 addOrDeleteFav(menuID, userEmail, isFavourite)
                                             }} className='btn'><span className={isFavourite ? 'text-red-500' : ''}><FaHeart /></span></button>
                                         </div>

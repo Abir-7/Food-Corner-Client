@@ -25,11 +25,11 @@ export const checkAdmin = createAsyncThunk('adminSlice/checkAdmin', async () => 
     try {
         const res = await axios.get('http://localhost:4000/user/admin',config);
         const data = res.data;
-        console.log(data, 'check admin',res)
+        //console.log(data, 'check admin',res)
         return {data};
   
     } catch (error) {
-        console.log(error.response.data.isAdmin            ,'slice')
+        //console.log(error.response.data.isAdmin            ,'slice')
         return {data:error.response.data.isAdmin}
     }
 

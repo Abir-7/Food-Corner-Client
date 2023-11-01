@@ -11,14 +11,14 @@ import { useGetMenuItemQuery } from "../../Redux/api/baseApi";
 const FoodItemPage = () => {
 
     const { cartItem } = useSelector((state) => state.cartProductSlice)
-    console.log(cartItem)
+    //console.log(cartItem)
 
 
     const dispatch = useDispatch()
 
     const { data: menuData, isLoading, error } = useGetMenuItemQuery()
 
-    console.log(menuData)
+    //console.log(menuData)
     const addItemCart = (data) => {
         dispatch(addCart(data))
     }

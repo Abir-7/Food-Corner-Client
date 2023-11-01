@@ -5,15 +5,14 @@ const ManageUser = () => {
 
     const { data, isError, error, isLoading } = useGetUserQuery()
 
-    console.log(data,error)
+    //console.log(data,error)
     return (
-        <div className='flex justify-center items-center '>
-            <div className="overflow-x-auto">
-                <table className="table">
+        <div className='flex justify-center items-center w-full '>
+            <div className="overflow-x-auto w-full">
+                <table className="table w-full">
                     {/* head */}
                     <thead>
                         <tr>
-
                             <th>Name</th>
                             <th>Email</th>
                             <th>Role</th>

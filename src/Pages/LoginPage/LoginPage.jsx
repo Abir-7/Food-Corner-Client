@@ -32,9 +32,9 @@ const LoginPage = () => {
         .catch((error) => {
 
             const errorMessage = error.message;
-           console.log(errorMessage)
+           //console.log(errorMessage)
         });
-       // console.log(data)
+       // //console.log(data)
     }
 
     return (

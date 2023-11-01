@@ -27,7 +27,7 @@ const addMenuSlice = createSlice({
     initialState,
     reducers: {
         setMenuData: (state, { payload }) => {
-            console.log(payload)
+            //console.log(payload)
             const { name, value, checked } = payload;
             if (name == 'price') {
 

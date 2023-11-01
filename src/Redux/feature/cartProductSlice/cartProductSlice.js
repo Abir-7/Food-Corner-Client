@@ -33,7 +33,7 @@ export const cartProductSlice = createSlice({
       state.itemNumber = 0
     },
     showReviews: (state, { payload }) => {
-      console.log(payload)
+      //console.log(payload)
       state.isShowReviews = payload
     }
     ,
@@ -84,7 +84,7 @@ export const cartProductSlice = createSlice({
       const price = state.cartItem.reduce((total, item) => {
         return total + (parseFloat(item.price).toFixed(2) * parseFloat(item.amount).toFixed(2));
       }, 0)
-      console.log(state.totalPrice, '----------cart slice')
+      //console.log(state.totalPrice, '----------cart slice')
       if (state.totalPrice >= payload.price) {
         const discountAmount = parseFloat((state.totalPrice * payload.discount) / 100).toFixed(2)
         state.discountOffer = discountAmount

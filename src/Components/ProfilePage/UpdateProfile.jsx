@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import defaultPic from '../../assets/defaultProfile2.jpg'
 import axios from 'axios';
-import { useGetOneUserQuery, useUpdateUserProfilesMutation } from '../../Redux/api/baseApi';
+import {  useUpdateUserProfilesMutation } from '../../Redux/api/baseApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { setImage, setUsers, updateUsers,  } from '../../Redux/feature/updateProfileSlice/userProfileSlice';
 import toast, { Toaster } from "react-hot-toast";
@@ -30,7 +30,7 @@ const UpdateProfile = () => {
     const dispatch = useDispatch()
 
 
-    //console.log(data, error)
+    ////console.log(data, error)
 
     const [liveImage, setLiveImage] = useState(null)
     const [imageFile, setImageFile] = useState(null)
@@ -68,7 +68,7 @@ const UpdateProfile = () => {
             })
             .catch((error)=>{
               if(error.message){
-                console.log(error.message)
+                //console.log(error.message)
                 toast('Select An Image')
               }
             })
@@ -95,7 +95,7 @@ const UpdateProfile = () => {
             updateProfile(auth.currentUser,{displayName:data.name || userName, photoURL:userInfo.image})
 
             const data3 = { name: data.name || userName, mobile: data.mobile || userInfo?.mobile, address: data?.address || userInfo?.address, image: userInfo?.image }
-            console.log(data3)
+            //console.log(data3)
             updateUserProfiles({ email: userEmail, data3 })
 
             reset()
@@ -112,13 +112,13 @@ const UpdateProfile = () => {
 useEffect(()=>{
 
     if(isSuccess){
-        console.log(isSuccess,'116')
+        //console.log(isSuccess,'116')
         refetch()
-       console.log(formdata,'117')
+       //console.log(formdata,'117')
     }
 
 },[isSuccess])
-    console.log(isLoading, loader)
+    //console.log(isLoading, loader)
     return (
         <>
             {

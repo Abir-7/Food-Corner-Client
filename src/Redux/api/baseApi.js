@@ -7,7 +7,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
     reducerPath:"api",
     baseQuery: fetchBaseQuery({
       baseUrl:'http://localhost:4000',
-      tagTypes:['User','Menu'],
+      tagTypes:['User','Menu','Payment'],
       prepareHeaders: (headers, { getState }) => {
         const token = `Bearer ${localStorage.getItem('access-token') }`
         if (token) {
@@ -68,6 +68,15 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
         }),
         providesTags:['Menu'],
        }),
+
+       getThaiCuisine: builder.query({   // get thai cuisine
+        query:()=>({
+          url:'/thaiCuisine',
+          //headers: authHeaders,
+        }),
+        providesTags:['Menu'],
+       }),
+
        getSingleMenuItem: builder.query({   // get single menu
         query:(id)=>({
           url:`/getMenu/${id}`,
@@ -93,10 +102,39 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
           method: 'POST',
           body:info,
         }),
-        //invalidatesTags:['Menu'],
+        invalidatesTags:['Payment'],
        }),
+
+       getOrderInfo: builder.query({   // get single menu
+        query:(email)=>({
+          url:`/getOrderInfo/${email}`,
+          //headers: authHeaders,
+        }),
+        providesTags:['Payment'],
+       }),
+
+       modifyOrderStatus: builder.mutation({   //modify Order Status
+        query:(info)=>({
+          url:'/modifyOrderStatus',
+       // headers: authHeaders,
+          method: 'PATCH',
+          body:{status:info.status,paymentID:info.paymentID,userEmail:info.email},
+        }),
+        invalidatesTags:['Payment'],
+       }),
+
+       getOrderItemPercent: builder.query({   // get item percent
+        query:()=>({
+          url:'/orderItemPercent',
+          //headers: authHeaders,
+        }),
+        providesTags:['Payment'],
+       }),
+
+      
+
     })
 })
 
-export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery,useAddMenuItemMutation,useGetMenuItemQuery,useGetSingleMenuItemQuery,useAddFavouriteMenuItemMutation,useSavePaymentInfoMutation} = baseApi;
+export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery,useAddMenuItemMutation,useGetMenuItemQuery,useGetSingleMenuItemQuery,useAddFavouriteMenuItemMutation,useDeleteFavouriteMenuItemMutation,useSavePaymentInfoMutation,useGetOrderInfoQuery,useModifyOrderStatusMutation,useGetOrderItemPercentQuery,useGetThaiCuisineQuery} = baseApi;
 export default baseApi;

@@ -7,7 +7,7 @@ import axios from "axios"
 
 
 const initialState = {
-    menuID:'',
+    menuID: '',
     itemName: '',
     isLoading: true,
     ingredients: '',
@@ -22,35 +22,40 @@ const initialState = {
 
     index: 0,
 
-    isFavourite:false,
-    isFavouriteLoading:true,
-    isFavouriteError:false,
-    favouriteError:'',
+    isFavourite: false,
+    isFavouriteLoading: true,
+    isFavouriteError: false,
+    favouriteError: '',
 
-    favouriteMenuData:[],
-    isFavouriteMenuDataLoading:true,
-    isFavouriteMenuDataError:false,
-    favouriteMenuDataError:'',
+    favouriteMenuData: [],
+    isFavouriteMenuDataLoading: true,
+    isFavouriteMenuDataError: false,
+    favouriteMenuDataError: '',
 
-    isDeleteFavSuccess:null,
-    isDeleteFavLoading:true,
-    isDeleteFavError:false,
-    deleteFavError:'',
-
-} 
+    isDeleteFavSuccess: null,
+    isDeleteFavLoading: true,
+    isDeleteFavError: false,
+    deleteFavError: '',
 
 
+    cuisineID:'',
 
-export const getMenu = createAsyncThunk('menuItemSlice/menuItem', async (id) => {
+
+
+}
+
+
+
+export const getMenu = createAsyncThunk('menuItemSlice/menuItem', async (dataInfo) => {
     const config = {
         headers: {
             Authorization: `Bearer ${localStorage.getItem('access-token')}`,
         },
     }
-    const res = await axios.get(`http://localhost:4000/getMenu/${id}`, config)
+    const res = await axios.get(`http://localhost:4000/getMenu/${dataInfo?.id}?email=${dataInfo?.userEmail}`, config)
     const data = res.data
-   // console.log(data.res, res, '[[]]')
-    return { id:data._id ,itemName: data.itemName, price: data.price, time: data.time, urls: data.urls, cuisine: data.cuisine, category: data.category, ingredients: data.ingredients }
+    // //console.log(data.res, res, '[[]]')
+    return { id: data._id, itemName: data.itemName, price: data.price, time: data.time, urls: data.urls, cuisine: data.cuisine, category: data.category, ingredients: data.ingredients }
 })
 
 export const isFavMenu = createAsyncThunk('menuItemSlice/FavMenuItem', async (id) => {
@@ -62,7 +67,7 @@ export const isFavMenu = createAsyncThunk('menuItemSlice/FavMenuItem', async (id
     const res = await axios.get(`http://localhost:4000/favMenu/${id}`, config)
     const data = res.data
 
-    return  data.result
+    return data.result
 })
 
 export const getFavMenuData = createAsyncThunk('menuItemSlice/FavMenuItemData', async (email) => {
@@ -73,19 +78,26 @@ export const getFavMenuData = createAsyncThunk('menuItemSlice/FavMenuItemData', 
     }
     const res = await axios.get(`http://localhost:4000/favMenuData/${email}`, config)
     const data = res.data
-    return  data
+    return data
 })
 
 export const deleteFavMenuData = createAsyncThunk('menuItemSlice/deleteFavMenuItem', async (menuData) => {
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+        },
+    }
+
     const res = await axios.delete(`http://localhost:4000/deleteFavMenu?email=${menuData.userEmail}&menuId=${menuData.menuID}`, config)
     const data = res.data
-    console.log(data, '[[---]]')
+    //console.log(data, '[[---]]')
 
-    if(data.deletedCount==1){
-        return {result:true}
+    if (data.deletedCount == 1) {
+        return { result: true }
     }
-    else{
-        return {result:false}
+    else {
+        return { result: false }
     }
 })
 
@@ -110,15 +122,18 @@ const menuDetailsSlice = createSlice({
                 state.index = state.index - 1
             }
         },
-        setFavDeleteSuccess:(state,{payload})=>{
-            state.isDeleteFavSuccess=payload
+        setFavDeleteSuccess: (state, { payload }) => {
+            state.isDeleteFavSuccess = payload
+        },
+        setCuisineId:(state,{payload})=>{
+            state.cuisineID=payload
         }
     },
 
     extraReducers: (builder) => {
         builder
             .addCase(getMenu.pending, (state) => {
-                state.menuID=''
+                state.menuID = ''
                 state.itemName = ''
                 state.isLoading = true
                 state.ingredients = ''
@@ -130,10 +145,10 @@ const menuDetailsSlice = createSlice({
 
 
                 state.isMenuError = false,
-                state.menuError = ''
+                    state.menuError = ''
             })
             .addCase(getMenu.fulfilled, (state, { payload }) => {
-                state.menuID=payload.id
+                state.menuID = payload.id
                 state.itemName = payload.itemName
                 state.isLoading = false
                 state.ingredients = payload.ingredients
@@ -144,10 +159,10 @@ const menuDetailsSlice = createSlice({
                 state.urls = payload.urls
 
                 state.isMenuError = false,
-                state.menuError = ''
+                    state.menuError = ''
             })
             .addCase(getMenu.rejected, (state, action) => {
-                state.menuID=''
+                state.menuID = ''
                 state.itemName = ''
                 state.isLoading = false
                 state.ingredients = ''
@@ -158,67 +173,67 @@ const menuDetailsSlice = createSlice({
                 state.urls = []
 
                 state.isMenuError = true,
-                state.menuError = action.error.message;
+                    state.menuError = action.error.message;
             })
             .addCase(isFavMenu.pending, (state) => {
-                state.isFavourite=false
-                state.isFavouriteLoading=true
-                state.isFavouriteError=false
-                state.favouriteError=''
+                state.isFavourite = false
+                state.isFavouriteLoading = true
+                state.isFavouriteError = false
+                state.favouriteError = ''
             })
             .addCase(isFavMenu.fulfilled, (state, { payload }) => {
-                state.isFavourite=payload
-                state.isFavouriteLoading=false
-                state.isFavouriteError=false
-                state.favouriteError=''
+                state.isFavourite = payload
+                state.isFavouriteLoading = false
+                state.isFavouriteError = false
+                state.favouriteError = ''
             })
             .addCase(isFavMenu.rejected, (state, action) => {
-                state.isFavourite=false
-                state.isFavouriteLoading=false
-                state.isFavouriteError=true
-                state.favouriteError=action.error.message
+                state.isFavourite = false
+                state.isFavouriteLoading = false
+                state.isFavouriteError = true
+                state.favouriteError = action.error.message
             })
             .addCase(getFavMenuData.pending, (state) => {
-                state.favouriteMenuData=state.favouriteMenuData
-                state.isFavouriteMenuDataLoading=true
-                state.isFavouriteMenuDataError=false
-                state.favouriteMenuDataError=''
+                state.favouriteMenuData = state.favouriteMenuData
+                state.isFavouriteMenuDataLoading = true
+                state.isFavouriteMenuDataError = false
+                state.favouriteMenuDataError = ''
             })
             .addCase(getFavMenuData.fulfilled, (state, { payload }) => {
-                state.favouriteMenuData=payload
-                state.isFavouriteMenuDataLoading=false
-                state.isFavouriteMenuDataError=false
-                state.favouriteMenuDataError=''
+                state.favouriteMenuData = payload
+                state.isFavouriteMenuDataLoading = false
+                state.isFavouriteMenuDataError = false
+                state.favouriteMenuDataError = ''
             })
             .addCase(getFavMenuData.rejected, (state, action) => {
-                state.favouriteMenuData=[]
-                state.isFavouriteMenuDataLoading=false
-                state.isFavouriteMenuDataError=true
-                state.favouriteMenuDataError=action.error.message
+                state.favouriteMenuData = []
+                state.isFavouriteMenuDataLoading = false
+                state.isFavouriteMenuDataError = true
+                state.favouriteMenuDataError = action.error.message
             })
             .addCase(deleteFavMenuData.pending, (state) => {
-                state.isDeleteFavError=false
-                state.deleteFavError=''
-                state.isDeleteFavLoading=true
-                state.isDeleteFavSuccess=null
+                state.isDeleteFavError = false
+                state.deleteFavError = ''
+                state.isDeleteFavLoading = true
+                state.isDeleteFavSuccess = null
             })
             .addCase(deleteFavMenuData.fulfilled, (state, { payload }) => {
-                state.isDeleteFavError=false
-                state.deleteFavError=''
-                state.isDeleteFavLoading=false
-                state.isDeleteFavSuccess=payload.result
+                state.isDeleteFavError = false
+                state.deleteFavError = ''
+                state.isDeleteFavLoading = false
+                state.isDeleteFavSuccess = payload.result
             })
             .addCase(deleteFavMenuData.rejected, (state, action) => {
-                state.isDeleteFavError=true
-                state.deleteFavError=action.error.message
-                state.isDeleteFavLoading=false
-                state.isDeleteFavSuccess=null
+                state.isDeleteFavError = true
+                state.deleteFavError = action.error.message
+                state.isDeleteFavLoading = false
+                state.isDeleteFavSuccess = null
             })
 
     },
 
 })
 
-export const { increment,decrement, setFavDeleteSuccess } = menuDetailsSlice.actions
+export const { increment, decrement, setFavDeleteSuccess,setCuisineId } = menuDetailsSlice.actions
 
 export default menuDetailsSlice.reducer

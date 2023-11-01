@@ -11,22 +11,18 @@ import bg2 from '../../assets/bg2.jpg'
 import { signOut } from 'firebase/auth';
 import auth from '../../FirebaseConfig/firebaseConfig';
 import { useEffect } from 'react';
-import { checkAdmin } from '../../Redux/feature/adminSlice/adminSlice';
+
 const Navbar = () => {
   const dispatch=useDispatch()
   const location = useLocation()
-  const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
+  const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError,isAdmin,isAdminLoading } = useSelector((state) => state.userProfileSlice)
   //const { data: isAdmin, isLoading: isAdminLoading } = useGetAdminQuery()
 
-  const { isAdmin, isAdminLoading } = useSelector((state) => state.adminSlice)
+  //const { isAdmin, isAdminLoading } = useSelector((state) => state.adminSlice)
 
-  console.log(isAdmin,'check admin')
+  //console.log(isAdmin,userEmail,'check admin')
   // const {  user, loader, logoutUser } = useContext(Authcontext);
-  useEffect(()=>{
-if(!userLoading){
-  dispatch(checkAdmin())
-}
-  },[userEmail,userLoading])
+
 
   const allNavlink = (
     <div className='flex gap-2 flex-col lg:flex-row lg:gap-10 font-semibold'>

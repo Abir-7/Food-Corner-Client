@@ -7,28 +7,42 @@ import { useDispatch, useSelector } from 'react-redux';
 import { showCartSlide, showFavouriteSlide } from '../Redux/feature/cartProductSlice/cartProductSlice';
 import ProductCart from '../Components/ProductCart/ProductCart';
 import FavaouriteMenuList from '../Components/FavaouriteMenuList/FavaouriteMenuList';
-import { getFavMenuData } from '../Redux/feature/menuDetailsSlice/menuDetailsSlice';
+import { getFavMenuData, isFavMenu, setFavDeleteSuccess } from '../Redux/feature/menuDetailsSlice/menuDetailsSlice';
+import toast, { Toaster } from 'react-hot-toast';
 
 const Mainpage = () => {
 
     const { itemNumber, option, isShowReviews, isCartSlideOpen, cartItem, totalPrice, discountOffer, isFavouriteSlideOpen } = useSelector((state) => state.cartProductSlice)
     const dispatch = useDispatch()
 
-    
+
     const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError } = useSelector((state) => state.userProfileSlice)
 
-    const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError, isFavourite, isFavouriteLoading,favouriteMenuData,isFavouritemenuDataLoading, isFavouriteMenuDataError, favouriteMenuDataError } = useSelector((state) => state.menuDetailsSlice)
+    const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError, isFavourite, isFavouriteLoading, favouriteMenuData, isFavouritemenuDataLoading, isFavouriteMenuDataError, favouriteMenuDataError, isDeleteFavLoading, isDeleteFavSuccess } = useSelector((state) => state.menuDetailsSlice)
 
-    useEffect(()=>{
-      
-        if(!userLoading && userEmail){
+
+
+    useEffect(() => {
+
+        if (!userLoading && userEmail) {
+            dispatch(getFavMenuData(userEmail))
+        }
+    }, [userLoading, isFavouriteLoading, isDeleteFavLoading,])
+
+    useEffect(() => {
+
+        if (isDeleteFavSuccess) {
+            toast('Remove from favourite')
+            dispatch(setFavDeleteSuccess(null))
             dispatch(getFavMenuData(userEmail))
         }
 
-    },[userLoading,isLoading,isFavouriteLoading])
+    }, [isDeleteFavSuccess,userLoading])
+
 
     return (
         <div className='max-w-[1900px] mx-auto  '>
+            <Toaster/>
             <div className=' w-full z-40 '>
                 <Navbar />
             </div>
@@ -55,10 +69,10 @@ const Mainpage = () => {
             </div>
 
             {isCartSlideOpen &&
-                <ProductCart/>
+                <ProductCart />
             }
             {isFavouriteSlideOpen &&
-               <FavaouriteMenuList/>
+                <FavaouriteMenuList isDeleteFavSuccess={isDeleteFavSuccess} favouriteMenuData={favouriteMenuData} />
             }
         </div>
     );

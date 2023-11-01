@@ -13,8 +13,17 @@ const initialState = {
     userImage: null,
     iscreateUserError: false,
     createUserError: '',
+
     mobile: '',
     address: '',
+    isUserInfoLoading: true,
+    isInfoError: false,
+    infoError: '',
+
+    isAdmin: '',
+    isAdminLoading: true,
+    isAdminError: false,
+    adminError: ''
 
 }
 
@@ -35,12 +44,46 @@ export const createUser = createAsyncThunk('userProfileSlice/createUser', async 
 
     const data2 = res.json()
 
-    console.log(data2)
+    //console.log(data2)
 
     return { email: data.user.email, name: data.user.displayName }
 })
 
+export const userInfo = createAsyncThunk('userProfileSlice/userInfo', async ( email ) => {
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+        },
+    }
+    const res = await fetch(`http://localhost:4000/singleUsers/${email}`, config)
+    const data = await res.json()
 
+    //console.log(data,'user mobile address')
+
+    return { address: data?.address, mobile: data?.mobile }
+})
+
+
+export const checkAdmin = createAsyncThunk('userProfileSlice/checkAdmin', async () => {
+
+    const config = {
+        headers: {
+            Authorization: `Bearer ${localStorage.getItem('access-token')}`,
+        },
+    }
+
+    try {
+        const res = await axios.get('http://localhost:4000/user/admin',config);
+        const data = res.data;
+        //console.log(data, 'check admin',res)
+        return {data};
+  
+    } catch (error) {
+        //console.log(error.response.data.isAdmin,'slice')
+        return {data:error.response.data.isAdmin}
+    }
+
+})
 
 const userProfileSlice = createSlice({
     name: 'updateProfile',
@@ -60,12 +103,17 @@ const userProfileSlice = createSlice({
             state.userEmail = ''
             state.userImage = null
             state.userName = ''
+            state.address=''
+            state.mobile=''
+            state.isAdmin=''
         },
         setImage: (state, { payload }) => {
             state.userImage = payload
         },
         setLoading: (state, { payload }) => {
             state.userLoading = payload
+            state.isUserInfoLoading=payload
+            state.isAdminLoading=payload
         }
     },
 
@@ -95,7 +143,48 @@ const userProfileSlice = createSlice({
                 state.iscreateUserError = true;
                 state.createUserError = action.error.message;
             })
-       
+
+            .addCase(userInfo.pending, (state) => {
+                state.mobile = ''
+                state.address = ''
+                state.isUserInfoLoading = true
+                state.isInfoError = false
+                state.infoError = ''
+            })
+            .addCase(userInfo.fulfilled, (state, { payload }) => {
+                state.mobile = payload.mobile
+                state.address = payload.address
+                state.isUserInfoLoading = false
+                state.isInfoError = false
+                state.infoError = ''
+            })
+            .addCase(userInfo.rejected, (state, action) => {
+                state.mobile = ''
+                state.address = ''
+                state.isUserInfoLoading = false
+                state.isInfoError = true
+                state.infoError = action.error.message
+            })
+
+            .addCase(checkAdmin.pending, (state) => {
+                state.isAdmin = null
+                state.isAdminLoading = true
+                state.isAdminError = false
+                state.adminError = ''
+            })
+            .addCase(checkAdmin.fulfilled, (state, { payload }) => {
+                state.isAdmin = payload.data
+                state.isAdminLoading = false
+                state.isAdminError = false
+                state.adminError = ''
+            })
+            .addCase(checkAdmin.rejected, (state, action) => {
+                state.isAdmin = null
+                state.isAdminLoading = false
+                state.isAdminError = true
+                state.adminError = action.error.message
+            })
+
     },
 
 })

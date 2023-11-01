@@ -1,19 +1,90 @@
 
 import { useSelector } from 'react-redux';
-import { useGetAdminQuery } from '../../../Redux/api/baseApi';
+import { useGetAdminQuery, useGetOrderInfoQuery, useGetOrderItemPercentQuery, useGetUserQuery } from '../../../Redux/api/baseApi';
 // import { Authcontext } from '../../../AuthProvider/AuthProvider';
 // import { useNavigate } from 'react-router-dom';
+import { Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart, ResponsiveContainer } from 'recharts';
+import { HiMiniClipboardDocumentCheck,HiMiniClipboardDocumentList, HiUser, HiUserCircle } from "react-icons/hi2";
+import LinkBanner from '../../../Components/Common/LinkBanner';
+import { Link } from 'react-router-dom';
 
 const AdminDashboardPage = () => {
 
-    const {userEmail,userLoading, userImage}=useSelector((state)=>state. userProfileSlice)
-    const { data: isAdmin, isLoading: isAdminLoading,error } = useGetAdminQuery(userEmail)
+    const { userEmail, userLoading, userImage } = useSelector((state) => state.userProfileSlice)
+    
+    const { data: datas } = useGetOrderItemPercentQuery()
 
+    const { data, isSuccess, isLoading } = useGetOrderInfoQuery(!userLoading && userEmail)
 
+    const { data:users, isError, error, isLoading:allUsersLoading } = useGetUserQuery()
+
+    console.log(data)
     return (
+        <>
         <div>
-            admin dashboard
+            <LinkBanner text='Admin Dashboard'></LinkBanner>
         </div>
+            <div>
+                <div className="stats w-full shadow">
+
+                    <div className="stat">
+                        <div className="stat-figure text-primary">
+                        <span className='text-green-500 text-5xl'> <HiMiniClipboardDocumentCheck/></span>
+                        </div>
+                        <div className="stat-title hover:text-orange-400 text-gray-700 font-medium"><Link to='/dashboard/completedOrders'>Completed Orders</Link></div>
+                        <div className="stat-value text-primary">{data?.result1.length}</div>
+                        {/* <div className="stat-desc">21% more than last month</div> */}
+                    </div>
+
+                    <div className="stat">
+                        <div className="stat-figure text-secondary">
+                        <span className='text-red-500 text-5xl'> <HiMiniClipboardDocumentList/></span>
+                        </div>
+                        <div className="stat-title text-gray-700 font-medium hover:text-orange-400"><Link to='/dashboard/pendingOrders'>Pending Orders</Link></div>
+                        <div className="stat-value text-secondary">{data?.result.length}</div>
+                        {/* <div className="stat-desc">21% more than last month</div> */}
+                    </div>
+
+                    <div className="stat">
+                        <div className="stat-figure text-secondary">
+                            <div className=" ">
+                                <div className="w-16 text-5xl  text-green-500 rounded-full">
+                                <HiUserCircle/>
+                                </div>
+                            </div>
+                        </div>
+                        <div className="stat-value">{users?.length}</div>
+                        <div className="stat-title font-semibold text-gray-700">Users</div>
+            
+                    </div>
+
+                </div>
+            </div>
+            <h1 className='text-orange-500 mt-10 text-center text-lg font-semibold'>Top 10 Orderd Item</h1>
+            <ResponsiveContainer className='my-2' width="100%" height="60%">
+                <BarChart
+                    width={500}
+                    height={300}
+                    data={datas}
+                    margin={{
+                        top: 5,
+                        right: 30,
+                        left: 20,
+                        bottom: 5
+                    }}
+                >
+                    <CartesianGrid strokeDasharray="3 3" />
+                    <XAxis dataKey="name" />
+                    <YAxis />
+                    <Tooltip />
+                    <Legend  />
+                    <Bar dataKey="percent" fill="#8884d8" />
+                </BarChart>
+            </ResponsiveContainer>
+          
+        </>
+
+
     );
 };
 

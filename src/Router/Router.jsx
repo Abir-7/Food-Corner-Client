@@ -17,6 +17,10 @@ import AdminDashboardPage from "../Pages/DashboardPages/AdminPage/AdminDashboard
 import AddMenuPage from "../Pages/DashboardPages/AdminPage/AddMenuPage";
 import ManageUser from "../Pages/DashboardPages/AdminPage/ManageUser";
 import CheckOutPage from "../Pages/CheckOutPage/CheckOutPage";
+import PreviousOrders from "../Pages/DashboardPages/UserPage/PreviousOrders/PreviousOrders";
+import PendingOrderPage from "../Pages/DashboardPages/AdminPage/PendingOrderPage";
+import CompletedOrderPage from "../Pages/DashboardPages/AdminPage/CompletedOrderPage";
+import PendingOrders from "../Pages/DashboardPages/UserPage/PendingOrders";
 
 
 
@@ -61,11 +65,11 @@ const router = createBrowserRouter([
     ]
   },
   {
-    path: 'dashboard',
+    path: '/dashboard',
     element: <PrivetRouts><Dashboard /></PrivetRouts>,
     children: [
       {
-        path: 'userDashboard',
+        path: '/dashboard/userDashboard',
         element: <UserDashboard></UserDashboard>
       },
       {
@@ -79,6 +83,22 @@ const router = createBrowserRouter([
       {
         path: 'allUser',
         element: <ManageUser />
+      },
+      {
+        path: 'prevOrders',
+        element: <PreviousOrders/>
+      },
+      {
+        path: 'completedOrders',
+        element: <PendingOrders/>
+      },
+      {
+        path: 'pendingOrders',
+        element: <PendingOrderPage/>
+      },
+      {
+        path: 'completedOrders',
+        element: <CompletedOrderPage/>
       },
     ]
   }

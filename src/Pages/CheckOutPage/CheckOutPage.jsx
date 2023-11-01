@@ -10,7 +10,7 @@ const CheckOutPage = () => {
     const { itemNumber, option, isShowReviews, isCartSlideOpen, cartItem, totalPrice, discountOffer } = useSelector((state) => state.cartProductSlice)
     const finalPrice = parseFloat(totalPrice - discountOffer).toFixed(2)
 
-    console.log(finalPrice)
+    //console.log(finalPrice)
 
     return (
         <div>
