@@ -52,8 +52,8 @@ const Dashboard = () => {
                                         :
                                         <>
                                             <li><Link to='/dashboard/userDashboard'>User DashBord</Link></li>
-                                            <li><Link to='/dashboard/prevOrders'>Previous Order</Link></li>
-                                            <li><Link to='/dashboard/completedOrders'>Pending Order</Link></li>
+                                            <li><Link to='/dashboard/prevOrders'>Pending Order</Link></li>
+                                            <li><Link to='/dashboard/completedOrder'>Previous Order</Link></li>
                                             <li><Link to='/'>Home</Link></li>
                                         </>
                                 }

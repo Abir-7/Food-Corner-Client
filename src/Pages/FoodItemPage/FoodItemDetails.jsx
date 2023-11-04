@@ -7,13 +7,18 @@ import { FaArrowAltCircleLeft, FaArrowAltCircleRight, FaCartPlus, FaHeart, FaMin
 
 
 import { useDispatch, useSelector } from 'react-redux';
-import { addCart, setAmount, showReviews, singleItemDecrement, singleItemIncrement, singleItemSize } from '../../Redux/feature/cartProductSlice/cartProductSlice';
+import { addCart, singleItemDecrement, singleItemIncrement, singleItemSize } from '../../Redux/feature/cartProductSlice/cartProductSlice';
 import { useAddFavouriteMenuItemMutation, useGetSingleMenuItemQuery } from '../../Redux/api/baseApi';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 
 import { decrement, isFavMenu, getMenu, increment, deleteFavMenuData, setFavDeleteSuccess } from '../../Redux/feature/menuDetailsSlice/menuDetailsSlice';
 import toast, { Toaster } from 'react-hot-toast';
+import UsersReviews from './UsersReviews';
+import { showReviews } from '../../Redux/feature/userReviewsSlice/userReviewsSlice';
 
+import { Rating } from '@smastrom/react-rating'
+import '@smastrom/react-rating/style.css'
+import FoodItemDetailsLoader from './SkeletonLoader/FoodItemDetailsLoader';
 
 const FoodItemDetails = () => {
     const dispatch = useDispatch()
@@ -21,23 +26,24 @@ const FoodItemDetails = () => {
     const { id } = useParams()
     //console.log(id)
 
-    
-    const { itemNumber, option, isShowReviews, cartItem } = useSelector((state) => state.cartProductSlice)
 
-    const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, isMenuError, menuError, isFavourite, isFavouriteLoading, favouriteMenuData, isFavouritemenuDataLoading, isFavouriteMenuDataError, favouriteMenuDataError, isFavDeleteSuccess, isDeleteFavSuccess, isDeleteFavLoading, isDeleteFavError } = useSelector((state) => state.menuDetailsSlice)
+    const { itemNumber, option, cartItem } = useSelector((state) => state.cartProductSlice)
+    const { isShowReviews } = useSelector((state) => state.userReviewsSlice)
 
-    const [addFavouriteMenuItem, { data: addFavData, error, isError, isLoading: favMenuLoading, isSuccess }] = useAddFavouriteMenuItemMutation() 
+    const { index, menuID, itemName, isLoading, ingredients, category, time, cuisine, price: allPriceSize, urls, canReview, isMenuError, menuError, isFavourite, isFavouriteLoading, favouriteMenuData, isFavouritemenuDataLoading, isFavouriteMenuDataError, favouriteMenuDataError, isFavDeleteSuccess, isDeleteFavSuccess, isDeleteFavLoading, isDeleteFavError, averageRating, totalCustomer, similarMenu } = useSelector((state) => state.menuDetailsSlice)
+
+    const [addFavouriteMenuItem, { data: addFavData, error, isError, isLoading: favMenuLoading, isSuccess }] = useAddFavouriteMenuItemMutation()
 
 
 
     useEffect(() => {
         if (!userLoading && userEmail) {
             if (typeof (id) == 'string') {
-                dispatch(getMenu({id,userEmail}))
+                dispatch(getMenu({ id, userEmail }))
                 dispatch(isFavMenu(id))
             }
         }
-    }, [id, userLoading,userEmail])
+    }, [id, userLoading, userEmail])
 
     useEffect(() => {
         dispatch(isFavMenu(id))
@@ -50,16 +56,16 @@ const FoodItemDetails = () => {
             toast('Duplicate favourite')
         }
 
-    }, [isSuccess,userLoading])
+    }, [isSuccess, userLoading])
 
     useEffect(() => {
 
         if (isDeleteFavSuccess) {
-            toast('Remove from favourite')
+            //toast('Remove from favourite')
             dispatch(isFavMenu(id))
             dispatch(setFavDeleteSuccess(null))
         }
-    }, [isDeleteFavSuccess,userLoading])
+    }, [isDeleteFavSuccess, userLoading])
 
 
     const size = allPriceSize
@@ -101,16 +107,23 @@ const FoodItemDetails = () => {
         } else {
             dispatch(deleteFavMenuData({ menuID, userEmail }))
         }
+
     }
+
+
+    console.log(similarMenu)
+
+
 
     return (
         <>
+         <LinkBanner text='Food Details'></LinkBanner>
             {
-                isLoading || userLoading ? <>Loading</> :
+                isLoading || userLoading ? <><FoodItemDetailsLoader/></> :
 
                     <div>
 
-                        <LinkBanner text='Food Details'></LinkBanner>
+
                         <div className='container mx-auto my-10 grid gap-5 grid-cols-1 md:grid-cols-2'>
                             <div className='flex flex-col  mx-auto  border-2 border-orange-400 rounded-lg p-8'>
                                 <img src={urls[index]} alt="" className='xl:w-[500px] xl:h-[500px] lg:w-[400px] lg:h-[400px] md:w-[300px] md:h-[300px] h-[250px] w-[250px]  sm:h-[390px] sm:w-[390px]  object-cover' />
@@ -125,9 +138,9 @@ const FoodItemDetails = () => {
                                     <h1 className='font-bold text-4xl'>{itemName}</h1>
                                     <div className='flex mt-2  gap-4 items-center'>
                                         <div className='flex gap-1 text-yellow-400 '>
-                                            <FaStar /> <FaStar /> <FaStar /> <FaStar />
+                                            <Rating style={{ maxWidth: 100 }} value={averageRating} readOnly />
                                         </div>
-                                        <p className='font-medium'>( <span>300</span> Customer Reviews )</p>
+                                        <p className='font-medium'>( <span>{totalCustomer}</span> Customer Reviews )</p>
                                     </div>
                                     <p className='font-medium mt-2'>{ingredients}</p>
                                     <div className='flex gap-5 items-center'>
@@ -168,10 +181,11 @@ const FoodItemDetails = () => {
                                         <li className='font-semibold ms-3'>Fast and Reliable Delivery</li>
                                     </ul>
                                 </div> :
-                                    <div className='border-2 p-5 rounded-lg'>
-                                        <div className='flex justify-end'>     <button onClick={() => handleNext({ action: 'reviews', isShow: false })} className='text-right text-lg w-[30px] flex justify-center items-center  h-[30px] rounded-full bg-orange-400 hover:bg-orange-500  text-white'>X</button></div>
-                                        <div className='overflow-y-auto h-[500px] p-5 mt-2 '>
-                                            Lorem ipsum dolor sit amet consectetur adipisicing elit. In reprehenderit quam, facere nesciunt cum facilis rem provident eaque ea enim, accusamus vero, distinctio a commodi eos totam? Aspernatur consequuntur rem asperiores veritatis molestias, sed placeat ad! Exercitationem odit.
+                                    <div className=' p-5 rounded-lg'>
+                                        <h1 className='text-center text-xl text-orange-500 font-bold'>Users Review</h1>
+                                        <div className='flex justify-end'>    <button onClick={() => handleNext({ action: 'reviews', isShow: false })} className='text-right text-lg w-[30px] flex justify-center items-center  h-[30px] rounded-full bg-orange-400 hover:bg-orange-500  text-white'>X</button></div>
+                                        <div className=' h-[500px] p-5 mt-2 '>
+                                            <UsersReviews canReview={canReview} id={menuID} />
                                         </div>
                                     </div>
                                 }
@@ -182,32 +196,17 @@ const FoodItemDetails = () => {
                             <div className='flex justify-center'>
                                 <div className='grid gap-7 grid-cols-1 sm:grid-cols-2 md:grid-cols-3'>
 
-                                    <div className="card w-[250px] sm:w-[200px] pt-5 hover:-translate-y-2 duration-500 border-2 border-orange-400">
-                                        <figure ><img className='w-[200px] h-[200px] sm:w-[150px] sm:h-[150px] rounded-lg' src="https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg?w=826&t=st=1697083856~exp=1697084456~hmac=5554f62c6354ffd9e251fa5f250183f754656d5587f2a16b1ec410807e91bdd0" /></figure>
-                                        <div className=" text-center">
-                                            <h2 className="text-xl font-bold mt-2">Beef Pizza</h2>
+                                    {similarMenu?.map(item => {
+                                        return <div className="card w-[250px] sm:w-[200px] pt-5 hover:-translate-y-2 duration-500 border-2 border-orange-400">
+                                            <figure ><img className='w-[200px] object-fill  h-[200px] sm:w-[150px] sm:h-[150px] rounded-lg' src={item?.urls[0]}/></figure>
+                                            <div className=" text-center">
+                                                <h2 className="text-xl font-bold mt-2"><Link className="hover:text-orange-400 duration-300" to={`/itemInfo/${item._id}`}>{item?.itemName}</Link></h2>
 
-                                            <p className='flex mt-2 gap-3 justify-center text-yellow-400 pb-5'> <FaStar /> <FaStar /> <FaStar /> <FaStar /> <FaStar /></p>
+                                                <p className='flex mt-2 gap-3 justify-center text-yellow-400 pb-5'>  <Rating style={{ maxWidth: 100 }} value={item?.averageRating} readOnly /></p>
+                                            </div>
                                         </div>
-                                    </div>
+                                    })}
 
-                                    <div className="card w-[250px] sm:w-[200px] pt-5 hover:-translate-y-2 duration-500 border-2 border-orange-400">
-                                        <figure ><img className='w-[200px] h-[200px] sm:w-[150px] sm:h-[150px] rounded-lg' src="https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg?w=826&t=st=1697083856~exp=1697084456~hmac=5554f62c6354ffd9e251fa5f250183f754656d5587f2a16b1ec410807e91bdd0" /></figure>
-                                        <div className=" text-center">
-                                            <h2 className="text-xl font-bold mt-2">Beef Pizza</h2>
-
-                                            <p className='flex mt-2 gap-3 justify-center text-yellow-400 pb-5'> <FaStar /> <FaStar /> <FaStar /> <FaStar /> <FaStar /></p>
-                                        </div>
-                                    </div>
-
-                                    <div className="card w-[250px] sm:w-[200px] pt-5 hover:-translate-y-2 duration-500 border-2 border-orange-400">
-                                        <figure ><img className='w-[200px] h-[200px] sm:w-[150px] sm:h-[150px] rounded-lg' src="https://img.freepik.com/free-photo/pizza-pizza-filled-with-tomatoes-salami-olives_140725-1200.jpg?w=826&t=st=1697083856~exp=1697084456~hmac=5554f62c6354ffd9e251fa5f250183f754656d5587f2a16b1ec410807e91bdd0" /></figure>
-                                        <div className=" text-center">
-                                            <h2 className="text-xl font-bold mt-2">Beef Pizza</h2>
-
-                                            <p className='flex mt-2 gap-3 justify-center text-yellow-400 pb-5'> <FaStar /> <FaStar /> <FaStar /> <FaStar /> <FaStar /></p>
-                                        </div>
-                                    </div>
                                     <Toaster />
                                 </div>
                             </div>

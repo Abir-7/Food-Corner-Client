@@ -14,14 +14,17 @@ const PreviousOrders = () => {
 
     //console.log(data, error, 'orderinfo')
     return (
+       <>{
+        userLoading?<></>:
         <div className=''>
-            <LinkBanner text='All Orders'></LinkBanner>
-            <div>
-                <div className="overflow-x-auto">
-                    <OrderdetailsTable isComplete={true} data={data?.result1} isAdmin={false}></OrderdetailsTable>
-                </div>
+        <LinkBanner text='Pevious Orders'></LinkBanner>
+        <div>
+            <div className="overflow-x-auto">
+                <OrderdetailsTable isComplete={true} data={data?.result1} userEmail={userEmail} isAdmin={false}></OrderdetailsTable>
             </div>
         </div>
+    </div>
+       }</>
     );
 };
 

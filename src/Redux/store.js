@@ -7,6 +7,7 @@ import addMenuItemSliceReducer from './feature/addMenuItemSlice/addMenuItemSlice
 import menuDetailsSliceReducer from './feature/menuDetailsSlice/menuDetailsSlice'
 import paymentSliceReducer from './feature/PaymentSlice/PaymentSlice' 
 import adminSliceReducer from './feature/adminSlice/adminSlice'
+import userReviewsSliceReduser from './feature/userReviewsSlice/userReviewsSlice'
 
 export const store = configureStore({
 
@@ -20,6 +21,7 @@ export const store = configureStore({
     menuDetailsSlice:menuDetailsSliceReducer,
     paymentSlice:paymentSliceReducer,
     adminSlice:adminSliceReducer,
+    userReviewsSlice:userReviewsSliceReduser,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(baseApi.middleware),

@@ -7,7 +7,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
     reducerPath:"api",
     baseQuery: fetchBaseQuery({
       baseUrl:'http://localhost:4000',
-      tagTypes:['User','Menu','Payment'],
+      tagTypes:['User','Menu','Payment','Reviews','Feedback'],
       prepareHeaders: (headers, { getState }) => {
         const token = `Bearer ${localStorage.getItem('access-token') }`
         if (token) {
@@ -62,10 +62,11 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
        }),
 
        getMenuItem: builder.query({   //get menu
-        query:()=>({
-          url:'/getMenu',
+        query:(name)=>({
+          url:`/getMenu?name=${name}`,
           //headers: authHeaders,
         }),
+        invalidatesTags:['Menu'],
         providesTags:['Menu'],
        }),
 
@@ -83,6 +84,14 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
           //headers: authHeaders,
         }),
         invalidatesTags:['Menu'],
+       }),
+
+       getSimilarMenuItem: builder.query({   // get single menu
+        query:(category)=>({
+          url:`/getMenu/${category}`,
+          //headers: authHeaders,
+        }),
+        providesTags:['Menu'],
        }),
 
        addFavouriteMenuItem: builder.mutation({   //add favourite menu
@@ -131,10 +140,53 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
         providesTags:['Payment'],
        }),
 
-      
+       addReviews: builder.mutation({   //add reviews
+        query:(info)=>({
+          url:'/addReviews',
+       // headers: authHeaders,
+          method: 'POST',
+          body:{menuID:info.selectedValue,email:info.userEmail,rating:info.rating,reviewMessage:info.reviewMessage,paymentId:info.paymentId},
+        }),
+        invalidatesTags:['Reviews'],
+       }),
+
+       addFeedback: builder.mutation({   //add FeedBack
+        query:(info)=>({
+          url:'/addFeedback',
+       // headers: authHeaders,
+          method: 'POST',
+          body:{userEmail:info.userEmail,rating:info.rating,feedback:info.reviewMessage,userImage:info.userImage,useName:info.userImage},
+        }),
+        invalidatesTags:['Feedback'],
+       }),
+
+       getReviews: builder.query({   // get item percent
+        query:(id)=>({
+          url:`/getReviews/${id}`,
+          //headers: authHeaders,
+        }),
+        providesTags:['Reviews'],
+       }),
+
+       getFeedback: builder.query({   // get item percent
+        query:()=>({
+          url:`/getFeedback`,
+          //headers: authHeaders,
+        }),
+        providesTags:['Feedback'],
+       }),
+
+       shopFavourite: builder.query({   // shop Favourite
+        query:()=>({
+          url:`/shopOurFav`,
+          //headers: authHeaders,
+        }),
+        providesTags:['Menu'],
+       }),
+
 
     })
 })
 
-export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery,useAddMenuItemMutation,useGetMenuItemQuery,useGetSingleMenuItemQuery,useAddFavouriteMenuItemMutation,useDeleteFavouriteMenuItemMutation,useSavePaymentInfoMutation,useGetOrderInfoQuery,useModifyOrderStatusMutation,useGetOrderItemPercentQuery,useGetThaiCuisineQuery} = baseApi;
+export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery,useAddMenuItemMutation,useGetMenuItemQuery,useGetSingleMenuItemQuery,useAddFavouriteMenuItemMutation,useSavePaymentInfoMutation,useGetOrderInfoQuery,useModifyOrderStatusMutation,useGetOrderItemPercentQuery,useGetThaiCuisineQuery, useAddReviewsMutation,useGetReviewsQuery,useShopFavouriteQuery,useAddFeedbackMutation,useGetFeedbackQuery,useGetSimilarMenuItemQuery} = baseApi;
 export default baseApi;

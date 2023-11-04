@@ -2,24 +2,32 @@ import React from 'react';
 import img1 from '../../assets/testimonial.png'
 import { useKeenSlider } from "keen-slider/react"
 import "keen-slider/keen-slider.min.css"
-import { FaStar} from "react-icons/fa"
+import { FaStar } from "react-icons/fa"
+import { useGetFeedbackQuery } from '../../Redux/api/baseApi';
+
+import { Rating } from '@smastrom/react-rating'
+import '@smastrom/react-rating/style.css'
+
 const Testimonials = () => {
     const [sliderRef] = useKeenSlider({
         loop: true,
         mode: "free-snap",
         breakpoints: {
             "(min-width: 400px)": {
-              slides: { perView: 1, spacing: 5 },
+                slides: { perView: 1, spacing: 5 },
             },
             "(min-width: 906px)": {
                 slides: { perView: 2, spacing: 5 },
-              },
-            "(min-width: 1400px)": {
-              slides: { perView: 3, spacing: 10 },
             },
-          },
-          slides: { perView: 1, spacing: 15 }
+            "(min-width: 1400px)": {
+                slides: { perView: 3, spacing: 10 },
+            },
+        },
+        slides: { perView: 1, spacing: 15 }
     })
+
+    const { data, error, isLoading } = useGetFeedbackQuery()
+
 
     return (
         <div className='grid grid-cols-1  md:grid-cols-3 gap-5 items-center container mx-auto my-10'>
@@ -42,84 +50,23 @@ const Testimonials = () => {
 
                 <div ref={sliderRef} className="keen-slider rounded-xl ">
 
-
-
-
-                    <div className="keen-slider__slide  ">
-                        <div className="card p-5 hover:-translate-y-2 duration-500">
-                            <figure ><img className='w-1/4 h-1/4 rounded-full border-2 border-orange-300' src="https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?w=826&t=st=1696945899~exp=1696946499~hmac=137e65640619a9d4ccf03aa79600cab499494be55a51a26efb0f8160025f70d6" /></figure>
-                            <div className=" text-center">
-                                <h2 className="text-xl font-bold">Shoes!</h2>
-                                <p className='mt-2'>If a dog chews shoes whose shoes does he choose?</p>
-                                <p  className='flex mt-2 gap-3 justify-center text-yellow-400'> <FaStar/> <FaStar/> <FaStar/> <FaStar/> <FaStar/></p>
+                    {
+                        isLoading ? <></> : <>
+                        {
+                            data?.map(info=><div key={info?._id} className="keen-slider__slide  ">
+                            <div className="card p-5 hover:-translate-y-2 duration-500">
+                                <figure ><img className='w-[70px] object-cover p-1 h-[70px] rounded-full border-2 border-orange-300' src={info?.userImage} /></figure>
+                                <div className=" text-center">
+                                    <h2 className="text-xl font-bold">{info?.userName}</h2>
+                                    <p className='mt-2'>{info?.feedback}</p>
+                                    <p className='flex mt-2 gap-3 justify-center text-yellow-400'><Rating style={{ maxWidth: 100 }} value={info?.rating} readOnly /></p>
+                                </div>
                             </div>
-                        </div>
-                    </div>
+                        </div>)
+                        }
+                        </>
+                    }
 
-                    <div className="keen-slider__slide  ">
-                        <div className="card p-5 hover:-translate-y-2 duration-500">
-                            <figure ><img className='w-1/4 h-1/4 rounded-full border-2 border-orange-300' src="https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?w=826&t=st=1696945899~exp=1696946499~hmac=137e65640619a9d4ccf03aa79600cab499494be55a51a26efb0f8160025f70d6" /></figure>
-                            <div className=" text-center">
-                                <h2 className="text-xl font-bold">Shoes!</h2>
-                                <p className='mt-2'>If a dog chews shoes whose shoes does he choose?</p>
-                                <p  className='flex mt-2 gap-3 justify-center text-yellow-400'> <FaStar/> <FaStar/> <FaStar/> <FaStar/> <FaStar/></p>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div className="keen-slider__slide  ">
-                        <div className="card p-5 hover:-translate-y-2 duration-500">
-                            <figure ><img className='w-1/4 h-1/4 rounded-full border-2 border-orange-300' src="https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?w=826&t=st=1696945899~exp=1696946499~hmac=137e65640619a9d4ccf03aa79600cab499494be55a51a26efb0f8160025f70d6" /></figure>
-                            <div className=" text-center">
-                                <h2 className="text-xl font-bold">Shoes!</h2>
-                                <p className='mt-2'>If a dog chews shoes whose shoes does he choose?</p>
-                                <p  className='flex mt-2 gap-3 justify-center text-yellow-400'> <FaStar/> <FaStar/> <FaStar/> <FaStar/> <FaStar/></p>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div className="keen-slider__slide  ">
-                        <div className="card p-5 hover:-translate-y-2 duration-500">
-                            <figure ><img className='w-1/4 h-1/4 rounded-full border-2 border-orange-300' src="https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?w=826&t=st=1696945899~exp=1696946499~hmac=137e65640619a9d4ccf03aa79600cab499494be55a51a26efb0f8160025f70d6" /></figure>
-                            <div className=" text-center">
-                                <h2 className="text-xl font-bold">Shoes!</h2>
-                                <p className='mt-2'>If a dog chews shoes whose shoes does he choose?</p>
-                                <p  className='flex mt-2 gap-3 justify-center text-yellow-400'> <FaStar/> <FaStar/> <FaStar/> <FaStar/> <FaStar/></p>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div className="keen-slider__slide  ">
-                        <div className="card p-5 hover:-translate-y-2 duration-500">
-                            <figure ><img className='w-1/4 h-1/4 rounded-full border-2 border-orange-300' src="https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?w=826&t=st=1696945899~exp=1696946499~hmac=137e65640619a9d4ccf03aa79600cab499494be55a51a26efb0f8160025f70d6" /></figure>
-                            <div className=" text-center">
-                                <h2 className="text-xl font-bold">Shoes!</h2>
-                                <p className='mt-2'>If a dog chews shoes whose shoes does he choose?</p>
-                                <p  className='flex mt-2 gap-3 justify-center text-yellow-400'> <FaStar/> <FaStar/> <FaStar/> <FaStar/> <FaStar/></p>
-                            </div>
-                        </div>
-                    </div>
-
-
-                    <div className="keen-slider__slide  ">
-                        <div className="card p-5 hover:-translate-y-2 duration-500">
-                            <figure ><img className='w-1/4 h-1/4 rounded-full border-2 border-orange-300' src="https://img.freepik.com/free-photo/bohemian-man-with-his-arms-crossed_1368-3542.jpg?w=826&t=st=1696945899~exp=1696946499~hmac=137e65640619a9d4ccf03aa79600cab499494be55a51a26efb0f8160025f70d6" /></figure>
-                            <div className=" text-center">
-                                <h2 className="text-xl font-bold">Shoes!</h2>
-                                <p className='mt-2'>If a dog chews shoes whose shoes does he choose?</p>
-                                <p  className='flex mt-2 gap-3 justify-center text-yellow-400'> <FaStar/> <FaStar/> <FaStar/> <FaStar/> <FaStar/></p>
-                            </div>
-                        </div>
-                    </div>
-
-
-
-
-
-                   
                 </div>
 
             </div>

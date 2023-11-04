@@ -73,6 +73,14 @@ const router = createBrowserRouter([
         element: <UserDashboard></UserDashboard>
       },
       {
+        path: 'prevOrders',
+        element:  <PendingOrders/>
+      },
+      {
+        path: 'completedOrder',
+        element: <PreviousOrders/>
+      },
+      {
         path: 'adminDashboard',
         element: <AdminDashboardPage></AdminDashboardPage>
       },
@@ -83,14 +91,6 @@ const router = createBrowserRouter([
       {
         path: 'allUser',
         element: <ManageUser />
-      },
-      {
-        path: 'prevOrders',
-        element: <PreviousOrders/>
-      },
-      {
-        path: 'completedOrders',
-        element: <PendingOrders/>
       },
       {
         path: 'pendingOrders',

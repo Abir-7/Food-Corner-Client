@@ -3,18 +3,27 @@ import { createSlice } from '@reduxjs/toolkit'
 const initialState = {
   itemNumber: 0,
   option: 0,
-  isShowReviews: false,
+
   isCartSlideOpen: false,
   isFavouriteSlideOpen: false,
   cartItem: [],
   totalPrice: 0,
   discountOffer: 0,
+
+  selectedTab:'all'
+
+
 }
 
 export const cartProductSlice = createSlice({
   name: 'cartItemAction',
   initialState,
   reducers: {
+
+    setSelectedTab:(state,{payload})=>{
+      state.selectedTab=payload
+    },
+
     singleItemIncrement: (state) => {
       state.itemNumber = state.itemNumber + 1
     },
@@ -32,11 +41,7 @@ export const cartProductSlice = createSlice({
     setAmount: (state) => {
       state.itemNumber = 0
     },
-    showReviews: (state, { payload }) => {
-      //console.log(payload)
-      state.isShowReviews = payload
-    }
-    ,
+
     showCartSlide: (state, { payload }) => {
       state.isCartSlideOpen = payload
     },
@@ -122,6 +127,6 @@ export const cartProductSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { singleItemIncrement, singleItemDecrement, singleItemSize, showReviews, showCartSlide, addCart, cartTotalPrice, modifyCart, removeCartItem, setAmount, showFavouriteSlide } = cartProductSlice.actions
+export const { singleItemIncrement, singleItemDecrement, singleItemSize, showCartSlide, addCart, cartTotalPrice, modifyCart, removeCartItem, setAmount, showFavouriteSlide,setSelectedTab } = cartProductSlice.actions
 
 export default cartProductSlice.reducer

@@ -9,6 +9,9 @@ const CompletedOrderPage = () => {
     const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError,mobile,address } = useSelector((state) => state.userProfileSlice)
 
     const { data, isSuccess, error, isLoading } = useGetOrderInfoQuery(!userLoading && userEmail)
+
+    console.log(data)
+
     return (
         <>
             {
