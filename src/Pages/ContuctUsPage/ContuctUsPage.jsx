@@ -1,15 +1,52 @@
-import React from 'react';
+import React, { useRef, useState } from 'react';
 import LinkBanner from '../../Components/Common/LinkBanner';
 import { HiRocketLaunch } from 'react-icons/hi2';
 import { FaMapMarkerAlt, FaPhoneAlt } from 'react-icons/fa';
 import { Helmet } from 'react-helmet';
 import { Mail } from 'lucide-react';
-
+import emailjs from '@emailjs/browser'
+import toast, { Toaster } from 'react-hot-toast';
 const ContuctUsPage = () => {
+  const form = useRef()
+  const [msg, setMsg] = useState('')
+
+  const sendEmail = e => {
+    e.preventDefault()
+    setMsg('')
+    emailjs
+      .sendForm(
+        'service_sccjrni',
+        'template_qrbc4xn',
+        form.current,
+        'tYJtdAx20n3Bxru2l'
+      )
+      .then(
+        result => {
+          if (result.text) {
+            setMsg('Message Sent')
+            toast.success('Message Sent.', {
+              position: 'top-center',
+              autoClose: 1000,
+              hideProgressBar: false,
+              closeOnClick: true,
+              pauseOnHover: true,
+              draggable: false,
+              progress: undefined,
+              theme: 'colored'
+            })
+          }
+        },
+        error => {
+          setMsg('Message Limit is Over')
+        }
+      )
+  }
+
+
     return (
         <div>
             <LinkBanner text='Contuct Us '></LinkBanner>
-
+<Toaster></Toaster>
 
 
             <div className='min-h-[50vh] py-12 container mx-auto p-5'>
@@ -20,7 +57,8 @@ const ContuctUsPage = () => {
         <div className='w-full md:gap-10'>
   
           <form
-        
+          ref={form}
+          onSubmit={sendEmail}
             className='pb-5 border-2 rounded-lg shadow-md card-body'
           >
             <h1 className='pb-2 text-orange-400 text-3xl md:text-4xl font-semibold'>How Can We Help</h1>
@@ -64,7 +102,7 @@ const ContuctUsPage = () => {
                 <button className=' btn hover:-translate-y-1 bg-orange-400 hover:bg-orange-500 text-white'>
                   <span>Send Message</span> <HiRocketLaunch></HiRocketLaunch>
                 </button>
-                {/* <p className='z-20 mt-3 '>{'msg'}</p> */}
+                <p className={msg=='Message Sent'?'z-20 mt-3 text-green-500':'z-20 mt-3 text-red-500'}>{msg}</p>
               </div>
             
             </div>
