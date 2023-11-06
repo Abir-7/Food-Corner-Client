@@ -28,7 +28,7 @@ const SignupPage = () => {
         //     updateUserProfile(data.name,"") //default Propic
         //     //console.log(user)
         //     if (user) {
-        //     fetch('http://localhost:4000/users', {
+        //     fetch('https://food-corner-server-lyart.vercel.app/users', {
         //         method: "POST",
         //         headers: {
         //             "content-type": "application/json"

@@ -31,7 +31,7 @@ const Dashboard = () => {
                     <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
                     <div className="drawer-content flex flex-col ">
                         <Outlet />
-                        <label htmlFor="my-drawer-2" className="btn absolute top-0 left-0 btn-xs btn-primary drawer-button lg:hidden"><FaArrowRight /></label>
+                        <label htmlFor="my-drawer-2" className="btn absolute top-8 left-0 btn-sm outline-none border-none text-md text-white bg-orange-400  drawer-button lg:hidden"><FaArrowRight /></label>
                     </div>
                     <div className="drawer-side ">
                         <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay "></label>

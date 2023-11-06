@@ -1,56 +1,59 @@
 import React from 'react';
 import { useGetUserQuery } from '../../../Redux/api/baseApi';
+import LinkBanner from '../../../Components/Common/LinkBanner';
 
 const ManageUser = () => {
 
-    const { data, isError, error, isLoading } = useGetUserQuery()
+  const { data, isError, error, isLoading } = useGetUserQuery()
 
-    //console.log(data,error)
-    return (
-        <div className='flex justify-center items-center w-full '>
-            <div className="overflow-x-auto w-full">
-                <table className="table w-full">
-                    {/* head */}
-                    <thead>
-                        <tr>
-                            <th>Name</th>
-                            <th>Email</th>
-                            <th>Role</th>
-                            <th>Action</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-        
-                    {
-                        data?.map((user,index)=><tr>
-                        <td key={index}>
-                          <div className="flex items-center space-x-3">
-                            <div className="avatar">
-                              <div className="mask mask-squircle w-12 h-12">
-                                <img src={user?.image} alt="Avatar Tailwind CSS Component" />
-                              </div>
-                            </div>
-                            <div>
-                              <div className="font-bold">{user?.name}</div>
-                            </div>
-                          </div>
-                        </td>
-                        <td>
-                        {user?.email}
-                        </td>
-                        <td>{user?.role}</td>
-                        <th>
-                          <button className="btn btn-ghost btn-xs">Delete</button>
-                        </th>
-                      </tr>)
-                    }
+  //console.log(data,error)
+  return (
 
 
-                    </tbody>
-                </table>
+    <div>
+
+      <div className='mb-5'>
+        <LinkBanner text={'All Users'}></LinkBanner>
+      </div>
+
+      <div>
+        {data?.map(user => <div className='card shadow-md p-3 grid-cols-1 grid gap-4 md:grid-cols-4'>
+
+          <div className='flex flex-col '>
+            <h1 className='mb-3 text-orange-400'>Name</h1>
+            <div className="flex  space-x-5">
+              <div className="avatar">
+                <div className="mask mask-squircle w-12 h-12">
+                  <img src={user?.image} alt="Avatar Tailwind CSS Component" />
+                </div>
+              </div>
+              <div>
+                <div className="font-bold">{user?.name}</div>
+              </div>
             </div>
-        </div>
-    );
+          </div>
+
+          <div>
+            <h1 className='mb-3 text-orange-400'>Email</h1>
+            <h1>  {user?.email}</h1>
+          </div>
+          <div>
+            <h1 className='mb-3 text-orange-400'>User Role</h1>
+            <h1>{user?.role}</h1>
+          </div>
+
+          <div>
+            <h1 className='mb-3 text-orange-400'>Action</h1>
+            <button className="btn btn-ghost btn-xs">Delete</button>
+          </div>
+
+        </div>)}
+      </div>
+
+    </div>
+
+
+  );
 };
 
 export default ManageUser;

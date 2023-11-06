@@ -23,7 +23,7 @@ export const checkAdmin = createAsyncThunk('adminSlice/checkAdmin', async () => 
     }
 
     try {
-        const res = await axios.get('http://localhost:4000/user/admin',config);
+        const res = await axios.get('https://food-corner-server-lyart.vercel.app/user/admin',config);
         const data = res.data;
         //console.log(data, 'check admin',res)
         return {data};

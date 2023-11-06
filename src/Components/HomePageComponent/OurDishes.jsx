@@ -116,10 +116,10 @@ const OurDishes = () => {
                                             <h1 className='text-lg font-medium opacity-90'>{menu?.price[0].price} Tk.</h1>
                                             <h1 className='font-semibold'>  <Rating style={{ maxWidth: 100 }} value={menu?.averageRating} readOnly /></h1>
                                             {!isAdmin && <div className='custom1 grid gap-2 text-xl rounded-md bg-orange-500 text-white p-2 absolute top-10 right-0'><span className='hover:scale-125 '> <button onClick={() => addItemCart({ name: menu?.itemName, size: `${menu.price.length > 1 ? menu?.price[0].size : ''}`, price: menu?.price[0].price, menuID: menu?._id, image: menu?.urls[0], category: menu?.category })}><FaCartPlus /></button></span>
-                                                <span className='hover:scale-125 '> <button className={menu?.match ? 'text-red-500' : ''} onDoubleClick={() => {
+                                                <span className='hover:scale-125 '>{(userEmail && !isAdmin) && <button className={menu?.match ? 'text-red-500' : ''} onDoubleClick={() => {
                                                     addOrDeleteFav(menu._id, userEmail, menu?.match)
                                                     dispatch(setCuisineId(menu?._id))
-                                                }}><FaHeart /></button></span>
+                                                }}><FaHeart /></button> }</span>
                                             </div>}
                                         </div>
                                     </div>)

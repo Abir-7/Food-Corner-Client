@@ -22,7 +22,7 @@ const initialState = {
 export const paymentIntent = createAsyncThunk('paymentSlice/payment', async ({ price }) => {
     const jwtToken = localStorage.getItem('access-token')
     try {
-        const res = await axios.post('http://localhost:4000/create-payment-intent',
+        const res = await axios.post('https://food-corner-server-lyart.vercel.app/create-payment-intent',
             { price },
             {
                 headers: {
@@ -43,7 +43,7 @@ export const paymentIntent = createAsyncThunk('paymentSlice/payment', async ({ p
 
 // export const savePayment= createAsyncThunk('paymentSlice/savePayment',async(data)=>{
 //     try {
-//         const res = await axios.post('http://localhost:4000/savePaymentsa',
+//         const res = await axios.post('https://food-corner-server-lyart.vercel.app/savePaymentsa',
 //             { data },
 //             {
 //                 headers: {
