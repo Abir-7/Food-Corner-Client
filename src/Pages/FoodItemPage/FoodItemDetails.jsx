@@ -19,6 +19,7 @@ import { showReviews } from '../../Redux/feature/userReviewsSlice/userReviewsSli
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import FoodItemDetailsLoader from './SkeletonLoader/FoodItemDetailsLoader';
+import { Helmet } from 'react-helmet';
 
 const FoodItemDetails = () => {
     const dispatch = useDispatch()
@@ -117,6 +118,7 @@ const FoodItemDetails = () => {
 
     return (
         <>
+              <Helmet><title>Food-Corner | Menu Details</title></Helmet>
          <LinkBanner text='Food Details'></LinkBanner>
             {
                 isLoading || userLoading ? <><FoodItemDetailsLoader/></> :

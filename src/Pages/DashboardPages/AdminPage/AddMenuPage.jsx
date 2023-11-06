@@ -6,6 +6,7 @@ import bg from '../../../assets/LinkBanner.jpg'
 
 import toast, { Toaster } from "react-hot-toast";
 import { useAddMenuItemMutation } from '../../../Redux/api/baseApi';
+import { Helmet } from 'react-helmet';
 const AddMenuPage = () => {
 
 
@@ -97,6 +98,7 @@ const AddMenuPage = () => {
     //  style={{backgroundImage:`url(${bg})`,backgroundPosition:"100% 100%"}}
     return (
         <div className=' md:mt-10 '  >
+             <Helmet><title>Food-Corner | Add Menu</title></Helmet>
             <div className=' '>
                 <Toaster></Toaster>
                 <div className='flex justify-center flex-wrap gap-4 p-5'>

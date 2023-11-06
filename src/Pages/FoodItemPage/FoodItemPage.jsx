@@ -13,6 +13,7 @@ import { useEffect } from "react";
 import FoodItemPageLoader from "./SkeletonLoader/FoodItemPageLoader";
 import na from '../../assets/na.png'
 import toast, { Toaster } from "react-hot-toast";
+import { Helmet } from "react-helmet";
 
 
 
@@ -66,6 +67,7 @@ useEffect(()=>{
 
     return (
         <div className="">
+                  <Helmet><title>Food-Corner | All Menu</title></Helmet>
             <LinkBanner text='All Food Menu' />
             <div >
                 <Toaster></Toaster>
@@ -89,7 +91,7 @@ useEffect(()=>{
 
                 </div>
 
-                {isLoading ?
+                {isLoading || !menuData ?
                     <div>
                         <FoodItemPageLoader />
                     </div> :
@@ -129,7 +131,7 @@ useEffect(()=>{
                                                             <p className="flex gap-1" ><span className="font-bold text-orange-400">{menu?.price[0].price} </span> <span className="text-green-400 font-semibold">Tk.</span></p>
                                                             <p className="flex gap-1"><span className="font-bold text-orange-400"> {menu.price.length > 1 && menu?.price[0].size}</span> <span className="text-green-400 font-semibold">{menu.price.length > 1 && 'inch'}</span> </p>
                                                         </div>
-                                                    {isAdmin ? <button className="text-green-400" onClick={()=>handleAvailableStatus(menu?.isAvailable==true?false:true,menu._id)}> {menu?.isAvailable?<span> <FaEye></FaEye></span>:<span className="text-red-500"> <FaEyeSlash/></span>}    </button>:<div> {!menu.isAvailable?<div className="flex justify-end pe-3"><img className="w-[24%]" src={na} alt="" /></div>:<button onClick={() => addItemCart({ name: menu?.itemName, size: `${menu.price.length > 1 ? menu?.price[0].size : ''}`, price: menu?.price[0].price, menuID: menu?._id, image: menu?.urls[0], category: menu?.category })} className='text-lg w-full text-orange-400 flex justify-end pe-5  '><span className='hover:drop-shadow-md hover:scale-75  hover:bg-green-400 duration-500 p-2 pe-3 rounded-full hover:text-white'><FaShoppingCart /></span></button>} </div>  }
+                                                    {isAdmin ? <button className="text-green-400" onDoubleClick={()=>handleAvailableStatus(menu?.isAvailable==true?false:true,menu._id)}> {menu?.isAvailable?<span> <FaEye></FaEye></span>:<span className="text-red-500"> <FaEyeSlash/></span>}    </button>:<div> {!menu.isAvailable?<div className="flex justify-end pe-3"><img className="w-[24%]" src={na} alt="" /></div>:<button onClick={() => addItemCart({ name: menu?.itemName, size: `${menu.price.length > 1 ? menu?.price[0].size : ''}`, price: menu?.price[0].price, menuID: menu?._id, image: menu?.urls[0], category: menu?.category })} className='text-lg w-full text-orange-400 flex justify-end pe-5  '><span className='hover:drop-shadow-md hover:scale-75  hover:bg-green-400 duration-500 p-2 pe-3 rounded-full hover:text-white'><FaShoppingCart /></span></button>} </div>  }
                                                     </div>
                                                 </div>
                                             </div>

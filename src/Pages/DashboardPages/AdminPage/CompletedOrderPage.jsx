@@ -3,6 +3,7 @@ import { useGetOrderInfoQuery } from '../../../Redux/api/baseApi';
 import { useSelector } from 'react-redux';
 import OrderdetailsTable from '../../../Components/Common/OrderdetailsTable';
 import LinkBanner from '../../../Components/Common/LinkBanner';
+import { Helmet } from 'react-helmet';
 
 const CompletedOrderPage = () => {
     
@@ -14,6 +15,7 @@ const CompletedOrderPage = () => {
 
     return (
         <>
+              <Helmet><title>Food-Corner | Completed Orders</title></Helmet>
             {
                 userLoading ? <></> : <div>
                     <LinkBanner text='Completed Orders'></LinkBanner>

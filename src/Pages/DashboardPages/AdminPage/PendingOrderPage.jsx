@@ -3,6 +3,7 @@ import LinkBanner from '../../../Components/Common/LinkBanner';
 import OrderdetailsTable from '../../../Components/Common/OrderdetailsTable';
 import { useDispatch, useSelector } from 'react-redux';
 import { useGetOrderInfoQuery } from '../../../Redux/api/baseApi';
+import { Helmet } from 'react-helmet';
 
 const PendingOrderPage = () => {
 
@@ -14,7 +15,7 @@ const PendingOrderPage = () => {
     const { data, isSuccess, error, isLoading } = useGetOrderInfoQuery(!userLoading && userEmail)
     //console.log(data,mobile,address)
     return (
-        <>
+        <>      <Helmet><title>Food-Corner | Pending Orders</title></Helmet>
             {
                 userLoading ? <></> : <div>
                     <LinkBanner text='Pending Orders'></LinkBanner>

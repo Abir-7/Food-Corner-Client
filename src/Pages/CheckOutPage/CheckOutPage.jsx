@@ -4,6 +4,7 @@ import CheckoutForm from './CheckoutForm';
 import { Elements } from '@stripe/react-stripe-js';
 import { loadStripe } from '@stripe/stripe-js';
 import { useSelector } from 'react-redux';
+import { Helmet } from 'react-helmet';
 
 const CheckOutPage = () => {
     const stripePromise = loadStripe(import.meta.env.VITE_stripe_PK)
@@ -13,6 +14,8 @@ const CheckOutPage = () => {
     //console.log(finalPrice)
 
     return (
+       <>
+       <Helmet><title>Food-Corner | Payment</title></Helmet>
         <div>
             <LinkBanner text='Checkout Page'></LinkBanner>
        {
@@ -27,6 +30,7 @@ const CheckOutPage = () => {
       </div>
        }
         </div>
+       </>
     );
 };
 

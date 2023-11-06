@@ -7,6 +7,7 @@ import { Bar, Rectangle, XAxis, YAxis, CartesianGrid, Tooltip, Legend, BarChart,
 import { HiMiniClipboardDocumentCheck, HiMiniClipboardDocumentList, HiUser, HiUserCircle } from "react-icons/hi2";
 import LinkBanner from '../../../Components/Common/LinkBanner';
 import { Link } from 'react-router-dom';
+import { Helmet } from 'react-helmet';
 
 
 
@@ -28,6 +29,7 @@ const AdminDashboardPage = () => {
 
     return (
         <>
+              <Helmet><title>Food-Corner | Admin Dashboard</title></Helmet>
             <div>
                 <LinkBanner text='Admin Dashboard'></LinkBanner>
             </div>

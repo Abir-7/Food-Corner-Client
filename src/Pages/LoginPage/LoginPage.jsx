@@ -9,6 +9,7 @@ import auth from "../../FirebaseConfig/firebaseConfig";
 import bg1 from "../../assets/login.jpg"
 import logo from "../../assets/login3.jpg"
 import { FaArrowLeft } from "react-icons/fa";
+import { Helmet } from "react-helmet";
 
 const LoginPage = () => {
     const dispatch = useDispatch()
@@ -41,6 +42,7 @@ const LoginPage = () => {
 
     return (
         <div className="  min-w-full   " style={{ backgroundImage: `url(${bg1})`, minHeight: '100vh' }} >
+                  <Helmet><title>Food-Corner | Loging</title></Helmet>
             <div className="backdrop-blur-sm   w-[100%] min-h-screen p-5 ">
                 <Link className='flex  items-center gap-1 text-orange-400' to='/'><FaArrowLeft />Back to Home</Link>
                 <div className="flex items-center justify-center p-10 md:p-16">

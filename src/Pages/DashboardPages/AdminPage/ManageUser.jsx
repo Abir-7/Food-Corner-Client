@@ -1,6 +1,7 @@
 import React from 'react';
 import { useGetUserQuery } from '../../../Redux/api/baseApi';
 import LinkBanner from '../../../Components/Common/LinkBanner';
+import { Helmet } from 'react-helmet';
 
 const ManageUser = () => {
 
@@ -11,7 +12,7 @@ const ManageUser = () => {
 
 
     <div>
-
+      <Helmet><title>Food-Corner | Manage Users</title></Helmet>
       <div className='mb-5'>
         <LinkBanner text={'All Users'}></LinkBanner>
       </div>

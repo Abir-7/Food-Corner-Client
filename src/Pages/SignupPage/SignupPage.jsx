@@ -8,6 +8,7 @@ import bg1 from "../../assets/login.jpg"
 import logo from "../../assets/signup.jpg"
 import { Link } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
+import { Helmet } from "react-helmet";
 
 const SignupPage = () => {
     const dispatch = useDispatch()
@@ -60,7 +61,7 @@ const SignupPage = () => {
 
     return (
         <div className="  min-w-full  min-h-screen " style={{ backgroundImage: `url(${bg1})`, backgroundSize: '100% 100%' }} >
-
+      <Helmet><title>Food-Corner | Signup</title></Helmet>
             <div className="backdrop-blur-sm   w-[100%] min-h-screen p-5 ">
                 <Link className='flex  items-center gap-1 text-orange-400' to='/'><FaArrowLeft />Back to Home</Link>
                 <div className="flex items-center justify-center p-10 md:p-16">

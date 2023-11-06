@@ -9,6 +9,7 @@ import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { resetReviewData, setRating, setReviewMessage } from '../../../Redux/feature/userReviewsSlice/userReviewsSlice';
 import toast, { Toaster } from 'react-hot-toast';
+import { Helmet } from 'react-helmet';
 
 const UserDashboard = () => {
     const dispatch=useDispatch()
@@ -48,6 +49,7 @@ useEffect(()=>{
 
     return (
         <div>
+                  <Helmet><title>Food-Corner | User Dashboard</title></Helmet>
             <Toaster></Toaster>
             {
                 userLoading || isLoading ? <></>
