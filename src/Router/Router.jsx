@@ -51,7 +51,7 @@ const router = createBrowserRouter([
       },
        {
         path: '/checkout',
-        element: <CheckOutPage />
+        element:<PrivetRouts> <CheckOutPage /></PrivetRouts>
       }
       , {
         path: '/viewProfile',
