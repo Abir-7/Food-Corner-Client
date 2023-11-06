@@ -11,6 +11,8 @@ import bg2 from '../../assets/bg2.jpg'
 import { signOut } from 'firebase/auth';
 import auth from '../../FirebaseConfig/firebaseConfig';
 import { useEffect } from 'react';
+import { setSelectedCategory, setSelectedCuisine } from '../../Redux/feature/cartProductSlice/cartProductSlice';
+import logo from "../../assets/login2.png"
 
 const Navbar = () => {
   const dispatch=useDispatch()
@@ -29,11 +31,14 @@ const Navbar = () => {
       <Link to="/" className={`underline-on-hover ${location?.pathname === '/' && 'selected'}`} >
         <li>Home</li>
       </Link>
-      <Link to="/fooditems" className={`underline-on-hover ${location?.pathname === '/fooditems' && 'selected'}`} >
+      <Link onClick={()=>{
+        dispatch(setSelectedCuisine('all'))
+        dispatch(setSelectedCategory('all'))
+        }} to="/fooditems" className={`underline-on-hover ${location?.pathname === '/fooditems' && 'selected'}`} >
         <li>Menu Items</li>
       </Link>
-      <Link to="/about" className={`underline-on-hover ${location?.pathname === '/about' && 'selected'}`}>
-        <li>About Us</li>
+      <Link to="/contuct" className={`underline-on-hover ${location?.pathname === '/contuct' && 'selected'}`}>
+        <li>Contuct Us</li>
       </Link>
     </div>
   );
@@ -52,7 +57,10 @@ const Navbar = () => {
               </div>
             </ul>
           </div>
-          <a className="btn btn-ghost normal-case text-xl">daisyUI</a>
+          <div className="normal-case mx-3 text-xl flex items-center ">
+                      <img className='w-[50px]' src={logo} alt="" />
+            <h1 className=' font-bold'>Food-Corner</h1>
+          </div>
         </div>
         <div className="navbar-center hidden lg:flex">
           <ul className="menu menu-horizontal px-1 ">
@@ -76,10 +84,10 @@ const Navbar = () => {
                         isAdmin == true && !isAdminLoading ? <li className='font-semibold'><Link to='/dashboard/adminDashboard'>Dashboard</Link></li> : <li className='font-semibold'><Link to='dashboard/userDashboard'>Dashboard</Link></li>
                       }
                       <li className='font-semibold'><Link to='/viewProfile'>View Profile</Link></li>
-                      <button onClick={() => signOut(auth)} className='btn btn-sm btn-primary '>Logout</button>
+                      <button onClick={() => signOut(auth)} className="btn outline-none bg-orange-400 border-none hover:bg-orange-500 text-white  duration-500 ">Logout</button>
                     </ul>
                   </div>
-                  : <Link className='btn' to='/login'>Login</Link>
+                  : <Link className="btn outline-none bg-orange-400 border-none hover:bg-orange-500 text-white  duration-500 " to='/user/login'>Login</Link>
               }
             </div>
           }

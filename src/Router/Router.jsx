@@ -22,6 +22,9 @@ import PendingOrderPage from "../Pages/DashboardPages/AdminPage/PendingOrderPage
 import CompletedOrderPage from "../Pages/DashboardPages/AdminPage/CompletedOrderPage";
 import PendingOrders from "../Pages/DashboardPages/UserPage/PendingOrders";
 
+import ContuctUsPage from "../Pages/ContuctUsPage/ContuctUsPage";
+import UserLoginReg from "../PageLayout/UserLoginReg";
+
 
 
 
@@ -39,18 +42,14 @@ const router = createBrowserRouter([
         element: <FoodItemPage />
       },
       {
+        path: "/contuct",
+        element: <ContuctUsPage />
+      },
+      {
         path: '/itemInfo/:id',
-        element: <FoodItemDetails />
+        element: <PrivetRouts><FoodItemDetails /></PrivetRouts>
       },
-      {
-        path: "/login",
-        element: <LoginPage />
-      },
-      {
-        path: "/signup",
-        element: <SignupPage />
-      }
-      , {
+       {
         path: '/checkout',
         element: <CheckOutPage />
       }
@@ -101,6 +100,21 @@ const router = createBrowserRouter([
         element: <CompletedOrderPage/>
       },
     ]
+  },
+  {
+    path:'/user',
+    element:<UserLoginReg></UserLoginReg>,
+    children:[
+      {
+        path: "login",
+        element: <LoginPage />
+      },
+      {
+        path: "signup",
+        element: <SignupPage />
+      }
+    ]
+
   }
 
 

@@ -7,6 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { resetReviewData, setItemsInfo, setPaymentId, setRating, setReviewMessage, setSelectedValue, showReviews } from '../../Redux/feature/userReviewsSlice/userReviewsSlice';
+import { list } from 'postcss';
 
 const OrderdetailsTable = ({ isComplete, data, isAdmin, userEmail }) => {
 
@@ -64,16 +65,16 @@ const OrderdetailsTable = ({ isComplete, data, isAdmin, userEmail }) => {
     }
 
     useEffect(() => {
-      
+
         dispatch(resetReviewData())
 
-        if (isPostReviewSuccess && reviewPostData?.result !== 'duplicate' ) {
+        if (isPostReviewSuccess && reviewPostData?.result !== 'duplicate') {
             toast.success('Review Added')
         }
 
         if (reviewPostData?.result == 'duplicate') {
             toast.error('Review Already Added')
-            
+
         }
 
     }, [isPostReviewSuccess, reviewPostData])
@@ -82,58 +83,55 @@ const OrderdetailsTable = ({ isComplete, data, isAdmin, userEmail }) => {
     console.log(reviewPostData)
 
     return (
-        <>
-            <table className="table table-zebra">
-                {/* head */} <Toaster />
-                <thead>
-                    <tr className='text-orange-400 text-center'>
-                        <th>Menu Item</th>
-                        <th>Total Price</th>
-                        <th>PaymentId/OrderId</th>
-                        <th>User</th>
-                        <th>Date</th>
-                        {isComplete && <>
-                            <th>Delevery Date</th>
-                        </>}
-                        <th >Delivary Status</th>
+        <div className=''>
 
-                    </tr>
-                </thead>
-                <tbody className='text-center'>
-                    {/* row 1 */}
-                    {
-                        data?.map((order, index) => {
-                            return <tr className='shadow-md ' key={index}>
-                                <td className=''> {
-                                    order?.cartItem?.map((item, index) => <div className='grid my-2 grid-cols-1' key={index}>
-                                        <h1>Name: <span className='text-orange-400'>{item?.name}</span></h1>
-                                        <p>Size/Quantity: <span className='text-orange-400'>{item.size ? `${item.size}"` : 'Reguler'}</span></p>
-                                        <p>Amount: <span className='text-orange-400'>{item?.amount}</span></p>
-                                    </div>)
-                                }</td>
-                                <td>{order?.totalPrice} Tk.</td>
-                                <td className='text-green-500'>{order?.paymentID}</td>
-                                <td>{order?.userEmail}</td>
-                                <td>{order?.date} {order?.time}</td>
-                                {isComplete && <>
-                                    <td>{order?.deliveryDate} {order?.deliveryTime}</td>
-                                </>}
-                                <td className=' grid grid-cols-1 items-center'>{isAdmin && order.status == 'Pending' ? <button onClick={() => modifyStatus(isAdmin, order?.paymentID, userEmail)} className='btn btn-sm bg-orange-400 hover:bg-orange-500'>{order?.status}</button> : order?.status} {(!isAdmin && order?.status == 'Delivered') && <button className='btn btn-sm bg-orange-400 text-white'
-                                    onClick={() => {
-                                        document.getElementById('my_modal_3').showModal()
+            {data?.map(order => <div className='card shadow-md p-3 grid-cols-1 grid gap-4 md:grid-cols-6'>
+                <div>
+                    <ul className='list-decimal list-inside'>
+                        {
+                            order.cartItem.map((item, index) => <li key={index}><span className='text-orange-400 font-semibold'>{item.name}</span>
+                                <ul className='list-disc list-inside ms-4'>
+                                    <li>Amount: {item?.amount}</li>
+                                    <li>Size: {item.size ? `${item.size}"` : 'Reguler'}</li>
+                                </ul>
+                            </li>)
+                        }
+                    </ul>
 
-                                        dispatch(setPaymentId(order?.paymentID))
+                </div>
 
-                                        dispatch(setItemsInfo(order?.cartItem))
-                                    }}>Give Review</button>}</td>
-                            </tr>
-                        })
-                    }
-                </tbody>
-            </table>
+                <div>
+                    <h1 className='mb-3 text-orange-400'>Total Price</h1>
+                    <h1>{order?.totalPrice}</h1>
+                </div>
+                <div>
+                    <h1 className='mb-3 text-orange-400'>OrderId/PaymentId</h1>
+                    <h1>{order?.paymentID}</h1>
+                </div>
 
+                <div>
+                    <h1 className='mb-3 text-orange-400'>Date</h1>
+                    <h1><span>{order?.date}</span> <span>{order?.time}</span></h1>
+                </div>
 
+                <div>
+                    <h1 className='mb-3 text-orange-400'>User Email</h1>
+                    <h1>{order?.userEmail}</h1>
+                </div>
 
+                <div className='grid'>
+                    <h1 className='mb-3 text-orange-400'>Status</h1>
+                    {isAdmin && order.status == 'Pending' ? <button onClick={() => modifyStatus(isAdmin, order?.paymentID, userEmail)} className='btn btn-sm bg-orange-400 hover:bg-orange-500'>{order?.status}</button> : <span className=''>{order?.status}</span>} {(!isAdmin && order?.status == 'Delivered') && <button className='btn btn-sm bg-orange-400 w-1/2 text-white'
+                        onClick={() => {
+                            document.getElementById('my_modal_3').showModal()
+
+                            dispatch(setPaymentId(order?.paymentID))
+
+                            dispatch(setItemsInfo(order?.cartItem))
+                        }} >Give Review</button>}
+                </div>
+
+            </div>)}
 
             <dialog id="my_modal_3" className="modal">
                 <div className="modal-box w-11/12 max-w-5xl">
@@ -164,7 +162,9 @@ const OrderdetailsTable = ({ isComplete, data, isAdmin, userEmail }) => {
                     </div>
                 </div>
             </dialog>
-        </>
+
+
+        </div>
 
     );
 };

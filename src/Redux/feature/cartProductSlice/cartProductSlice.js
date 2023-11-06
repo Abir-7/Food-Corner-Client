@@ -10,8 +10,8 @@ const initialState = {
   totalPrice: 0,
   discountOffer: 0,
 
-  selectedTab:'all'
-
+  selectedCategory:'all',
+  selectedCuisine:'all'
 
 }
 
@@ -20,10 +20,12 @@ export const cartProductSlice = createSlice({
   initialState,
   reducers: {
 
-    setSelectedTab:(state,{payload})=>{
-      state.selectedTab=payload
+    setSelectedCategory:(state,{payload})=>{
+      state.selectedCategory=payload
     },
-
+    setSelectedCuisine:(state,{payload})=>{
+      state.selectedCuisine=payload
+    },
     singleItemIncrement: (state) => {
       state.itemNumber = state.itemNumber + 1
     },
@@ -34,6 +36,7 @@ export const cartProductSlice = createSlice({
       else {
         state.itemNumber = state.itemNumber - 1
       }
+      
     },
     singleItemSize: (state, { payload }) => {
       state.option = payload
@@ -127,6 +130,6 @@ export const cartProductSlice = createSlice({
 })
 
 // Action creators are generated for each case reducer function
-export const { singleItemIncrement, singleItemDecrement, singleItemSize, showCartSlide, addCart, cartTotalPrice, modifyCart, removeCartItem, setAmount, showFavouriteSlide,setSelectedTab } = cartProductSlice.actions
+export const { singleItemIncrement, singleItemDecrement, singleItemSize, showCartSlide, addCart, cartTotalPrice, modifyCart, removeCartItem, setAmount, showFavouriteSlide,setSelectedCategory,setSelectedCuisine } = cartProductSlice.actions
 
 export default cartProductSlice.reducer

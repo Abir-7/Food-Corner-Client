@@ -57,9 +57,9 @@ useEffect(()=>{
                             <LinkBanner text='User Dashboard'></LinkBanner>
                         </div>
                         <div>
-                            <div className="stats w-full shadow">
+                            <div className="  w-full shadow-sm  grid grid-cols-1 md:grid-cols-2">
 
-                                <div className="stat">
+                                <div className="stat border ">
                                     <div className="stat-figure text-primary">
                                         <span className='text-green-500 text-5xl'> <HiMiniClipboardDocumentCheck /></span>
                                     </div>
@@ -68,7 +68,7 @@ useEffect(()=>{
                                  
                                 </div>
 
-                                <div className="stat">
+                                <div className="stat border ">
                                     <div className="stat-figure text-secondary">
                                         <span className='text-red-500 text-5xl'> <HiMiniClipboardDocumentList /></span>
                                     </div>

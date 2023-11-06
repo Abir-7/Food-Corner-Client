@@ -30,7 +30,7 @@ const OurServices = () => {
                         <div className=' flex flex-col gap-5'>
                             <h1 className='text-5xl'>We are more than multiple survice</h1>
                             <p>This is a type of restaurant which typically serves food and drinks, in addition to light refreshment such as backed goods or snacks. The term comes from he rench word meaning food.</p>
-                            <button className='btn btn-primary w-1/2'>Discover Now</button>
+                            {/* <button className='btn btn-primary w-1/2'>Discover Now</button> */}
                         </div>
                     </div>
                     <div className=''>

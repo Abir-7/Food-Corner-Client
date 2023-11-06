@@ -13,7 +13,7 @@ const PendingOrders = () => {
         <div className=''>
             <LinkBanner text='Pending Orders'></LinkBanner>
             <div>
-                <div className="overflow-x-auto">
+                <div className="">
                     <OrderdetailsTable data={data?.result} isAdmin={false}></OrderdetailsTable>
                 </div>
             </div>

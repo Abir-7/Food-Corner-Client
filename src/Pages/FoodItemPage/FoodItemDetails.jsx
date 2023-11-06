@@ -144,12 +144,12 @@ const FoodItemDetails = () => {
                                     </div>
                                     <p className='font-medium mt-2'>{ingredients}</p>
                                     <div className='flex gap-5 items-center'>
-                                        <p className='font-bold my-2 text-2xl text-orange-400'><span className='text-green-400'>{allPriceSize.length > 1 ? size[option]?.price : size[0]?.price}</span>tk</p>
+                                        <p className='font-bold my-2 text-2xl text-orange-400'><span className='text-green-400'>{allPriceSize.length > 1 ? allPriceSize[option]?.price : allPriceSize[0]?.price}</span>tk</p>
                                         <div className='flex  gap-5 '>
                                             {
-                                                size.length > 1 ? <>
+                                                allPriceSize?.length > 1 ? <>
                                                     {
-                                                        size.map((item, index) => <div onClick={() => handleNext({ action: 'size', index: index })} className='flex gap-2 items-center' key={index}><div className={option == index ? 'radio flex justify-center items-center  radio-success w-[20px] h-[20px] rounded-full' : 'radio flex justify-center items-center  radio-success w-[20px] h-[20px] rounded-fulll'} ><div className={option == index ? ' bg-green-400 w-[10px] h-[10px] rounded-full' : 'bg-white rounded-full w-[10px] h-[10px]'}></div></div><p className=''>{item.size}</p></div>)
+                                                        allPriceSize.map((item, index) => <div onClick={() => handleNext({ action: 'size', index: index })} className='flex gap-2 items-center' key={index}><div className={option == index ? 'radio flex justify-center items-center  radio-success w-[20px] h-[20px] rounded-full' : 'radio flex justify-center items-center  radio-success w-[20px] h-[20px] rounded-fulll'} ><div className={option == index ? ' bg-green-400 w-[10px] h-[10px] rounded-full' : 'bg-white rounded-full w-[10px] h-[10px]'}></div></div><p className=''>{item.size}</p></div>)
                                                     }
                                                 </> :
                                                     <></>
@@ -164,7 +164,7 @@ const FoodItemDetails = () => {
                                             <button className='btn btn-sm rounded-full text-orange-400' onClick={() => { handleNext({ action: 'incressOne' }) }}><FaPlus></FaPlus></button>
                                         </div>
                                         <div className='flex-grow'>
-                                            <button onClick={() => addItemCart({ name: itemName, size: allPriceSize.length > 1 ? size[option]?.size : 'reguler', price: allPriceSize.length > 1 ? size[option]?.price : size[0]?.price, menuID: menuID, amount: itemNumber, category: category, image: urls[0] })} className='btn w-full py-3 bg-orange-400 hover:bg-orange-500 font-bold text-white h-auto '>Add to Cart < FaCartPlus /></button>
+                                            <button onClick={() => addItemCart({ name: itemName, size: allPriceSize.length > 1 ? allPriceSize[option]?.size : 'reguler', price: allPriceSize.length > 1 ? allPriceSize[option]?.price : allPriceSize[0]?.price, menuID: menuID, amount: itemNumber, category: category, image: urls[0] })} className='btn w-full py-3 bg-orange-400 hover:bg-orange-500 font-bold text-white h-auto '>Add to Cart < FaCartPlus /></button>
                                         </div>
                                         <div>
                                             <button onDoubleClick={() => {

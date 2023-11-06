@@ -71,7 +71,7 @@ const AddMenuPage = () => {
 
            // console.log(urls)
 
-            const data3 = { ...menuData, urls }
+            const data3 = { ...menuData, urls,isAvailable:true }
             //const data3='sadasd'
             await addMenuItem(data3)
     

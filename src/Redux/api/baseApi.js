@@ -62,8 +62,8 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
        }),
 
        getMenuItem: builder.query({   //get menu
-        query:(name)=>({
-          url:`/getMenu?name=${name}`,
+        query:(info)=>({
+          url:`/getMenu?name=${info.category}&cuisine=${info.cuisine}`,
           //headers: authHeaders,
         }),
         invalidatesTags:['Menu'],
@@ -184,9 +184,19 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
         providesTags:['Menu'],
        }),
 
+       modifyAvailabeStatus: builder.mutation({   //modify Order Status
+        query:(status)=>({
+          url:`/modifyAvailableStatus/${status.menuID}`,
+       // headers: authHeaders,
+          method: 'PATCH',
+          body:{status:status.isAvailable},
+        }),
+        invalidatesTags:['Menu'],
+       }),
+
 
     })
 })
 
-export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery,useAddMenuItemMutation,useGetMenuItemQuery,useGetSingleMenuItemQuery,useAddFavouriteMenuItemMutation,useSavePaymentInfoMutation,useGetOrderInfoQuery,useModifyOrderStatusMutation,useGetOrderItemPercentQuery,useGetThaiCuisineQuery, useAddReviewsMutation,useGetReviewsQuery,useShopFavouriteQuery,useAddFeedbackMutation,useGetFeedbackQuery,useGetSimilarMenuItemQuery} = baseApi;
+export const {useGetUserQuery,useGetAdminQuery,useUpdateUserProfilesMutation,useGetOneUserQuery,useAddMenuItemMutation,useGetMenuItemQuery,useGetSingleMenuItemQuery,useAddFavouriteMenuItemMutation,useSavePaymentInfoMutation,useGetOrderInfoQuery,useModifyOrderStatusMutation,useGetOrderItemPercentQuery,useGetThaiCuisineQuery, useAddReviewsMutation,useGetReviewsQuery,useShopFavouriteQuery,useAddFeedbackMutation,useGetFeedbackQuery,useGetSimilarMenuItemQuery,useModifyAvailabeStatusMutation} = baseApi;
 export default baseApi;
