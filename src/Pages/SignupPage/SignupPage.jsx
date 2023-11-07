@@ -10,7 +10,7 @@ import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 
-import Swal from 'sweetalert2'
+
 
 
 const SignupPage = () => {

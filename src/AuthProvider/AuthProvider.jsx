@@ -62,7 +62,7 @@ const AuthProvider = ({ children }) => {
             //console.log(loguser, 'auth changed obseve')
             if (loguser) {
                 setLoader(false)
-                axios.post('http://localhost:4000/jwt', { email: loguser.email })
+                axios.post('https://food-corner-server-lyart.vercel.app/jwt', { email: loguser.email })
                     .then(data => {
                         localStorage.setItem('access-token', data.data.token)
                         dispatch(setUsers({ email: loguser.email, name: loguser.displayName, image: loguser.photoURL }))

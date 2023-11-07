@@ -39,7 +39,7 @@ export const createUser = createAsyncThunk('userProfileSlice/createUser', async 
             displayName: name, photoURL: null
         });
         console.log(data.user)
-        const res = await fetch('http://localhost:4000/users', {
+        const res = await fetch('https://food-corner-server-lyart.vercel.app/users', {
             method: "POST",
             headers: {
                 "content-type": "application/json"
@@ -69,7 +69,7 @@ export const userInfo = createAsyncThunk('userProfileSlice/userInfo', async ( em
             Authorization: `Bearer ${localStorage.getItem('access-token')}`,
         },
     }
-    const res = await fetch(`http://localhost:4000/singleUsers/${email}`, config)
+    const res = await fetch(`https://food-corner-server-lyart.vercel.app/singleUsers/${email}`, config)
     const data = await res.json()
 
     //console.log(data,'user mobile address')
@@ -87,7 +87,7 @@ export const checkAdmin = createAsyncThunk('userProfileSlice/checkAdmin', async 
     }
 
     try {
-        const res = await axios.get('http://localhost:4000/user/admin',config);
+        const res = await axios.get('https://food-corner-server-lyart.vercel.app/user/admin',config);
         const data = res.data;
         //console.log(data, 'check admin',res)
         return {data};

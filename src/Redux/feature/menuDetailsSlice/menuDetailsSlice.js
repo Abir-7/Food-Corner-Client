@@ -55,11 +55,11 @@ export const getMenu = createAsyncThunk('menuItemSlice/menuItem', async (dataInf
             Authorization: `Bearer ${localStorage.getItem('access-token')}`,
         },
     }
-    const res = await axios.get(`http://localhost:4000/getMenu/${dataInfo?.id}?email=${dataInfo?.userEmail}`, config)
+    const res = await axios.get(`https://food-corner-server-lyart.vercel.app/getMenu/${dataInfo?.id}?email=${dataInfo?.userEmail}`, config)
     const data = res.data
     console.log(data, '[[]]')
 
-    const res2=await axios.get(`http://localhost:4000/getSimilarMenu/${data.category}?id=${data._id}`, config)
+    const res2=await axios.get(`https://food-corner-server-lyart.vercel.app/getSimilarMenu/${data.category}?id=${data._id}`, config)
     const data2 = res2.data
     return { id: data._id, itemName: data.itemName, price: data.price, time: data.time, urls: data.urls, cuisine: data.cuisine, category: data.category, ingredients: data.ingredients, canReview: data.canReview, averageRating: data.averageRating, totalCustomer: data.totalCustomer,similarMenu:data2 }
 })
@@ -70,7 +70,7 @@ export const isFavMenu = createAsyncThunk('menuItemSlice/FavMenuItem', async (id
             Authorization: `Bearer ${localStorage.getItem('access-token')}`,
         },
     }
-    const res = await axios.get(`http://localhost:4000/favMenu/${id}`, config)
+    const res = await axios.get(`https://food-corner-server-lyart.vercel.app/favMenu/${id}`, config)
     const data = res.data
 
     return data.result
@@ -82,7 +82,7 @@ export const getFavMenuData = createAsyncThunk('menuItemSlice/FavMenuItemData', 
             Authorization: `Bearer ${localStorage.getItem('access-token')}`,
         },
     }
-    const res = await axios.get(`http://localhost:4000/favMenuData/${email}`, config)
+    const res = await axios.get(`https://food-corner-server-lyart.vercel.app/favMenuData/${email}`, config)
     const data = res.data
     return data
 })
@@ -95,7 +95,7 @@ export const deleteFavMenuData = createAsyncThunk('menuItemSlice/deleteFavMenuIt
         },
     }
 
-    const res = await axios.delete(`http://localhost:4000/deleteFavMenu?email=${menuData.userEmail}&menuId=${menuData.menuID}`, config)
+    const res = await axios.delete(`https://food-corner-server-lyart.vercel.app/deleteFavMenu?email=${menuData.userEmail}&menuId=${menuData.menuID}`, config)
     const data = res.data
     //console.log(data, '[[---]]')
 
