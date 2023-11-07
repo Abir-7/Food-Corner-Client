@@ -6,7 +6,7 @@ import axios from 'axios';
 import {  useGetOneUserQuery, useUpdateUserProfilesMutation } from '../../Redux/api/baseApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { setImage, setUsers, updateUsers,  } from '../../Redux/feature/updateProfileSlice/userProfileSlice';
-import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer, toast } from 'react-toastify';
 
 import auth from '../../FirebaseConfig/firebaseConfig';
 import { Navigate, useNavigate } from 'react-router-dom';
@@ -121,13 +121,14 @@ useEffect(()=>{
     //console.log(isLoading, loader)
     return (
         <>
+        <ToastContainer/>
             {
                 (isLoading || loader) ?
                     <div>Loading...</div>
                     :
                     <div className='max-w-[1480px] mx-auto my-10 md:my-20'>
                         <div className='flex justify-around w-full  '>
-                            <Toaster></Toaster>
+                          
                             <div className='grid gap-5 md:gap-20 lg:grid-cols-2 items-center  '>
 
                                 <div className="form-control w-full">

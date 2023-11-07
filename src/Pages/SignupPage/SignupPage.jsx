@@ -1,42 +1,52 @@
 import { useForm } from "react-hook-form";
 // import { Authcontext } from "../../AuthProvider/AuthProvider";
 import { useContext, useEffect, useState } from "react";
-import toast, { Toaster } from "react-hot-toast";
+
 import { useDispatch, useSelector } from "react-redux";
-import { createUser } from "../../Redux/feature/updateProfileSlice/userProfileSlice";
+import { createUser, setIsSignupSuccessfull } from "../../Redux/feature/updateProfileSlice/userProfileSlice";
 import bg1 from "../../assets/login.jpg"
 import logo from "../../assets/signup.jpg"
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 
+import Swal from 'sweetalert2'
+
+
 const SignupPage = () => {
     const dispatch = useDispatch()
-    const navigate=useNavigate()
-    const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError,isAdmin,isAdminLoading } = useSelector((state) => state.userProfileSlice)
+    const navigate = useNavigate()
+    const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError, isAdmin, isAdminLoading, isSignupSuccessfull } = useSelector((state) => state.userProfileSlice)
+
+
+
+
 
     const {
         register,
         formState: { errors },
         handleSubmit,
     } = useForm()
+
     const onSubmit = (data) => {
         console.log(data)
-        dispatch(createUser({email:data.email, password:data.password, name:data.name, mobile:data.mobile}))
+        dispatch(createUser({ email: data.email, password: data.password, name: data.name, mobile: data.mobile }))
     }
 
 
-useEffect(()=>{
+    useEffect(() => {
 
-if(!userLoading && userEmail){
-navigate('/')
-}
+        if (!userLoading && userEmail) {
 
-},[userLoading])
+            dispatch(setIsSignupSuccessfull(true))
+            navigate('/')
+        }
+
+    }, [userLoading])
 
     return (
         <div className="  min-w-full  min-h-screen " style={{ backgroundImage: `url(${bg1})`, backgroundSize: '100% 100%' }} >
-      <Helmet><title>Food-Corner | Signup</title></Helmet>
+            <Helmet><title>Food-Corner | Signup</title></Helmet>
             <div className="backdrop-blur-sm   w-[100%] min-h-screen p-5 ">
                 <Link className='flex  items-center gap-1 text-orange-400' to='/'><FaArrowLeft />Back to Home</Link>
                 <div className="flex items-center justify-center p-10 md:p-16">
@@ -109,7 +119,6 @@ navigate('/')
                                     <input className="btn outline-none border-none text-white bg-orange-400 hover:bg-orange-500" type="submit" />
                                     <p className="text-white mt-1 text-center">Already have account? <Link className="hover:link" to='/user/login'>Click Here</Link></p>
                                 </div>
-                                <Toaster />
                             </form>
                         </div>
                     </div>

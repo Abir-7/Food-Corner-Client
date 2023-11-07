@@ -18,7 +18,7 @@ const ManageUser = () => {
       </div>
 
       <div>
-        {data?.map(user => <div className='card shadow-md p-3 grid-cols-1 grid gap-4 md:grid-cols-4'>
+        {data?.map(user => <div className='card shadow-md p-3 grid-cols-1 grid gap-4 md:grid-cols-3'>
 
           <div className='flex flex-col '>
             <h1 className='mb-3 text-orange-400'>Name</h1>
@@ -43,10 +43,10 @@ const ManageUser = () => {
             <h1>{user?.role}</h1>
           </div>
 
-          <div>
+          {/* <div>
             <h1 className='mb-3 text-orange-400'>Action</h1>
             <button className="btn btn-ghost btn-xs">Delete</button>
-          </div>
+          </div> */}
 
         </div>)}
       </div>

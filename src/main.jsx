@@ -9,7 +9,7 @@ import { RouterProvider } from 'react-router-dom'
 import router from './Router/Router'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import AuthProvider from './AuthProvider/AuthProvider'
-import { SkeletonTheme } from 'react-loading-skeleton'
+
 
 
 const queryClient = new QueryClient()

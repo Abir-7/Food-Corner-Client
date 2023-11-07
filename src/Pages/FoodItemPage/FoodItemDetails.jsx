@@ -12,7 +12,8 @@ import { useAddFavouriteMenuItemMutation, useGetSingleMenuItemQuery } from '../.
 import { Link, useParams } from 'react-router-dom';
 
 import { decrement, isFavMenu, getMenu, increment, deleteFavMenuData, setFavDeleteSuccess } from '../../Redux/feature/menuDetailsSlice/menuDetailsSlice';
-import toast, { Toaster } from 'react-hot-toast';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import UsersReviews from './UsersReviews';
 import { showReviews } from '../../Redux/feature/userReviewsSlice/userReviewsSlice';
 
@@ -118,6 +119,7 @@ const FoodItemDetails = () => {
 
     return (
         <>
+        <ToastContainer/>
               <Helmet><title>Food-Corner | Menu Details</title></Helmet>
          <LinkBanner text='Food Details'></LinkBanner>
             {
@@ -209,7 +211,6 @@ const FoodItemDetails = () => {
                                         </div>
                                     })}
 
-                                    <Toaster />
                                 </div>
                             </div>
                         </div>

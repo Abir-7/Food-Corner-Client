@@ -71,8 +71,8 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
        }),
 
        getThaiCuisine: builder.query({   // get thai cuisine
-        query:()=>({
-          url:'/thaiCuisine',
+        query:(email)=>({
+          url:`/thaiCuisine?email=${email}`,
           //headers: authHeaders,
         }),
         providesTags:['Menu'],

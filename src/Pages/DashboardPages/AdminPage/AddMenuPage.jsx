@@ -4,7 +4,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import { setDataPostLoading, setMenuData, setPriceValue1, setPriceValue2, setPriceValue3, setSizeValue1, setSizeValue2, setSizeValue3 } from '../../../Redux/feature/addMenuItemSlice/addMenuItemSlice';
 import bg from '../../../assets/LinkBanner.jpg'
 
-import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { useAddMenuItemMutation } from '../../../Redux/api/baseApi';
 import { Helmet } from 'react-helmet';
 const AddMenuPage = () => {
@@ -100,7 +101,7 @@ const AddMenuPage = () => {
         <div className=' md:mt-10 '  >
              <Helmet><title>Food-Corner | Add Menu</title></Helmet>
             <div className=' '>
-                <Toaster></Toaster>
+              <ToastContainer/>
                 <div className='flex justify-center flex-wrap gap-4 p-5'>
                     {
                         liveImage.length > 0 && liveImage.map((img, index) => {

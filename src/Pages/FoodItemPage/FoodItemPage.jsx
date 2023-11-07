@@ -12,7 +12,8 @@ import '@smastrom/react-rating/style.css'
 import { useEffect } from "react";
 import FoodItemPageLoader from "./SkeletonLoader/FoodItemPageLoader";
 import na from '../../assets/na.png'
-import toast, { Toaster } from "react-hot-toast";
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from "react-helmet";
 
 
@@ -70,7 +71,7 @@ useEffect(()=>{
                   <Helmet><title>Food-Corner | All Menu</title></Helmet>
             <LinkBanner text='All Food Menu' />
             <div >
-                <Toaster></Toaster>
+                <ToastContainer/>
                 <div className="bg-[#ffefd2] flex justify-center items-center ">
 
                     <div className="tabs tabs-boxed flex justify-center bg-[#ffefd2] ">

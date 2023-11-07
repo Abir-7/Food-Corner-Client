@@ -6,7 +6,8 @@ import { useAddFavouriteMenuItemMutation, useGetThaiCuisineQuery } from '../../R
 import { useDispatch, useSelector } from 'react-redux';
 import { addCart, setSelectedCategory, setSelectedCuisine } from '../../Redux/feature/cartProductSlice/cartProductSlice';
 import { deleteFavMenuData, getFavMenuData, isFavMenu, setCuisineId } from '../../Redux/feature/menuDetailsSlice/menuDetailsSlice';
-import toast, { Toaster } from 'react-hot-toast';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import OurDishesLoader from './SkeletonLoaderHomePage/OurDishesLoader';
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
@@ -24,9 +25,9 @@ const OurDishes = () => {
     const [addFavouriteMenuItem, { data: addFavData, error: favErr, isError, isLoading: favMenuLoading, isSuccess: isAddFavSuccess }] = useAddFavouriteMenuItemMutation()
 
 
-    const { data, isLoading: isThaiCuisineLoading, error: thaiCuisineErr, refetch } = useGetThaiCuisineQuery()
+    const { data, isLoading: isThaiCuisineLoading, error: thaiCuisineErr, refetch } = useGetThaiCuisineQuery(userEmail && userEmail)
 
-    //console.log(data)
+    console.log(data)
 
     const addItemCart = (data) => {
         dispatch(addCart(data))
@@ -52,11 +53,12 @@ const OurDishes = () => {
 
     useEffect(() => {
         if (addFavData?.insertedId) {
-            toast.success('Add to Favourite')
+           
             dispatch(getFavMenuData(userEmail))
             refetch()
+            toast.success('Add to Favourite')
         }
-    }, [userEmail, addFavData?.insertedId, cuisineID])
+    }, [ addFavData?.insertedId,])
 
     useEffect(() => {
 
@@ -73,7 +75,7 @@ const OurDishes = () => {
 
     return (
         <div className='container mx-auto my-10'>
-            <Toaster />
+     <ToastContainer />
             <div className='flex justify-center items-center'>
                 <div className='grid md:grid-cols-4 items-center gap-10 md:gap-20 mx-5'>
                     <div className='' >

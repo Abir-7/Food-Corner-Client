@@ -1,13 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useAddReviewsMutation, useModifyOrderStatusMutation } from '../../Redux/api/baseApi';
-import toast, { Toaster } from 'react-hot-toast';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { resetReviewData, setItemsInfo, setPaymentId, setRating, setReviewMessage, setSelectedValue, showReviews } from '../../Redux/feature/userReviewsSlice/userReviewsSlice';
-import { list } from 'postcss';
+
 
 const OrderdetailsTable = ({ isComplete, data, isAdmin, userEmail }) => {
 
@@ -84,7 +85,7 @@ const OrderdetailsTable = ({ isComplete, data, isAdmin, userEmail }) => {
 
     return (
         <div className=''>
-
+            <ToastContainer></ToastContainer>
             {data?.map(order => <div className='card shadow-md p-3 grid-cols-1 grid gap-4 md:grid-cols-6'>
                 <div>
                     <ul className='list-decimal list-inside'>

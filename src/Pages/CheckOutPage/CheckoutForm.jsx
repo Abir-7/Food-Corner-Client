@@ -2,9 +2,9 @@ import { CardElement, useElements, useStripe } from '@stripe/react-stripe-js';
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { paymentIntent, setCardError, setIsPaymentProcessing, setTransectionID } from '../../Redux/feature/PaymentSlice/PaymentSlice';
-import toast, { Toaster } from 'react-hot-toast';
 import { useSavePaymentInfoMutation } from '../../Redux/api/baseApi';
-
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 
 
@@ -109,7 +109,7 @@ const CheckoutForm = ({ totalPrice, cartItem }) => {
 
   return (
     <div className='w-2/3 mx-auto mt-5'>
-      <Toaster />
+      <ToastContainer/>
       <form onSubmit={handleSubmit}>
         <CardElement
           className='border-2 p-3 rounded-lg'

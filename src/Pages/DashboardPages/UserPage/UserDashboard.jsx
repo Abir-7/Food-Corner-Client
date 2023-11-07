@@ -8,7 +8,8 @@ import { HiMiniClipboardDocumentCheck, HiMiniClipboardDocumentList } from 'react
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { resetReviewData, setRating, setReviewMessage } from '../../../Redux/feature/userReviewsSlice/userReviewsSlice';
-import toast, { Toaster } from 'react-hot-toast';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 import { Helmet } from 'react-helmet';
 
 const UserDashboard = () => {
@@ -50,7 +51,7 @@ useEffect(()=>{
     return (
         <div>
                   <Helmet><title>Food-Corner | User Dashboard</title></Helmet>
-            <Toaster></Toaster>
+<ToastContainer/>
             {
                 userLoading || isLoading ? <></>
                     :

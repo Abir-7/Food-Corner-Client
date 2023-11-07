@@ -8,7 +8,8 @@ import { showCartSlide, showFavouriteSlide } from '../Redux/feature/cartProductS
 import ProductCart from '../Components/ProductCart/ProductCart';
 import FavaouriteMenuList from '../Components/FavaouriteMenuList/FavaouriteMenuList';
 import { getFavMenuData, isFavMenu, setFavDeleteSuccess } from '../Redux/feature/menuDetailsSlice/menuDetailsSlice';
-import toast, { Toaster } from 'react-hot-toast';
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
 
 const Mainpage = () => {
 
@@ -32,7 +33,7 @@ const Mainpage = () => {
     useEffect(() => {
 
         if (isDeleteFavSuccess) {
-            toast('Remove from favourite')
+            toast.warning('Remove From Favourite')
             dispatch(setFavDeleteSuccess(null))
             dispatch(getFavMenuData(userEmail))
         }
@@ -42,7 +43,7 @@ const Mainpage = () => {
 
     return (
         <div className='max-w-[1900px] mx-auto  '>
-            <Toaster/>
+          <ToastContainer/>
             <div className=' w-full z-40 '>
                 <Navbar />
             </div>

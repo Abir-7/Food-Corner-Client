@@ -24,7 +24,9 @@ const initialState = {
     isAdmin: '',
     isAdminLoading: true,
     isAdminError: false,
-    adminError: ''
+    adminError: '',
+
+    isSignupSuccessfull:'',
 
 }
 
@@ -126,6 +128,9 @@ const userProfileSlice = createSlice({
             state.userLoading = payload
             state.isUserInfoLoading=payload
             state.isAdminLoading=payload
+        },
+        setIsSignupSuccessfull:(state,{payload})=>{
+            state.isSignupSuccessfull=payload
         }
     },
 
@@ -201,6 +206,6 @@ const userProfileSlice = createSlice({
 
 })
 
-export const { setUsers, removeUser, setImage, setLoading, updateUsers } = userProfileSlice.actions
+export const { setUsers, removeUser, setImage, setLoading, updateUsers, setIsSignupSuccessfull } = userProfileSlice.actions
 
 export default userProfileSlice.reducer
