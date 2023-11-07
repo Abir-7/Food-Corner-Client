@@ -10,6 +10,7 @@ import bg1 from "../../assets/login.jpg"
 import logo from "../../assets/login3.jpg"
 import { FaArrowLeft } from "react-icons/fa";
 import Swal from 'sweetalert2'
+import withReactContent from "sweetalert2-react-content";
 const LoginPage = () => {
     const dispatch = useDispatch()
     const MySwal = withReactContent(Swal)
