@@ -3,7 +3,7 @@ import React, { useContext, useEffect, useState } from 'react';
 import { useForm } from 'react-hook-form';
 import defaultPic from '../../assets/defaultProfile2.jpg'
 import axios from 'axios';
-import {  useUpdateUserProfilesMutation } from '../../Redux/api/baseApi';
+import {  useGetOneUserQuery, useUpdateUserProfilesMutation } from '../../Redux/api/baseApi';
 import { useDispatch, useSelector } from 'react-redux';
 import { setImage, setUsers, updateUsers,  } from '../../Redux/feature/updateProfileSlice/userProfileSlice';
 import toast, { Toaster } from "react-hot-toast";

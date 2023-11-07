@@ -1,7 +1,8 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit"
-import { createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
-import auth from "../../../FirebaseConfig/firebaseConfig"
+import {createUserWithEmailAndPassword, updateProfile } from "firebase/auth"
+
 import axios from "axios"
+import auth from "../../../FirebaseConfig/firebaseConfig"
 
 
 
@@ -29,24 +30,35 @@ const initialState = {
 
 
 export const createUser = createAsyncThunk('userProfileSlice/createUser', async ({ email, password, name, mobile }) => {
-    const data = await createUserWithEmailAndPassword(auth, email, password)
-    await updateProfile(auth.currentUser, {
-        displayName: name, photoURL: null
-    })
+    try {
+        console.log(email,password)
+        const data = await createUserWithEmailAndPassword(auth, email, password);
+        await updateProfile(auth.currentUser, {
+            displayName: name, photoURL: null
+        });
+        console.log(data.user)
+        const res = await fetch('http://localhost:4000/users', {
+            method: "POST",
+            headers: {
+                "content-type": "application/json"
+            },
+            body: JSON.stringify({ email: data?.user?.email.toLowerCase(), name: data?.user?.displayName, mobile: mobile, role: 'user' })
+        });
 
-    const res = await fetch('https://food-corner-server-lyart.vercel.app/users', {
-        method: "POST",
-        headers: {
-            "content-type": "application/json"
-        },
-        body: JSON.stringify({ email: data?.email.toLowerCase(), name: data?.name, mobile: data?.mobile, role: 'user' })
-    })
+        if (!res.ok) {
+            throw new Error(`HTTP error! Status: ${res.status}`);
+        }
 
-    const data2 = res.json()
+        const data2 = await res.json();
 
-    //console.log(data2)
+        // console.log(data2)
 
-    return { email: data.user.email, name: data.user.displayName }
+        return { email: data.user.email, name: data.user.displayName };
+    } catch (error) {
+        console.error("Error in createUser:", error.message);
+        // You can handle the error here, log it, or throw a new error if needed.
+        throw error;
+    }
 })
 
 export const userInfo = createAsyncThunk('userProfileSlice/userInfo', async ( email ) => {
@@ -55,7 +67,7 @@ export const userInfo = createAsyncThunk('userProfileSlice/userInfo', async ( em
             Authorization: `Bearer ${localStorage.getItem('access-token')}`,
         },
     }
-    const res = await fetch(`https://food-corner-server-lyart.vercel.app/singleUsers/${email}`, config)
+    const res = await fetch(`http://localhost:4000/singleUsers/${email}`, config)
     const data = await res.json()
 
     //console.log(data,'user mobile address')
@@ -73,7 +85,7 @@ export const checkAdmin = createAsyncThunk('userProfileSlice/checkAdmin', async 
     }
 
     try {
-        const res = await axios.get('https://food-corner-server-lyart.vercel.app/user/admin',config);
+        const res = await axios.get('http://localhost:4000/user/admin',config);
         const data = res.data;
         //console.log(data, 'check admin',res)
         return {data};

@@ -1,19 +1,19 @@
 import { useForm } from "react-hook-form";
 // import { Authcontext } from "../../AuthProvider/AuthProvider";
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import toast, { Toaster } from "react-hot-toast";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { createUser } from "../../Redux/feature/updateProfileSlice/userProfileSlice";
 import bg1 from "../../assets/login.jpg"
 import logo from "../../assets/signup.jpg"
-import { Link } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 
 const SignupPage = () => {
     const dispatch = useDispatch()
-    const [loading, setLoading] = useState(false)
-    // const { googleSignin, createUser:createUsers, updateUserProfile } = useContext(Authcontext)
+    const navigate=useNavigate()
+    const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError,isAdmin,isAdminLoading } = useSelector((state) => state.userProfileSlice)
 
     const {
         register,
@@ -21,43 +21,18 @@ const SignupPage = () => {
         handleSubmit,
     } = useForm()
     const onSubmit = (data) => {
-        setLoading(true)
-        //createUser(data.email, data.password)
-        dispatch(createUser(data.email, data.password, data.name, data.mobile))
-        // .then((userCredential) => {
-        //     const user = userCredential.user;
-        //     updateUserProfile(data.name,"") //default Propic
-        //     //console.log(user)
-        //     if (user) {
-        //     fetch('https://food-corner-server-lyart.vercel.app/users', {
-        //         method: "POST",
-        //         headers: {
-        //             "content-type": "application/json"
-        //         },
-        //         body: JSON.stringify({email:data?.email.toLowerCase(),name:data?.name,mobile:data?.mobile,role:'user'})
-        //     })
-        //         .then(res => res.json())
-        //         .then(data => {
-        //             //console.log(data)
-        //             if (data.insertedId) {
-        //                 toast.success('User Created Successfully')
-        //                 setLoading(false)
-        //             }
-
-        //         })
-
-        //     }
-        // })
-        // .catch((error) => {
-        //     const errorCode = error.code;
-        //     const errorMessage = error.message
-        //     //console.log(errorMessage)
-        //     toast.error(errorMessage)
-        // })
-        // setLoading(false)
+        console.log(data)
+        dispatch(createUser({email:data.email, password:data.password, name:data.name, mobile:data.mobile}))
     }
 
-    //toast.error('hi')
+
+useEffect(()=>{
+
+if(!userLoading && userEmail){
+navigate('/')
+}
+
+},[userLoading])
 
     return (
         <div className="  min-w-full  min-h-screen " style={{ backgroundImage: `url(${bg1})`, backgroundSize: '100% 100%' }} >

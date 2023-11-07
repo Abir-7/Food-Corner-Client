@@ -55,11 +55,11 @@ const router = createBrowserRouter([
       }
       , {
         path: '/viewProfile',
-        element: <UserProfilePage />
+        element: <PrivetRouts><UserProfilePage /></PrivetRouts>
       }
       , {
         path: '/updateProfile',
-        element: <UpdateProfile />
+        element: <PrivetRouts><UpdateProfile /></PrivetRouts>
       }
     ]
   },

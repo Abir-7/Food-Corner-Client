@@ -6,7 +6,7 @@ import {createApi, fetchBaseQuery} from '@reduxjs/toolkit/query/react'
     
     reducerPath:"api",
     baseQuery: fetchBaseQuery({
-      baseUrl:'https://food-corner-server-lyart.vercel.app',
+      baseUrl:'http://localhost:4000',
       tagTypes:['User','Menu','Payment','Reviews','Feedback'],
       prepareHeaders: (headers, { getState }) => {
         const token = `Bearer ${localStorage.getItem('access-token') }`
