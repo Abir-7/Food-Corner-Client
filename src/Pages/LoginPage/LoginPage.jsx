@@ -9,10 +9,10 @@ import auth from "../../FirebaseConfig/firebaseConfig";
 import bg1 from "../../assets/login.jpg"
 import logo from "../../assets/login3.jpg"
 import { FaArrowLeft } from "react-icons/fa";
-
+import Swal from 'sweetalert2'
 const LoginPage = () => {
     const dispatch = useDispatch()
-
+    const MySwal = withReactContent(Swal)
     const navigate = useNavigate();
     let location = useLocation();
     let from = location.state?.from?.pathname || "/";
@@ -27,6 +27,16 @@ const LoginPage = () => {
             .then((userCredential) => {
                 // Signed in 
                 const user = userCredential.user;
+
+                    if(user){
+                        MySwal.fire({
+                            position: "top-center",
+                            icon: "success",
+                            title: "Login Success",
+                            showConfirmButton: false,
+                            timer: 2000
+                          })
+                    }
 
                 navigate(from, { replace: true })
                 // ...

@@ -9,11 +9,15 @@ import logo from "../../assets/signup.jpg"
 import { Link, Navigate, useNavigate } from "react-router-dom";
 import { FaArrowLeft } from "react-icons/fa";
 import { Helmet } from "react-helmet";
-
+import Swal from 'sweetalert2'
+import withReactContent from 'sweetalert2-react-content'
 
 
 
 const SignupPage = () => {
+
+    const MySwal = withReactContent(Swal)
+
     const dispatch = useDispatch()
     const navigate = useNavigate()
     const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError, isAdmin, isAdminLoading, isSignupSuccessfull } = useSelector((state) => state.userProfileSlice)
@@ -39,6 +43,15 @@ const SignupPage = () => {
         if (!userLoading && userEmail) {
 
             dispatch(setIsSignupSuccessfull(true))
+
+            MySwal.fire({
+                position: "top-center",
+                icon: "success",
+                title: "Signup Success",
+                showConfirmButton: false,
+                timer: 2000
+              })
+
             navigate('/')
         }
 
