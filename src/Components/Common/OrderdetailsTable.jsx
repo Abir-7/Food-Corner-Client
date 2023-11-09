@@ -84,7 +84,7 @@ const OrderdetailsTable = ({ isComplete, data, isAdmin, userEmail }) => {
     console.log(reviewPostData)
 
     return (
-        <div className=''>
+        <div className=''  data-aos="fade-up">
             <ToastContainer></ToastContainer>
             {data?.map(order => <div className='card shadow-md p-3 grid-cols-1 grid gap-4 md:grid-cols-6'>
                 <div>

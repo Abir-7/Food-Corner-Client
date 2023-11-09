@@ -24,6 +24,7 @@ import PendingOrders from "../Pages/DashboardPages/UserPage/PendingOrders";
 
 import ContuctUsPage from "../Pages/ContuctUsPage/ContuctUsPage";
 import UserLoginReg from "../PageLayout/UserLoginReg";
+import NotFoundPage from "../Pages/NotFoundPage/NotFoundPage";
 
 
 
@@ -47,7 +48,8 @@ const router = createBrowserRouter([
       },
       {
         path: '/itemInfo/:id',
-        element: <PrivetRouts><FoodItemDetails /></PrivetRouts>
+        element: <PrivetRouts><FoodItemDetails /></PrivetRouts>,
+  
       },
        {
         path: '/checkout',
@@ -115,6 +117,9 @@ const router = createBrowserRouter([
       }
     ]
 
+  },{
+    path:'*',
+    element:<NotFoundPage></NotFoundPage>
   }
 
 

@@ -21,6 +21,7 @@ import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import FoodItemDetailsLoader from './SkeletonLoader/FoodItemDetailsLoader';
 import { Helmet } from 'react-helmet';
+import NotFoundPage from '../NotFoundPage/NotFoundPage';
 
 const FoodItemDetails = () => {
     const dispatch = useDispatch()
@@ -126,9 +127,9 @@ const FoodItemDetails = () => {
                 isLoading || userLoading ? <><FoodItemDetailsLoader/></> :
 
                     <div>
-
-
-                        <div className='container mx-auto my-10 grid gap-5 grid-cols-1 md:grid-cols-2'>
+                        {
+                            !menuID || !itemName? <><NotFoundPage text={'Item Not Found'}></NotFoundPage></>:
+                            <>   <div className='container mx-auto my-10 grid gap-5 grid-cols-1 md:grid-cols-2'>
                             <div className='flex flex-col  mx-auto  border-2 border-orange-400 rounded-lg p-8'>
                                 <img src={urls[index]} alt="" className='xl:w-[500px] xl:h-[500px] lg:w-[400px] lg:h-[400px] md:w-[300px] md:h-[300px] h-[250px] w-[250px]  sm:h-[390px] sm:w-[390px]  object-cover' />
 
@@ -214,6 +215,10 @@ const FoodItemDetails = () => {
                                 </div>
                             </div>
                         </div>
+                            </>
+                        }
+
+                     
                     </div>
             }
         </>
