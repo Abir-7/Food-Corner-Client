@@ -43,10 +43,10 @@ const ContuctUsPage = () => {
     setMsg('')
     emailjs
       .sendForm(
-        'service_sccjrni',
-        'template_qrbc4xn',
+        import.meta.env.VITE_Email_serviceId,
+        import.meta.env.VITE_Email_TEMPLATE_ID,
         form.current,
-        'tYJtdAx20n3Bxru2l'
+        import.meta.env.VITE_Email_PUBLIC_KEY,
       )
       .then(
         result => {
