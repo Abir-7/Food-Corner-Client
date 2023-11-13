@@ -319,7 +319,12 @@ const AddMenuPage = () => {
                                     Indian
                                 </label>
                             </div>
-
+                            <div>
+                                <label className='flex items-center gap-2'>
+                                    <input className="radio radio-primary" type='radio' onChange={(e) => handleMenuItem(e)} name='cuisine' value='Italian' />
+                                    Italian
+                                </label>
+                            </div>
                             <div>
                                 <label className='flex items-center gap-2'>
                                     <input className="radio radio-primary" type='radio' onChange={(e) => handleMenuItem(e)} name='cuisine' value='Chinese' />

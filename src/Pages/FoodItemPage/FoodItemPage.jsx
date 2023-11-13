@@ -153,7 +153,7 @@ useEffect(()=>{
                                                     <h1 className="flex gap-1 mt-2 items-center">
                                                         {/* {menu?.averageRating} */}
                                                         <span className="text-yellow-400 flex gap-1">      <Rating style={{ maxWidth: 100 }} value={menu?.averageRating} readOnly /></span></h1>
-                                                    <p>{menu?.ingredients.length > 80 ? `${menu?.ingredients.slice(0, 70)} ...` : menu?.ingredients}</p>
+                                                    <p>{menu?.ingredients.length > 60 ? `${menu?.ingredients.slice(0, 60)} ...` : menu?.ingredients}</p>
                                                     <div className="flex justify-between items-center">
                                                         <div className="flex gap-4">
                                                             <p className="flex gap-1" ><span className="font-bold text-orange-400">{menu?.price[0].price} </span> <span className="text-green-400 font-semibold">Tk.</span></p>
