@@ -43,7 +43,9 @@ const HomePage = () => {
 
             <Helmet><title>Food-Corner | Home</title></Helmet>
             <div data-aos="fade-up">
-                <Banner />
+                <LazyLoadComponent>
+                    <Banner />
+                </LazyLoadComponent>
             </div>
             <div data-aos="fade-up"
                 data-aos-offset="60"  >

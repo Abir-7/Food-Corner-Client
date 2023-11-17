@@ -81,7 +81,6 @@ const Navbar = () => {
                         alt={'User'}
                         src={userImage || userImage || defaultPic} // use normal <img> attributes as props
                         className='w-[40px] object-cover rounded-full h-[40px]'  />
-                      {/* <img tabIndex={0} className='w-[40px] object-cover rounded-full h-[40px]' src={userImage || userImage || defaultPic} alt="" /> */}
                     </div>
                     <ul tabIndex={0} className="dropdown-content  shadow-lg  menu p-2 bg-base-100 mt-2 rounded-box w-36">
                       {
