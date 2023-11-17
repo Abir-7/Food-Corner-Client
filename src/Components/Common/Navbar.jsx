@@ -13,6 +13,7 @@ import auth from '../../FirebaseConfig/firebaseConfig';
 import { useEffect } from 'react';
 import { setSelectedCategory, setSelectedCuisine } from '../../Redux/feature/cartProductSlice/cartProductSlice';
 import logo from "../../assets/login2.png"
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const Navbar = () => {
   const dispatch = useDispatch()
