@@ -12,6 +12,7 @@ import OurDishesLoader from './SkeletonLoaderHomePage/OurDishesLoader';
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { Link } from 'react-router-dom';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 
 const OurDishes = () => {
@@ -53,12 +54,12 @@ const OurDishes = () => {
 
     useEffect(() => {
         if (addFavData?.insertedId) {
-           
+
             dispatch(getFavMenuData(userEmail))
             refetch()
             toast.success('Add to Favourite')
         }
-    }, [ addFavData?.insertedId,])
+    }, [addFavData?.insertedId,])
 
     useEffect(() => {
 
@@ -75,7 +76,7 @@ const OurDishes = () => {
 
     return (
         <div className='container mx-auto my-10'>
-     <ToastContainer />
+            <ToastContainer />
             <div className='flex justify-center items-center'>
                 <div className='grid md:grid-cols-4 items-center gap-10 md:gap-20 mx-5'>
                     <div className='' >
@@ -110,7 +111,11 @@ const OurDishes = () => {
                             <>
                                 {
                                     data?.map(menu => <div key={menu?._id} className='  custom0 flex flex-col  relative p-5 border-b-4  rounded-xl md:border-b-0'>
-                                        <img className=' max-w-[250px] md:max-w-[200px] hover:scale-125 duration-500' src={menu?.urls[0]} alt="" />
+                                        <LazyLoadImage
+                                            alt={menu?.itemName}
+                                            src={menu?.urls[0]} // use normal <img> attributes as props
+                                            className=' max-w-[250px] md:max-w-[200px] hover:scale-125 duration-500' />
+                                        {/* <img src={} alt="" /> */}
                                         <div className='mt-6 grid gap-2'>
                                             <h1 className='text-xl font-bold'>
                                                 <Link className="hover:text-orange-400 duration-300" to={`/itemInfo/${menu._id}`}>{menu?.itemName}</Link>
@@ -121,7 +126,7 @@ const OurDishes = () => {
                                                 <span className='hover:scale-125 '>{(userEmail && !isAdmin) && <button className={menu?.match ? 'text-red-500' : ''} onDoubleClick={() => {
                                                     addOrDeleteFav(menu._id, userEmail, menu?.match)
                                                     dispatch(setCuisineId(menu?._id))
-                                                }}><FaHeart /></button> }</span>
+                                                }}><FaHeart /></button>}</span>
                                             </div>}
                                         </div>
                                     </div>)

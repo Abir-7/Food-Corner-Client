@@ -10,11 +10,12 @@ import PopulerDishesLoader from './SkeletonLoaderHomePage/PopulerDishesLoader';
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
 import { Link } from 'react-router-dom';
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const PopulerDishes = () => {
     const dispatch = useDispatch()
     const { data, error } = useShopFavouriteQuery()
-    console.log(data,'fav')
+    console.log(data, 'fav')
 
     const addItemCart = (data) => {
         dispatch(addCart(data))
@@ -34,7 +35,12 @@ const PopulerDishes = () => {
                                 <figure className="relative h-[700px]">
                                     <div className='custom3 absolute bottom-0 w-full'></div>
                                     <div className='px-7 z-10  py-7'>
-                                        <img src={item?.urls[0]} alt="Shoes" className="rounded-xl  custom4  " />
+
+                                        <LazyLoadImage
+                                            alt={item?.itemName}
+                                            src={item?.urls[0]} // use normal <img> attributes as props
+                                            className="rounded-xl  custom4  " />
+                                        {/* <img src={item?.urls[0]} alt="Shoes" className="rounded-xl  custom4  " /> */}
                                     </div>
                                 </figure>
                                 <div className="card-body   ">
@@ -43,7 +49,7 @@ const PopulerDishes = () => {
                                     <p>{item?.ingredients.length > 80 ? `${item?.ingredients.slice(0, 70)} ...` : item?.ingredients}</p>
                                     <div className="flex justify-between items-center ">
                                         <p><span className='text-md font-semibold'>Price: </span> <span className='text-lg font-semibold text-orange-400'>{item?.price[0].price} tk.</span></p>
-                                     {!isAdmin &&    <div className='text-lg text-orange-400 flex justify-end  '> <button className='hover:drop-shadow-md hover:scale-75  hover:bg-green-400 duration-500 p-2 rounded-full hover:text-white' onClick={() => addItemCart({ name: item?.itemName, size: `${item.price.length > 1 ? item?.price[0].size : ''}`, price: item?.price[0].price, menuID: item?._id, image: item?.urls[0], category: item?.category })}><FaShoppingCart /></button> </div>}
+                                        {!isAdmin && <div className='text-lg text-orange-400 flex justify-end  '> <button className='hover:drop-shadow-md hover:scale-75  hover:bg-green-400 duration-500 p-2 rounded-full hover:text-white' onClick={() => addItemCart({ name: item?.itemName, size: `${item.price.length > 1 ? item?.price[0].size : ''}`, price: item?.price[0].price, menuID: item?._id, image: item?.urls[0], category: item?.category })}><FaShoppingCart /></button> </div>}
                                     </div>
                                 </div>
                             </div>)

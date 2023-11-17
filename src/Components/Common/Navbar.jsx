@@ -15,9 +15,9 @@ import { setSelectedCategory, setSelectedCuisine } from '../../Redux/feature/car
 import logo from "../../assets/login2.png"
 
 const Navbar = () => {
-  const dispatch=useDispatch()
+  const dispatch = useDispatch()
   const location = useLocation()
-  const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError,isAdmin,isAdminLoading } = useSelector((state) => state.userProfileSlice)
+  const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError, isAdmin, isAdminLoading } = useSelector((state) => state.userProfileSlice)
   //const { data: isAdmin, isLoading: isAdminLoading } = useGetAdminQuery()
 
   //const { isAdmin, isAdminLoading } = useSelector((state) => state.adminSlice)
@@ -31,10 +31,10 @@ const Navbar = () => {
       <Link to="/" className={`underline-on-hover ${location?.pathname === '/' && 'selected'}`} >
         <li>Home</li>
       </Link>
-      <Link onClick={()=>{
+      <Link onClick={() => {
         dispatch(setSelectedCuisine('all'))
         dispatch(setSelectedCategory('all'))
-        }} to="/fooditems" className={`underline-on-hover ${location?.pathname === '/fooditems' && 'selected'}`} >
+      }} to="/fooditems" className={`underline-on-hover ${location?.pathname === '/fooditems' && 'selected'}`} >
         <li>Menu Items</li>
       </Link>
       <Link to="/contuct" className={`underline-on-hover ${location?.pathname === '/contuct' && 'selected'}`}>
@@ -58,7 +58,7 @@ const Navbar = () => {
             </ul>
           </div>
           <div className="normal-case mx-3 text-xl flex items-center ">
-                      <img className='w-[50px]' src={logo} alt="" />
+            <img className='w-[50px]' src={logo} alt="" />
             <h1 className=' font-bold'>Food-Corner</h1>
           </div>
         </div>
@@ -77,7 +77,11 @@ const Navbar = () => {
                 userEmail ?
                   <div className="dropdown dropdown-end me-2 ">
                     <div className='btn btn-circle'>
-                      <img tabIndex={0} className='w-[40px] object-cover rounded-full h-[40px]' src={userImage || userImage || defaultPic} alt="" />
+                      <LazyLoadImage
+                        alt={'User'}
+                        src={userImage || userImage || defaultPic} // use normal <img> attributes as props
+                        className='w-[40px] object-cover rounded-full h-[40px]'  />
+                      {/* <img tabIndex={0} className='w-[40px] object-cover rounded-full h-[40px]' src={userImage || userImage || defaultPic} alt="" /> */}
                     </div>
                     <ul tabIndex={0} className="dropdown-content  shadow-lg  menu p-2 bg-base-100 mt-2 rounded-box w-36">
                       {

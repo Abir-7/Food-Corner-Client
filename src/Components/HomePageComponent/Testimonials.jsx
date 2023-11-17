@@ -7,6 +7,7 @@ import { useGetFeedbackQuery } from '../../Redux/api/baseApi';
 
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
+import { LazyLoadImage } from 'react-lazy-load-image-component';
 
 const Testimonials = () => {
     const [sliderRef] = useKeenSlider({
@@ -32,7 +33,11 @@ const Testimonials = () => {
     return (
         <div className='grid grid-cols-1  md:grid-cols-3 gap-5 items-center container mx-auto my-10'>
             <div className='col-span-1 mx-2'>
-                <img className='w-[200px]' src={img1} alt="" />
+                <LazyLoadImage
+                    alt={'Testimonials'}
+                    src={img1} // use normal <img> attributes as props
+                    className='w-[200px]' />
+                {/* <img className='w-[200px]' src={img1} alt="" /> */}
                 <h1 className='text-5xl mt-2'>What our customer say about us</h1>
                 <p className='mt-2'>We provide you with complete meal prep which includes the prepackaged necessary ingredients for a divine dinner as well as an easy to follow recipe guide in beautifull.</p>
                 <div className='flex gap-5 mt-2'>
@@ -52,18 +57,24 @@ const Testimonials = () => {
 
                     {
                         isLoading ? <></> : <>
-                        {
-                            data?.map(info=><div key={info?._id} className="keen-slider__slide  ">
-                            <div className="card p-5 hover:-translate-y-2 duration-500">
-                                <figure ><img className='w-[70px] object-cover p-1 h-[70px] rounded-full border-2 border-orange-300' src={info?.userImage} /></figure>
-                                <div className=" text-center">
-                                    <h2 className="text-xl font-bold">{info?.userName}</h2>
-                                    <p className='mt-2'>{info?.feedback}</p>
-                                    <p className='flex mt-2 gap-3 justify-center text-yellow-400'><Rating style={{ maxWidth: 100 }} value={info?.rating} readOnly /></p>
-                                </div>
-                            </div>
-                        </div>)
-                        }
+                            {
+                                data?.map(info => <div key={info?._id} className="keen-slider__slide  ">
+                                    <div className="card p-5 hover:-translate-y-2 duration-500">
+                                        <figure >
+                                            <LazyLoadImage
+                                                alt={'User Image'}
+                                                src={info?.userImage} // use normal <img> attributes as props
+                                                className='w-[70px] object-cover p-1 h-[70px] rounded-full border-2 border-orange-300' />
+                                            {/* <img className='w-[70px] object-cover p-1 h-[70px] rounded-full border-2 border-orange-300' src={info?.userImage} /> */}
+                                        </figure>
+                                        <div className=" text-center">
+                                            <h2 className="text-xl font-bold">{info?.userName}</h2>
+                                            <p className='mt-2'>{info?.feedback}</p>
+                                            <p className='flex mt-2 gap-3 justify-center text-yellow-400'><Rating style={{ maxWidth: 100 }} value={info?.rating} readOnly /></p>
+                                        </div>
+                                    </div>
+                                </div>)
+                            }
                         </>
                     }
 

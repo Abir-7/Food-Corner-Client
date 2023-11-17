@@ -124,7 +124,7 @@ const FoodItemDetails = () => {
               <Helmet><title>Food-Corner | Menu Details</title></Helmet>
          <LinkBanner text='Food Details'></LinkBanner>
             {
-                isLoading || userLoading ? <><FoodItemDetailsLoader/></> :
+                isLoading || userLoading || !urls ? <><FoodItemDetailsLoader/></> :
 
                     <div>
                         {

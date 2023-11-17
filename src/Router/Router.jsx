@@ -25,6 +25,7 @@ import PendingOrders from "../Pages/DashboardPages/UserPage/PendingOrders";
 import ContuctUsPage from "../Pages/ContuctUsPage/ContuctUsPage";
 import UserLoginReg from "../PageLayout/UserLoginReg";
 import NotFoundPage from "../Pages/NotFoundPage/NotFoundPage";
+import { LazyLoadComponent } from "react-lazy-load-image-component";
 
 
 
@@ -40,15 +41,15 @@ const router = createBrowserRouter([
       },
       {
         path: "/fooditems",
-        element: <FoodItemPage />
+        element: <LazyLoadComponent><FoodItemPage /></LazyLoadComponent>
       },
       {
         path: "/contuct",
-        element: <ContuctUsPage />
+        element: <LazyLoadComponent><ContuctUsPage /></LazyLoadComponent>
       },
       {
         path: '/itemInfo/:id',
-        element: <PrivetRouts><FoodItemDetails /></PrivetRouts>,
+        element: <PrivetRouts><LazyLoadComponent><FoodItemDetails /></LazyLoadComponent></PrivetRouts>,
   
       },
        {
@@ -57,17 +58,17 @@ const router = createBrowserRouter([
       }
       , {
         path: '/viewProfile',
-        element: <PrivetRouts><UserProfilePage /></PrivetRouts>
+        element: <PrivetRouts><LazyLoadComponent><UserProfilePage /></LazyLoadComponent></PrivetRouts>
       }
       , {
         path: '/updateProfile',
-        element: <PrivetRouts><UpdateProfile /></PrivetRouts>
+        element: <PrivetRouts><LazyLoadComponent><UpdateProfile /></LazyLoadComponent></PrivetRouts>
       }
     ]
   },
   {
     path: '/dashboard',
-    element: <PrivetRouts><Dashboard /></PrivetRouts>,
+    element: <PrivetRouts><LazyLoadComponent><Dashboard /></LazyLoadComponent></PrivetRouts>,
     children: [
       {
         path: '/dashboard/userDashboard',
@@ -75,11 +76,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'prevOrders',
-        element:  <PendingOrders/>
+        element: <LazyLoadComponent> <PendingOrders/></LazyLoadComponent>
       },
       {
         path: 'completedOrder',
-        element: <PreviousOrders/>
+        element: <LazyLoadComponent><PreviousOrders/></LazyLoadComponent>
       },
       {
         path: 'adminDashboard',
@@ -87,7 +88,7 @@ const router = createBrowserRouter([
       },
       {
         path: 'addMenu',
-        element: <AddMenuPage />
+        element:<LazyLoadComponent> <AddMenuPage /></LazyLoadComponent>
       },
       {
         path: 'allUser',
@@ -95,11 +96,11 @@ const router = createBrowserRouter([
       },
       {
         path: 'pendingOrders',
-        element: <PendingOrderPage/>
+        element:<LazyLoadComponent> <PendingOrderPage/></LazyLoadComponent>
       },
       {
         path: 'completedOrders',
-        element: <CompletedOrderPage/>
+        element: <LazyLoadComponent><CompletedOrderPage/></LazyLoadComponent>
       },
     ]
   },

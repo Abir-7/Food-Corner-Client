@@ -10,6 +10,7 @@ import { useDispatch, useSelector } from 'react-redux';
 
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
+import { LazyLoadComponent } from 'react-lazy-load-image-component';
 // ..
 AOS.init({
     // Global settings:
@@ -21,8 +22,8 @@ AOS.init({
     disableMutationObserver: false, // disables automatic mutations' detections (advanced)
     debounceDelay: 50, // the delay on debounce used while resizing window (advanced)
     throttleDelay: 99, // the delay on throttle used while scrolling the page (advanced)
-    
-  
+
+
     // Settings that can be overridden on per-element basis, by `data-aos-*` attributes:
     offset: 120, // offset (in px) from the original trigger point
     delay: 0, // values from 0 to 3000, with step 50ms
@@ -31,34 +32,42 @@ AOS.init({
     once: false, // whether animation should happen only once - while scrolling down
     mirror: false, // whether elements should animate out while scrolling past them
     anchorPlacement: 'top-bottom', // defines which position of the element regarding to window should trigger the animation
-  
-  })
+
+})
 
 
 const HomePage = () => {
-    const dispatch = useDispatch()
+
     return (
         <div className=''>
 
             <Helmet><title>Food-Corner | Home</title></Helmet>
-            <div   data-aos="fade-up">
+            <div data-aos="fade-up">
                 <Banner />
             </div>
-            <div  data-aos="fade-up"
-             data-aos-offset="60"  >
-                <OurDishes />
+            <div data-aos="fade-up"
+                data-aos-offset="60"  >
+                <LazyLoadComponent>
+                    <OurDishes />
+                </LazyLoadComponent>
             </div>
-            <div   data-aos="fade-up">
+            <div data-aos="fade-up">
                 <OurServices />
             </div>
-            <div   data-aos="fade-up">
-                <PopulerDishes />
+            <div data-aos="fade-up">
+                <LazyLoadComponent>
+                    <PopulerDishes />
+                </LazyLoadComponent>
             </div>
-            <div   data-aos="fade-up">
-                <Testimonials />
+            <div data-aos="fade-up">
+                <LazyLoadComponent>
+                    <Testimonials />
+                </LazyLoadComponent>
             </div>
-            <div   data-aos="fade-up">
-                <NewsLetter />
+            <div data-aos="fade-up">
+                <LazyLoadComponent>
+                    <NewsLetter />
+                </LazyLoadComponent>
             </div>
         </div>
     );

@@ -2,6 +2,7 @@ import React from 'react';
 import bg2 from '../../assets/bg2.jpg'
 const Footer = () => {
     return (
+      
 <footer style={{ backgroundImage: `url(${bg2})`, backgroundPosition:'10% 30%' }} >
   <div  className="footer p-10  text-base-content backdrop-blur-lg">
   <nav>
