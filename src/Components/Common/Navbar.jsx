@@ -79,11 +79,12 @@ const Navbar = () => {
                   <div className="dropdown dropdown-end me-2 ">
                     <div className='btn btn-circle'>
                       <LazyLoadImage
+                      tabIndex={0}
                         alt={'User'}
                         src={userImage || userImage || defaultPic} // use normal <img> attributes as props
                         className='w-[40px] object-cover rounded-full h-[40px]'  />
                     </div>
-                    <ul tabIndex={0} className="dropdown-content  shadow-lg  menu p-2 bg-base-100 mt-2 rounded-box w-36">
+                    <ul  tabIndex={0} className="dropdown-content  shadow-lg  menu p-2 bg-base-100 mt-2 rounded-box w-36">
                       {
                         isAdmin == true && !isAdminLoading ? <li className='font-semibold'><Link to='/dashboard/adminDashboard'>Dashboard</Link></li> : <li className='font-semibold'><Link to='dashboard/userDashboard'>Dashboard</Link></li>
                       }
