@@ -9,7 +9,7 @@ import { addCart, setSelectedCategory, setSelectedCuisine } from "../../Redux/fe
 import { useGetMenuItemQuery, useModifyAvailabeStatusMutation } from "../../Redux/api/baseApi";
 import { Rating } from '@smastrom/react-rating'
 import '@smastrom/react-rating/style.css'
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import FoodItemPageLoader from "./SkeletonLoader/FoodItemPageLoader";
 import na from '../../assets/na.png'
 import { ToastContainer, toast } from 'react-toastify';
@@ -18,6 +18,7 @@ import { Helmet } from "react-helmet";
 import AOS from 'aos';
 import 'aos/dist/aos.css'; // You can also use <link> for styles
 import { LazyLoadImage } from "react-lazy-load-image-component";
+import Pagination from "../../Components/Pagination/Pagination";
 // ..
 AOS.init({
     // Global settings:
@@ -92,6 +93,16 @@ const FoodItemPage = () => {
         }
     }, [isDataUpdate])
 
+      ////////---------------------------------Pagination
+  const [currentPage, setCurrentPage] = useState(0)
+  const [itemsPerPage, setItemPerPage] = useState(6) // Number of items to display per page
+  const totalItems = menuData?.length
+  const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+  const startIndex = currentPage * itemsPerPage
+  const endIndex = startIndex + itemsPerPage
+  const displayedData = menuData?.slice(startIndex, endIndex)
+
     return (
         <div className="">
             <Helmet><title>Food-Corner | All Menu</title></Helmet>
@@ -129,7 +140,7 @@ const FoodItemPage = () => {
 
 
                             {
-                                menuData?.map(menu =>
+                                displayedData?.map(menu =>
                                     <Tilt
                                         key={menu._id}
                                         tiltMaxAngleX={4}
@@ -176,6 +187,13 @@ const FoodItemPage = () => {
 
 
 
+                        </div>
+                        <div className="flex justify-center my-3">
+                            <Pagination
+                               totalPages={totalPages}
+                               currentPage={currentPage}
+                               setCurrentPage={setCurrentPage}
+                            ></Pagination>
                         </div>
                     </div>
 
