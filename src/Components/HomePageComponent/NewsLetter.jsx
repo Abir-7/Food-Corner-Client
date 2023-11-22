@@ -19,7 +19,7 @@ const NewsLetter = () => {
                </div>
                 <div className='flex   w-full mx-2'>
                 <input type="text" placeholder="Type here" className="input input-bordered focus:outline-none  w-full " />
-                <button className='bg-primary hover:bg-success duration-500 text-white px-2 rounded-r-lg  -ms-2 '><span className='font-semibold'>Subscribe</span></button>
+                <button className='bg-orange-400 hover:bg-green-500 duration-300 text-white px-2 rounded-r-lg  -ms-2 '><span className='font-semibold'>Subscribe</span></button>
                 </div>
             </div>
             <div className='flex justify-center md:justify-end '>
