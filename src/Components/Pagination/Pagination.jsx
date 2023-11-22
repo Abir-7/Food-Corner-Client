@@ -36,7 +36,7 @@ console.log(pageNumber?.length,pageNumber)
             {
                 visiblePages?.map((number,index) => <button onClick={() => 
                     typeof(number)=='number' &&  setCurrentPage(number)
-                } key={index} className={currentPages == number ? 'btn mx-1 btn-sm bg-orange-400 text-white border-none outline-none' : 'btn mx-1 btn-sm border-orange-400 hover:border-orange-400 text-orange-400'}>{typeof(number)=='number'?number+1:'...'}</button>)
+                } key={index} className={currentPages == number ? 'btn mx-1 btn-sm bg-orange-400 text-white border-none outline-none hover:bg-orange-400' : 'btn mx-1 btn-sm border-orange-400 hover:border-orange-400 hover:text-white hover:bg-orange-400 box-border text-orange-400'}>{typeof(number)=='number'?number+1:'...'}</button>)
             }
         </div>
     );
