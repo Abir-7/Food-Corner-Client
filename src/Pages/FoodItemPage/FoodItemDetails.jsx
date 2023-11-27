@@ -112,7 +112,7 @@ const FoodItemDetails = () => {
     }
 
 
-    console.log(urls,index,urls[index])
+    //console.log(urls,index,urls[index])
 
 
 

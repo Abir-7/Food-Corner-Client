@@ -92,8 +92,8 @@ export const cartProductSlice = createSlice({
       const price = state.cartItem.reduce((total, item) => {
         return total + (parseFloat(item.price).toFixed(2) * parseFloat(item.amount).toFixed(2));
       }, 0)
-      //console.log(state.totalPrice, '----------cart slice')
-      if (state.totalPrice >= payload.price) {
+      console.log(state.totalPrice, '----------cart slice')
+      if (state.totalPrice >= payload.d_price) {
         const discountAmount = parseFloat((state.totalPrice * payload.discount) / 100).toFixed(2)
         state.discountOffer = discountAmount
       }
@@ -108,16 +108,18 @@ export const cartProductSlice = createSlice({
       if (payload.action == 'plus') {
         if (existingItem) {
 
+  
           const updatedCart = state.cartItem.map(item =>
-            item.name === payload.name ? { ...item, amount: item.amount == 0 ? 0 : item.amount - 1 } : item
+            item.name === payload.name ? { ...item, amount: item.amount + 1 } : item
           );
           return { ...state, cartItem: updatedCart };
         }
       }
       else {
         const updatedCart = state.cartItem.map(item =>
-          item.name === payload.name ? { ...item, amount: item.amount + 1 } : item
+          item.name === payload.name ? { ...item, amount: item.amount == 0 ? 0 : item.amount - 1 } : item
         );
+
         return { ...state, cartItem: updatedCart }
       }
     }

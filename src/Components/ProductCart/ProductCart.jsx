@@ -12,8 +12,8 @@ const ProductCart = () => {
     const discountPercent = 5
 
     useEffect(() => {
-        dispatch(cartTotalPrice({ price: discountPriceAmmount, discount: discountPercent }))
-    }, [cartItem])
+        dispatch(cartTotalPrice({ d_price: discountPriceAmmount, discount: discountPercent }))
+    }, [cartItem,totalPrice])
 
     const finalPrice = parseFloat(totalPrice - discountOffer).toFixed(2)
     //console.log(cartItem, '------------------------------cart')
@@ -49,9 +49,9 @@ const ProductCart = () => {
                             </div>
                             <div className='flex items-center justify-between'>
                                 <div className='flex gap-2 text- mt-2'>
-                                    <button onClick={() => dispatch(modifyCart({ action: 'plus', name: item.name }))} className='btn btn-xs bg-orange-400 border-none '><FaMinus /></button>
+                                    <button onClick={() => dispatch(modifyCart({ action: 'minus', name: item.name }))} className='btn btn-xs bg-orange-400 border-none '><FaMinus /></button>
                                     <h1 className='text-lg'>{item.amount}</h1>
-                                    <button onClick={() => dispatch(modifyCart({ action: 'minus', name: item.name }))} className='btn btn-xs bg-orange-400 border-none '><FaPlus /></button>
+                                    <button onClick={() => dispatch(modifyCart({ action: 'plus', name: item.name }))} className='btn btn-xs bg-orange-400 border-none '><FaPlus /></button>
                                 </div>
                                 <h1><span className='text-orange-400 font-medium'>Price:</span> {parseFloat(parseFloat(item.price).toFixed(2) * parseFloat(item.amount).toFixed(2)).toFixed(2)} tk</h1>
 
