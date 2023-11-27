@@ -14,31 +14,11 @@ const PrivetRouts = ({ children }) => {
   const {userEmail,userLoading, userImage}=useSelector((state)=>state. userProfileSlice)
 
 
-  // useEffect(()=>{
-
-  //   const unsubcribe =  onAuthStateChanged(auth, (user) => {
-  //     dispatch(setLoading(true))
-  //     if (user) {
-  //       dispatch(setUsers({
-  //         email:user?.email,
-  //         image:user?.photoURL,
-  //         name:user?.name
-  //       }))
-  //       dispatch(setLoading(false))
-  //     } else {
-
-  //       dispatch(removeUser())
-
-  //       dispatch(setLoading(false))
-  //     }
-  //   });
-  //   return () => { unsubcribe() }
-  // },[])
 
 
 
   if (userLoading) {
-    return <progress className="progress "></progress>
+    return <div className="flex items-center  justify-center h-[70vh]"><span className="loading loading-ring loading-lg"></span></div>
   }
   else {
 

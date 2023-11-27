@@ -71,8 +71,6 @@ const FoodItemDetails = () => {
     }, [isDeleteFavSuccess, userLoading])
 
 
-    const size = allPriceSize
-
     const addItemCart = (data) => {
         dispatch(addCart(data))
     }
@@ -114,7 +112,7 @@ const FoodItemDetails = () => {
     }
 
 
-    console.log(similarMenu)
+    console.log(urls,index,urls[index])
 
 
 
@@ -201,7 +199,7 @@ const FoodItemDetails = () => {
                             <div className='flex justify-center'>
                                 <div className='grid gap-7 grid-cols-1 sm:grid-cols-2 md:grid-cols-3'>
 
-                                    {similarMenu?.map(item => {
+                                    {similarMenu?.length==0?<><marquee className='text-xl font-semibold text-center col-span-3'>No Item Found</marquee></>:similarMenu.map(item => {
                                         return <div className="card w-[250px] sm:w-[200px] pt-5 hover:-translate-y-2 duration-500 border-2 border-orange-400">
                                             <figure ><img className='w-[200px] object-fill  h-[200px] sm:w-[150px] sm:h-[150px] rounded-lg' src={item?.urls[0]}/></figure>
                                             <div className=" text-center">
@@ -217,8 +215,6 @@ const FoodItemDetails = () => {
                         </div>
                             </>
                         }
-
-                     
                     </div>
             }
         </>
