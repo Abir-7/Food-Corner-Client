@@ -46,6 +46,8 @@ AOS.init({
 
 
 const FoodItemPage = () => {
+    const [currentPage, setCurrentPage] = useState(0)
+
     const { userEmail, userLoading, userImage, userName, iscreateUserError, createUserError, isAdmin, isAdminLoading } = useSelector((state) => state.userProfileSlice)
     const { selectedCategory, selectedCuisine } = useSelector((state) => state.cartProductSlice)
     //console.log(cartItem)
@@ -58,7 +60,8 @@ const FoodItemPage = () => {
     const [modifyAvailabeStatus, { data: isDataUpdate, error: isUpdateErr }] = useModifyAvailabeStatusMutation()
 
     useEffect(() => {
-        if (selectedCategory) {
+        if (selectedCategory || selectedCuisine) {
+            setCurrentPage(0)
             refetch()
         }
     }, [selectedCategory, selectedCuisine])
@@ -68,7 +71,6 @@ const FoodItemPage = () => {
     const addItemCart = (data) => {
         dispatch(addCart(data))
     }
-
 
     const tabHandler = (name) => {
         dispatch(setSelectedCategory(name))
@@ -94,7 +96,7 @@ const FoodItemPage = () => {
     }, [isDataUpdate])
 
       ////////---------------------------------Pagination
-  const [currentPage, setCurrentPage] = useState(0)
+  //const [currentPage, setCurrentPage] = useState(0) --> move to in top 
   const [itemsPerPage, setItemPerPage] = useState(6) // Number of items to display per page
   const totalItems = menuData?.length
   const totalPages = Math.ceil(totalItems / itemsPerPage)
