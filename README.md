@@ -23,7 +23,7 @@ A website where you can find your favourite dishes.
  -- Html, Css, tailwind Css, DaisyUI, React, JavaScript, Nodejs, ExpressJS, MongoDb, Rest Api,Redux
 
 
-Live Site Link: https://foodcorner-2c2d7.web.app or https://food-corner-bd.netlify.app/
+Live Site Link: https://foodcorner-2c2d7.web.app or https://food-corner-bd.netlify.app
 
 GitHub Server-side Link: https://github.com/Abir-7/Food-Corner-Server
 
